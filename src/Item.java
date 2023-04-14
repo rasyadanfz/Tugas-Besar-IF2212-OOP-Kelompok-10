@@ -1,4 +1,4 @@
 package src;
-public abstract class Item {
-    
+public interface Item {
+    public void interact(Sim person);
 }

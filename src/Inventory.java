@@ -2,5 +2,6 @@ package src;
 import java.util.*;
 
 public class Inventory {
-    private HashMap<? extends Item, Integer> daftarItem;
+    private HashMap<String, ? extends Item> daftarItem;
+    private HashMap<String, Integer> jumlahItem;
 }

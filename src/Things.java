@@ -1,9 +1,14 @@
 package src;
 import java.util.*;
 
-public class Things extends Item {
+import src.Actions.Action;
+
+public class Things implements Item {
     private int x;
     private int y;
     private int price;
     private ArrayList<? extends Action> daftarAksi;
+    public void interact(Sim person) {
+
+    }
 }
