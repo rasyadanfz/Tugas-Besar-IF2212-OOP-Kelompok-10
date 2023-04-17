@@ -18,11 +18,11 @@ public class Matrix {
     }
 
     public String getItem(int x, int y) {
-        return instance[lebar-y+1][x-1];
+        return instance[x-1][y-1];
     }
 
     public void changeItem(int x, int y, String item) {
-        instance[lebar-y+1][x-1] = item;
+        instance[x-1][y-1] = item;
     }
 
     public void printMatrix() {
@@ -38,10 +38,10 @@ public class Matrix {
         return instance;
     }
 
-    // public static void main(String[] args) {
-    //     Matrix mat = new Matrix(7, 4);
-    //     mat.changeItem(1, 3, "r1");
-    //     mat.printMatrix();
-    //     System.out.println(mat.getItem(1, 3));
-    // }
+    public static void main(String[] args) {
+        Matrix mat = new Matrix(64, 64);
+        mat.changeItem(4, 4, "R1");
+        mat.printMatrix();
+        // System.out.println(mat.getItem(1, 3));
+    }
 }
