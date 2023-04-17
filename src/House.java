@@ -2,7 +2,7 @@ package src;
 import java.util.*;
 
 public class House {
-    private int[][] size = new int[6][6];
+    private Matrix size;
     private ArrayList<Room> daftarRuangan;
 
 }

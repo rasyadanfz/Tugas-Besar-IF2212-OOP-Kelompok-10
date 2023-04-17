@@ -1,4 +1,4 @@
-package src.Foods;
+package src;
 
 public abstract class Ingredient {
     public int price;

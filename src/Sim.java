@@ -3,13 +3,9 @@ package src;
 import java.util.*;
 import java.util.Random;
 
-import javax.swing.text.html.StyleSheet.ListPainter;
-
-import src.Jobs.*;;
-
 public class Sim {
     private String namaLengkap;
-    private Job pekerjaan;
+    private Job pekerjaan = new Job();
     private int uang;
     private Inventory inventory;
     private int kekenyangan;
@@ -21,8 +17,7 @@ public class Sim {
         this.namaLengkap = namaLengkap;
         uang = 100;
         kekenyangan = 80; kesehatan = 80; mood = 80;
-
-
+        pekerjaan = getJob();
     }
 
     public int getKekenyangan() {
@@ -37,6 +32,10 @@ public class Sim {
         return mood;
     }
 
+    public String getPekerjaan() {
+        return String.format(pekerjaan.getNama() + " dengan gaji " + pekerjaan.getGaji());
+    }
+
     public void setKekenyangan(int num) {
         kekenyangan = num;
     }
@@ -49,15 +48,16 @@ public class Sim {
         mood = num;
     }
 
-    public Job getJob(ArrayList<? extends Job> listPekerjaan) {
-        int i = listPekerjaan.size();
-        Random pekerjaan = new Random();
-    
-        return (listPekerjaan.get(pekerjaan.nextInt(i-1)));
+    public Job getJob() {
+        Random random = new Random();
+        return (Job.findJob(pekerjaan, random.nextInt(5)));
     }
 
-    public static void main(String[] args) {
-        // ArrayList<? extends Job> listPekerjaan = new ArrayList<? extends Job>();
-        // System.out.println(listPekerjaan);
-    }
+    // public static void main(String[] args) {
+    //     Sim person1 = new Sim("Cathleen Lauretta");
+    //     System.out.println(person1.getKekenyangan());
+    //     System.out.println(person1.getKesehatan());
+    //     System.out.println(person1.getMood());
+    //     System.out.println(person1.getPekerjaan());
+    // }
 }
