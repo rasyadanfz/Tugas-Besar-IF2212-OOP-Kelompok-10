@@ -1,3 +1,6 @@
+package src.Ingredient;
+import java.util.*;
+
 public abstract class Ingredient implements Purchaseable{
     private String nama;
     private int price;
