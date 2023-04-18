@@ -1,4 +1,4 @@
-public abstract class Ingredient{
+public abstract class Ingredient implements Purchaseable{
     private String nama;
     private int price;
     private int kekenyangan;
