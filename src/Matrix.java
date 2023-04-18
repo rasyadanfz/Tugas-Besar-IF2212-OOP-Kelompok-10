@@ -38,10 +38,10 @@ public class Matrix {
         return instance;
     }
 
-    public static void main(String[] args) {
-        Matrix mat = new Matrix(64, 64);
-        mat.changeItem(4, 4, "R1");
-        mat.printMatrix();
-        // System.out.println(mat.getItem(1, 3));
-    }
+    // public static void main(String[] args) {
+    //     Matrix mat = new Matrix(7, 4);
+    //     mat.changeItem(5, 4, "R1");
+    //     mat.printMatrix();
+    //     System.out.println(mat.getItem(1, 3));
+    // }
 }

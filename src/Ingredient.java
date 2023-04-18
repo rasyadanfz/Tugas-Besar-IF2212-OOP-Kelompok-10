@@ -1,10 +1,12 @@
 package src;
 
 public abstract class Ingredient {
-    public int price;
-    public int kekenyangan;
+    private String nama;
+    private int price;
+    private int kekenyangan;
 
-    public Ingredient(int price, int kekenyangan) {
+    public Ingredient(String nama, int price, int kekenyangan) {
+        this.nama = nama;
         this.price = price;
         this.kekenyangan = kekenyangan;
     }

@@ -3,9 +3,13 @@ package src;
 import java.util.ArrayList;
 
 public abstract class Food {
-    public ArrayList<Ingredient> bahanMasak;
+    private String nama;
+    private int kekenyangan;
+    private ArrayList<Ingredient> bahanMakanan;
 
-    public Food(ArrayList<Ingredient> bahanMasak) {
-        this.bahanMasak = bahanMasak;
+    public Food(String nama, int kekenyangan, ArrayList<Ingredient> bahanMakanan) {
+        this.nama = nama;
+        this.kekenyangan = kekenyangan;
+        this.bahanMakanan = bahanMakanan;
     }
 }

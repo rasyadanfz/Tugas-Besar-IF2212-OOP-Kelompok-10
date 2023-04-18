@@ -1,4 +1,6 @@
 package src;
+import java.util.*;
+import java.awt.Point;
+
 public class Room {
-    private int[][] size = new int[6][6];
 }

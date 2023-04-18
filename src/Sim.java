@@ -2,6 +2,7 @@ package src;
 
 import java.util.*;
 import java.util.Random;
+import java.awt.Point;
 
 public class Sim {
     private String namaLengkap;
@@ -33,7 +34,7 @@ public class Sim {
     }
 
     public String getPekerjaan() {
-        return String.format(pekerjaan.getNama() + " dengan gaji " + pekerjaan.getGaji());
+        return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
     }
 
     public void setKekenyangan(int num) {
@@ -53,11 +54,11 @@ public class Sim {
         return (Job.findJob(pekerjaan, random.nextInt(5)));
     }
 
-    // public static void main(String[] args) {
-    //     Sim person1 = new Sim("Cathleen Lauretta");
-    //     System.out.println(person1.getKekenyangan());
-    //     System.out.println(person1.getKesehatan());
-    //     System.out.println(person1.getMood());
-    //     System.out.println(person1.getPekerjaan());
-    // }
+    public static void main(String[] args) {
+        Sim person1 = new Sim("Cathleen Lauretta");
+        System.out.println(person1.getKekenyangan());
+        System.out.println(person1.getKesehatan());
+        System.out.println(person1.getMood());
+        System.out.println(person1.getPekerjaan());
+    }
 }

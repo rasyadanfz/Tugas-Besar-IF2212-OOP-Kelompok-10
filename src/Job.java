@@ -13,7 +13,7 @@ public class Job {
         this.gaji = gaji;
     }
 
-    public String getNama() {
+    public String getNamaPekerjaan() {
         return namaPekerjaan;
     }
 
@@ -21,11 +21,11 @@ public class Job {
         return gaji;
     }
 
-    public void setNama (String namaPekerjaan) {
+    public void setNama(String namaPekerjaan) {
         this.namaPekerjaan = namaPekerjaan;
     }
 
-    public void setGaji (int gaji) {
+    public void setGaji(int gaji) {
         this.gaji = gaji;
     }
 
@@ -66,7 +66,7 @@ public class Job {
         Job pekerjaan = new Job();
 
         pekerjaan = Job.findJob(pekerjaan, 2);
-        System.out.println(pekerjaan.getNama());
+        System.out.println(pekerjaan.getNamaPekerjaan());
         System.out.println(pekerjaan.getGaji());
     }
 }
