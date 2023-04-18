@@ -1,3 +1,3 @@
-public interface Eatbale{
+public interface Eatable{
     void eat(Sim sim);
 }
