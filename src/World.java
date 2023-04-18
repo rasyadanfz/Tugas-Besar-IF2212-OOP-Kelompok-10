@@ -10,7 +10,7 @@ public class World {
     // Design Pattern Singleton : membuat konstruktur menjadi private
     private World() {
         map = new Matrix(64, 64);
-        daftarRumah = new ArrayList<>();
+        daftarRumah = new ArrayList<House>();
     }
     
     public Matrix getMap() {

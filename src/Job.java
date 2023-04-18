@@ -29,7 +29,7 @@ public class Job {
         this.gaji = gaji;
     }
 
-    public static Job findJob(Job pekerjaan, int i) {
+    public static void findJob(Job pekerjaan, int i) {
         String namaPekerjaan = new String();
         int gaji = 0;
 
@@ -58,15 +58,11 @@ public class Job {
 
         pekerjaan.setNama(namaPekerjaan);
         pekerjaan.setGaji(gaji);
-
-        return pekerjaan;
+    
     }
 
-    public static void main(String[] args) {
-        Job pekerjaan = new Job();
+    //TODO : Implementasi Work Sesuai Konsep Timer
+    public void work(Sim sim){
 
-        pekerjaan = Job.findJob(pekerjaan, 2);
-        System.out.println(pekerjaan.getNamaPekerjaan());
-        System.out.println(pekerjaan.getGaji());
     }
 }
