@@ -1,4 +1,4 @@
-package src;
+package src.Thing;
 import java.util.*;
 
 public abstract class Thing {
