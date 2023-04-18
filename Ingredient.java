@@ -8,4 +8,14 @@ public abstract class Ingredient{
         this.price = price;
         this.kekenyangan = kekenyangan;
     }
+    //getter
+    public String getNama(){
+        return nama;
+    }
+    public int getPrice(){
+        return price;
+    }
+    public int getKekenyangan(){
+        return kekenyangan;
+    }
 }
