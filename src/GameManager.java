@@ -58,4 +58,29 @@ public class GameManager {
         this.hari = hari;
     }
 
+    // Menu
+    // TODO : Implementasi Help
+    public void help(){
+
+    }
+
+    // TODO : Implementasi Exit
+    public void exit(){
+
+    }
+
+    // TODO : Implementasi viewSimInfo
+    public void viewSimInfo(){
+
+    }
+
+    // TODO : Implementasi viewCurrentLocation
+    public void viewCurrentLocation(){
+
+    }
+
+    public void viewInventory(){
+        activeSim.getInventory().printItems();
+    }
+
 }
