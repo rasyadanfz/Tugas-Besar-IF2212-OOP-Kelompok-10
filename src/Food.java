@@ -2,7 +2,7 @@ package src;
 
 import java.util.ArrayList;
 
-public abstract class Food {
+public abstract class Food implements Eatable{
     private String nama;
     private int kekenyangan;
     private ArrayList<Ingredient> bahanMakanan;
@@ -11,5 +11,16 @@ public abstract class Food {
         this.nama = nama;
         this.kekenyangan = kekenyangan;
         this.bahanMakanan = bahanMakanan;
+    }
+
+    //getter
+    public String getNama(){
+        return nama;
+    }
+    public int getKekenyangan(){
+        return kekenyangan;
+    }
+    public ArrayList<Ingredient> getBahanMakanan(){
+        return bahanMakanan;
     }
 }
