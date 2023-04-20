@@ -1,5 +1,4 @@
 package src;
-
 import java.util.Random;
 
 public class Sim {
@@ -75,39 +74,39 @@ public class Sim {
     }
 
     // Setter
-    public void changeKekenyangan(int num) {
-        if (kekenyangan + num > 100){
+    public void changeKekenyangan(int exp) {
+        if (kekenyangan + exp > 100){
             kekenyangan = 100;
         }
-        else if(kekenyangan + num < 0){
+        else if(kekenyangan + exp < 0){
             kekenyangan = 0;
         }
         else{
-            kekenyangan += num;
+            kekenyangan += exp;
         }
     }
 
-    public void changeKesehatan(int num) {
-        if (kesehatan + num > 100){
+    public void changeKesehatan(int exp) {
+        if (kesehatan + exp > 100){
             kesehatan = 100;
         }
-        else if(kesehatan + num < 0){
+        else if(kesehatan + exp < 0){
             kesehatan = 0;
         }
         else{
-            kesehatan += num;
+            kesehatan += exp;
         }
     }
 
-    public void changeMood(int num) {
-        if (mood + num > 100){
+    public void changeMood(int exp) {
+        if (mood + exp > 100){
             mood = 100;
         }
-        else if(mood + num < 0){
+        else if(mood + exp < 0){
             mood = 0;
         }
         else{
-            mood += num;
+            mood += exp;
         }
     }
 
@@ -127,25 +126,5 @@ public class Sim {
         Random random = new Random();
         Job.findJob(pekerjaan, random.nextInt(5));
     }
-
-    // Actions
-    // public void sleep(Kasur kasur){
-    //     kasur.sleep(this);
-    // }
-
-    // public void eating(Makanan Food, MejaKursi mejaKursi){
-
-    // }
-
-    // public void watchingTV(TV televisi){
-    //     televisi.nontonTV(this);
-    // }
-
-    // public void pee(Toilet toilet){
-    //     toilet.buangAir(this);
-    // }
-
-    // public void bath(Shower shower){
-    //     shower.mandi(this);
-    // }
+    
 }
