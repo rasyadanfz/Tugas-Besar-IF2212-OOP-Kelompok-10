@@ -11,6 +11,7 @@ public class TV extends Thing {
 
     public void nontonTV(Sim sim) {
         // ini juga agak ngasal ya
+        // setiap 1 menit:
         sim.changeKesehatan(-10);
         sim.changeMood(20);
     }
