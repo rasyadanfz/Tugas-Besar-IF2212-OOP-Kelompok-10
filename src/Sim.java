@@ -1,4 +1,5 @@
 package src;
+import src.Thing.*;
 import java.util.Random;
 
 public class Sim {
@@ -127,4 +128,97 @@ public class Sim {
         Job.findJob(pekerjaan, random.nextInt(5));
     }
     
-}
+    //Aksi
+    public void eating(Food food){
+        if (inventory.containsItem(food.getNama())){
+            changeKekenyangan(food.getKekenyangan());
+            inventory.removeItem(food.getNama());
+        }
+    }
+    
+    public void sleeping(Kasur kasur){
+        kasur.Sleeping(this);
+    }
+
+    public void watchingTV(TV televisi){
+        televisi.WatchingTV(this);
+    }
+
+    public void pee(Toilet toilet){
+        toilet.buangAir(this);
+    }
+
+    public void bath(Shower shower){
+        shower.mandi(this);
+    }
+
+    public void seeTime(Jam jam){
+        jam.lihatWaktu(this);
+    }
+
+    public void cooking(Kompor kompor){
+        kompor.cooking(this);
+    }
+
+    public void buyItem(Item item){
+        if (item instanceof Purchaseable){
+            if (uang >= item.getHarga()){
+                uang -= item.getHarga();
+                inventory.addItem(item);
+            }
+        }
+    }
+
+    public void moveRuangan(Room ruangan){
+        currentRoom = ruangan;
+    }
+
+    public void installBarang(Room ruangan){
+        ruangan.installBarang(this);
+    }
+
+    public void seeInventory(){
+        inventory.printItems();
+    }
+
+    public void visit(){
+        changeMood(+10);
+        changeKekenyangan(-10);
+    }
+
+    public void olahraga(){
+        changeKesehatan(+5);
+        changeMood(+10);
+        changeKekenyangan(-5);
+    }
+
+    public void kerja(){
+        uang += pekerjaan.getGaji();
+        changeMood(-10);
+        changeKekenyangan(-10);
+    }
+
+    public void upgradeRumah(){
+        currentHouse.upgrade();
+    }
+
+    public void sellBarang(){
+        inventory.sellItems();
+    }
+
+    public void ambilBarang(Room ruangan){
+        ruangan.ambilBarang(this);
+    }
+
+    public void washingHand(Shower shower){
+        shower.washingHand(this);
+    }
+
+    public void mirroring(Mirror mirror){
+        mirror.bercermin(this);
+    }
+
+    public void lookPainting(Lukisan lukisan){
+        lukisan.lihatLukisan(this);
+    }
+}   
