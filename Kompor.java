@@ -1,5 +1,5 @@
 package src.Thing;
-import src.sim;
+import src.Sim;
 
 public abstract class Kompor extends Thing implements Cooking {
     public Kompor(String nama, int panjang, int lebar, int harga){
