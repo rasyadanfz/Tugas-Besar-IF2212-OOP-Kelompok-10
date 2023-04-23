@@ -1,26 +1,31 @@
 package src;
-
-import java.util.*;
+import src.Thing.*;
 import java.util.Random;
-import java.awt.Point;
 
 public class Sim {
     private String namaLengkap;
+    private String status;
     private Job pekerjaan = new Job();
+    private boolean justChangedJob;
     private int uang;
-    private Inventory inventory;
     private int kekenyangan;
     private int kesehatan;
     private int mood;
-    private String status;
+    private Inventory inventory;
+    private Room currentRoom;
+    private House currentHouse;
+    private Point currentPos;
 
     public Sim(String namaLengkap) {
         this.namaLengkap = namaLengkap;
         uang = 100;
         kekenyangan = 80; kesehatan = 80; mood = 80;
-        pekerjaan = getJob();
+        getJob(); // Set pekerjaan Sim secara random
+        inventory = new Inventory();
+        justChangedJob = false;
     }
-
+    
+    // Getter
     public int getKekenyangan() {
         return kekenyangan;
     }
@@ -33,32 +38,187 @@ public class Sim {
         return mood;
     }
 
+    public String getNamaLengkap(){
+        return namaLengkap;
+    }
+
+    public int getUang(){
+        return uang;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public Inventory getInventory(){
+        return inventory;
+    }
+
+    public House getCurrentHouse(){
+        return currentHouse;
+    }
+
+    public Room getCurrentRoom(){
+        return currentRoom;
+    }
+
+    public Point getCurrentPos(){
+        return currentPos;
+    }
+
+    public boolean getJustChangedJob(){
+        return justChangedJob;
+    }
+
     public String getPekerjaan() {
         return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
     }
 
-    public void setKekenyangan(int num) {
-        kekenyangan = num;
+    // Setter
+    public void changeKekenyangan(int exp) {
+        if (kekenyangan + exp > 100){
+            kekenyangan = 100;
+        }
+        else if(kekenyangan + exp < 0){
+            kekenyangan = 0;
+        }
+        else{
+            kekenyangan += exp;
+        }
     }
 
-    public void setKesehatan(int num) {
-        kesehatan = num;
+    public void changeKesehatan(int exp) {
+        if (kesehatan + exp > 100){
+            kesehatan = 100;
+        }
+        else if(kesehatan + exp < 0){
+            kesehatan = 0;
+        }
+        else{
+            kesehatan += exp;
+        }
     }
 
-    public void setMood(int num) {
-        mood = num;
+    public void changeMood(int exp) {
+        if (mood + exp > 100){
+            mood = 100;
+        }
+        else if(mood + exp < 0){
+            mood = 0;
+        }
+        else{
+            mood += exp;
+        }
     }
 
-    public Job getJob() {
+    public void changeCurrentHouse(House newHouse){
+        currentHouse = newHouse;
+    }
+
+    public void changeCurrentRoom(Room newRoom){
+        currentRoom = newRoom;
+    }
+
+    public void changeCurrentPos(Point newPos){
+        currentPos = newPos;
+    }
+
+    public void getJob() {
         Random random = new Random();
-        return (Job.findJob(pekerjaan, random.nextInt(5)));
+        Job.findJob(pekerjaan, random.nextInt(5));
+    }
+    
+    //Aksi
+    public void eating(Food food){
+        if (inventory.containsItem(food.getNama())){
+            changeKekenyangan(food.getKekenyangan());
+            inventory.removeItem(food.getNama());
+        }
+    }
+    
+    public void sleeping(Kasur kasur){
+        kasur.Sleeping(this);
     }
 
-    public static void main(String[] args) {
-        Sim person1 = new Sim("Cathleen Lauretta");
-        System.out.println(person1.getKekenyangan());
-        System.out.println(person1.getKesehatan());
-        System.out.println(person1.getMood());
-        System.out.println(person1.getPekerjaan());
+    public void watchingTV(TV televisi){
+        televisi.WatchingTV(this);
     }
-}
+
+    public void pee(Toilet toilet){
+        toilet.buangAir(this);
+    }
+
+    public void bath(Shower shower){
+        shower.mandi(this);
+    }
+
+    public void seeTime(Jam jam){
+        jam.lihatWaktu(this);
+    }
+
+    public void cooking(Kompor kompor){
+        kompor.cooking(this);
+    }
+
+    public void buyItem(Item item){
+        if (item instanceof Purchaseable){
+            if (uang >= item.getHarga()){
+                uang -= item.getHarga();
+                inventory.addItem(item);
+            }
+        }
+    }
+
+    public void moveRuangan(Room ruangan){
+        currentRoom = ruangan;
+    }
+
+    public void installBarang(Room ruangan){
+        ruangan.installBarang(this);
+    }
+
+    public void seeInventory(){
+        inventory.printItems();
+    }
+
+    public void visit(){
+        changeMood(+10);
+        changeKekenyangan(-10);
+    }
+
+    public void olahraga(){
+        changeKesehatan(+5);
+        changeMood(+10);
+        changeKekenyangan(-5);
+    }
+
+    public void kerja(){
+        uang += pekerjaan.getGaji();
+        changeMood(-10);
+        changeKekenyangan(-10);
+    }
+
+    public void upgradeRumah(){
+        currentHouse.upgrade();
+    }
+
+    public void sellBarang(){
+        inventory.sellItems();
+    }
+
+    public void ambilBarang(Room ruangan){
+        ruangan.ambilBarang(this);
+    }
+
+    public void washingHand(Shower shower){
+        shower.washingHand(this);
+    }
+
+    public void mirroring(Mirror mirror){
+        mirror.bercermin(this);
+    }
+
+    public void lookPainting(Lukisan lukisan){
+        lukisan.lihatLukisan(this);
+    }
+}   
