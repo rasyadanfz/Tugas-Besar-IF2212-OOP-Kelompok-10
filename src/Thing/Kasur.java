@@ -1,7 +1,7 @@
 package src.Thing;
 import src.Sim;
 
-public abstract class Kasur extends Thing implements Sleep{
+public abstract class Kasur extends Thing implements Sleep {
     public Kasur(String nama, int panjang, int lebar, int harga) {
         super(nama, panjang, lebar, harga);
     }
