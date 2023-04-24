@@ -1,6 +1,6 @@
 package src.Thing;
-import src.sim;
+import src.*;
 
-public interface Cook{
+public interface Cook {
    public void Cooking(Sim sim, Food food);
 }

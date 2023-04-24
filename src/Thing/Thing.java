@@ -1,8 +1,6 @@
 package src.Thing;
 import java.util.*;
 
-import src.Purchaseable;
-
 public abstract class Thing implements Purchaseable {
     private String nama;
     private int panjang;
