@@ -22,4 +22,8 @@ public class House {
     public ArrayList<Room> getSeluruhRuangan() {
         return daftarRuangan;
     }
+
+    public void addRuangan(Room newruang){
+        daftarRuangan.add(newruang);
+    }
 }
