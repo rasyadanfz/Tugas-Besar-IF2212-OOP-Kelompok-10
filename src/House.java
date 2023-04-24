@@ -1,11 +1,10 @@
 package src;
 import java.util.*;
-import java.awt.Point;
 
 public class House {
     private String kodeRumah;
-    private Matrix size;
     private ArrayList<Room> daftarRuangan;
+    private Point lokasi;
 
     public House(String kodeRumah) {
         this.kodeRumah = kodeRumah;
@@ -14,5 +13,13 @@ public class House {
 
     public String getKodeRumah() {
         return kodeRumah;
+    }
+
+    public Point getLokasi() {
+        return lokasi;
+    }
+
+    public ArrayList<Room> getSeluruhRuangan() {
+        return daftarRuangan;
     }
 }
