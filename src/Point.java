@@ -4,6 +4,11 @@ public class Point {
     private int x;
     private int y;
 
+    public Point(int X, int Y){
+        setX(X);
+        setY(Y);
+    }
+
     public int getX(){
         return x;
     }
