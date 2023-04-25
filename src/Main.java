@@ -3,20 +3,18 @@ package src;
 import java.util.*;
 
 public class Main {
+    private static World gameWorld;
     public static void main(String[] args) {
-        // Input Reader
         
-
         GameManager game = new GameManager();
+        gameWorld = game.getWorld();
+
         startGame(game);
-        
-        game.getWorld().getMap().printMatrix();
-        
-        
     }
 
     private static void startGame(GameManager game){
         Scanner scanner = new Scanner(System.in);
+        House firstHouse;
 
         // Create New First Sim
         System.out.print("Masukkan nama lengkap sim baru: ");
@@ -25,13 +23,19 @@ public class Main {
         game.setActiveSim(newSim);
 
         // Create Rumah
-        game.getWorld().addHouse(1, 1, new House("R1"));
-        // Ganti rumah Sim ke rumah pertama
-        game.getActiveSim().changeCurrentHouse(game.getWorld().getDaftarRumah().get(0));
-        // TODO: Ganti ruangan Sim ke ruangan pertama
-
-        game.setHari(1);
-
-        // TODO: Implementasi Waktu
+        gameWorld.addHouse(1, 1, new House("R" + (game.getHouseCount() + 1)));
+        // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada posisi (1,1)
+        try{
+            firstHouse = gameWorld.getHouse("R1");
+            Room newRoom = new Room("Ruangan Utama", firstHouse);
+            firstHouse.addRuangan(newRoom);
+            game.getActiveSim().changeCurrentHouse(firstHouse);
+            game.getActiveSim().changeCurrentRoom(newRoom);
+            game.getActiveSim().changeCurrentPos(new Point(1,1));
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        
     }
 }
