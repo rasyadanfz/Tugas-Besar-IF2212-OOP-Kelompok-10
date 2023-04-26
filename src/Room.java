@@ -5,20 +5,16 @@ public class Room {
     private String namaRuangan;
     private House rumah;
     private Matrix petaRuangan;
-    //private HashMap<String, String> roomSpace;
+    private Point roomPosition;
     private HashMap<String, Point> placedObject;
 
     public Room(String namaRuangan, House rumah) {
         this.namaRuangan = namaRuangan;
         this.rumah = rumah;
-        petaRuangan = new Matrix(6, 6);
         placedObject = new HashMap<String, Point>();
-
-        // roomSpace = new HashMap<String, String>();
-        // roomSpace.put("kiri", "-");
-        // roomSpace.put("kanan", "-");
-        // roomSpace.put("atas", "-");
-        // roomSpace.put("bawah", "-");
+        //Default dari game
+        petaRuangan = new Matrix(6, 6);
+        roomPosition = new Point(0, 0);
     }
 
     public String getNamaRuangan() {
@@ -33,6 +29,14 @@ public class Room {
         petaRuangan.printMatrix();
     }
 
+    public Point getRoomPosition(){
+        return roomPosition;
+    }
+    
+    public void setRoomPosition(int x, int y){
+        roomPosition.setX(x);
+        roomPosition.setY(y);
+    }
     // public void setRoomSpace(Room ruanglain, String arah){
     //     if (checkSpace(arah)){
     //         roomSpace.replace(arah, "-", ruanglain.getNamaRuangan());
