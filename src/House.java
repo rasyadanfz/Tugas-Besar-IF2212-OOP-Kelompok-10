@@ -47,7 +47,7 @@ public class House {
     //     houseSpace.printMatrix();
     // }
 
-    public void addRuang(Room referenceRoom, Room newRoom, String arah) {
+    public void addNewRoom(Room referenceRoom, Room newRoom, String arah) {
         if (checkSpace(referenceRoom, arah.toLowerCase())) {
             int x = referenceRoom.getRoomPosition().getX();
             int y = referenceRoom.getRoomPosition().getY();
@@ -73,6 +73,8 @@ public class House {
             // System.out.println(y);
             newRoom.setRoomPosition(x, y);
             petaRumah.changeItem(x, y, newRoom.getNamaRuangan());
+        } else {
+            System.out.println("Ruangan gagal ditambahkan! Terdapat ruangan lain pada space tersebut");
         }
     }
 
@@ -80,29 +82,31 @@ public class House {
         boolean avail = false;
         int x = ruang.getRoomPosition().getX();
         int y = ruang.getRoomPosition().getY();
+        // System.out.println(x);
+        // System.out.println(y);
 
         //Cek dalam empat arah
-        if (arah.toLowerCase() == "atas") {
+        if (arah.toLowerCase().equals("atas")) {
             //Jika ruangan tersebut mentok di atas
-            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y-1) == "-")){
+            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y+1).equals("-"))){
                 avail = true;
             }
         }
-        else if (arah.toLowerCase() == "bawah") {
+        else if (arah.toLowerCase().equals("bawah")) {
             //Jika ruangan tersebut mentok di bawah
-            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1) == "-")){
+            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1).equals("-"))){
                 avail = true;
             }
         }
-        else if (arah.toLowerCase() == "kanan"){
+        else if (arah.toLowerCase().equals("kanan")) {
             //Jika ruangan tersebut mentok di kanan
-            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1) == "-")){
+            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x+1, y).equals("-"))){
                 avail = true;
             }
         }
-        else if (arah.toLowerCase() == "kiri"){
+        else if (arah.toLowerCase().equals("kiri")) {
             //Jika ruangan tersebut mentok di kiri
-            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y-1) == "-")){
+            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x-1, y).equals("-"))){
                 avail = true;
             }
         }
@@ -113,17 +117,24 @@ public class House {
         return avail;
     }
 
-    public static void main(String[] args) {
-        House rumah1 = new House("H1", 1, 1);
-        rumah1.printPetaRumah();
+    // public static void main(String[] args) {
+    //     House rumah1 = new House("H1", 1, 1);
+    //     rumah1.printPetaRumah();
 
-        Room ruang1 = rumah1.getDaftarRuangan().get(0);
-        System.out.println(ruang1.getRoomPosition().getX());
-        System.out.println(ruang1.getRoomPosition().getY());
-        System.out.println(rumah1.checkSpace(ruang1, "kiri"));
+    //     Room ruang1 = rumah1.getDaftarRuangan().get(0);
+    //     System.out.println(ruang1.getRoomPosition().getX());
+    //     System.out.println(ruang1.getRoomPosition().getY());
+    //     System.out.println(rumah1.checkSpace(ruang1, "kiri"));
 
-        Room ruang2 = new Room("R2", rumah1);
-        rumah1.addRuang(ruang1, ruang2, "kiri");
-        rumah1.printPetaRumah();
-    }
+    //     Room ruang2 = new Room("R2", rumah1);
+    //     rumah1.addNewRoom(ruang1, ruang2, "kanan");
+    //     rumah1.printPetaRumah();
+
+    //     System.out.println("====== BATAS SUCI ======");
+    //     Room ruang3 = new Room("R3", rumah1);
+    //     System.out.println(rumah1.checkSpace(ruang1, "kanan"));
+    //     System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("-"));
+    //     rumah1.addNewRoom(ruang1, ruang3, "kanan");
+    //     rumah1.printPetaRumah();
+    // }
 }
