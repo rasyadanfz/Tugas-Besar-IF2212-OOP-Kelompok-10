@@ -27,9 +27,13 @@ public class World {
         return world;
     }
 
-    public void addHouse(int x, int y, House house) {
-        map.changeItem(x, y, house.getKodeRumah());
-        daftarRumah.add(house);
+    public void addHouse(int x, int y, House house) throws Exception {
+        if (map.getItem(x, y).equals("-")) {
+            map.changeItem(x, y, house.getKodeRumah());
+            daftarRumah.add(house);
+        } else {
+            throw new Exception("Gagal menambahkan rumah! Lokasi (" + x + ", " + y + ") sudah diisi oleh rumah lain!");
+        }
     }
 
     public House getHouse(String kodeRumah) throws HouseNotFoundException{
