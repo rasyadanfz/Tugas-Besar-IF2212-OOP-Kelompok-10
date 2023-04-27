@@ -44,6 +44,13 @@ public class Room {
     public Point getRoomPosition() {
         return roomPosition;
     }
+
+    public void printPlacedObject() {
+        System.out.println("Item yang terdapat pada " + getNamaRuangan() + " dalam rumah " + getHouse().getKodeRumah() + " :");
+        for (Map.Entry<String, Point> entry : placedObject.entrySet()) {
+            System.out.println(entry.getKey() + " <" + entry.getValue().getX() + ", " + entry.getValue().getY() + ">");
+        }
+    }
     
     public void setRoomPosition(int x, int y) {
         roomPosition.setX(x);
@@ -51,17 +58,44 @@ public class Room {
     }
     
     public void placeItem(Thing object, int x, int y) throws Exception {
-        
+        String kodeItem = object.getNama();
+        int panjangItem = object.getPanjang();
+        int lebarItem = object.getLebar();
+
+        if (x + panjangItem >= 6 || y + lebarItem >= 6) {
+            throw new Exception("Tidak bisa meletakkan benda karena melebihi batas ruangan!");
+        } else {
+            for (int i = x; i < x + panjangItem; i++) {
+                for (int j = y; j < y + lebarItem; j++) {
+                    if (petaRuangan.getItem(i, j) != "-") {
+                        throw new Exception("Tidak bisa meletakkan benda karena terdapat benda lain di lokasi tersebut!");
+                    }
+                }
+            }
+
+            for (int i = x; i < x + panjangItem; i++) {
+                for (int j = y; j < y + lebarItem; j++) {
+                    petaRuangan.changeItem(i, j, kodeItem);
+                }
+            }
+            
+            placedObject.put(kodeItem, new Point(x, y));
+        }
     }
 
-    // public static void main(String[] args) {
-    //     House rumah1 = new House("H1");
-    //     Room ruang1 = new Room("R1", rumah1);
-    //     ruang1.printPetaRuangan();
-    //     System.out.println(ruang1.roomSpace.toString());
+    public static void main(String[] args) {
+        House rumah1 = new House("H1", 0, 0);
+        Room ruang1 = new Room("R1", rumah1);
+        //ruang1.printPetaRuangan();
 
-    //     System.out.println(ruang1.checkSpace("KIRI"));
-    //     ruang1.addNewRoom("R2", "kiRi");
-    //     System.out.println(ruang1.roomSpace.toString());
-    // }
+        KasurSingle kasur1 = new KasurSingle();
+        try {
+            ruang1.placeItem(kasur1, 1, 1);
+            ruang1.printPetaRuangan();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        ruang1.printPlacedObject();
+    }
 }
