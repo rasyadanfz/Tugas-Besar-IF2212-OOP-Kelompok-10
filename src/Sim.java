@@ -199,7 +199,7 @@ public class Sim {
     }
 
     public void upgradeRumah(){
-        currentHouse.upgrade();
+        currentHouse.addNewRoom();
     }
 
     public void sellBarang(){

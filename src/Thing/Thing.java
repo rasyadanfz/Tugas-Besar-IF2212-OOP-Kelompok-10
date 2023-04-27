@@ -28,4 +28,10 @@ public abstract class Thing implements Purchaseable {
     public int getHarga() {
         return harga;
     }
+
+    public void rotateItem() {
+        int temp = panjang;
+        panjang = lebar;
+        lebar = temp;
+    }
 }

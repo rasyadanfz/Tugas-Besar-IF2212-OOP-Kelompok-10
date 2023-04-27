@@ -1,5 +1,6 @@
 package src;
 import java.util.*;
+import src.Thing.*;
 
 public class Room {
     private String namaRuangan;
@@ -40,56 +41,19 @@ public class Room {
         petaRuangan.printMatrix();
     }
 
-    public Point getRoomPosition(){
+    public Point getRoomPosition() {
         return roomPosition;
     }
     
-    public void setRoomPosition(int x, int y){
+    public void setRoomPosition(int x, int y) {
         roomPosition.setX(x);
         roomPosition.setY(y);
     }
-    // public void setRoomSpace(Room ruanglain, String arah){
-    //     if (checkSpace(arah)){
-    //         roomSpace.replace(arah, "-", ruanglain.getNamaRuangan());
-    //     }
-    // }
-
-    // public String reverseArah(String arah){
-    //     if (arah.equals("kiri")){
-    //         return "kanan";
-    //     }
-    //     else if (arah.equals("kanan")){
-    //         return "kiri";
-    //     }
-    //     else if (arah.equals("atas")){
-    //         return "bawah";
-    //     }
-    //     else if (arah.equals("bawah")){
-    //         return "atas";
-    //     }
-    // }
-
-    // public boolean checkSpace(String arah) {
-    //     boolean avail = false;
-    //     if (roomSpace.get(arah) == "-") {
-    //         avail = true;
-    //     }
-    //     return avail;
-    // }
-
-    // public void addRoom(Room ruangan, String arah) {
-    //     if (!ruangan.getHouse().equals(rumah)) { // Nanti rencananya mau dibuat exception
-    //         System.out.println("Gagal menambahkan ruangan: Ruangan tidak berada di dalam rumah yang sama!");
-    //     } else {
-    //         //boolean available = checkSpace(arah);
-    //         if (checkSpace(arah) && ruangan.checkSpace(reverseArah(arah))) {
-    //             setRoomSpace(ruangan, arah);
-    //             //Bingung cara insert ruang ini ke roomspacenya ruangan.
-    //             //Idenya setRoomSpace(ruangini, reverseArah(arah))
-    //         }
-    //     }
-    // }
     
+    public void placeItem(Thing object, int x, int y) throws Exception {
+        
+    }
+
     // public static void main(String[] args) {
     //     House rumah1 = new House("H1");
     //     Room ruang1 = new Room("R1", rumah1);
