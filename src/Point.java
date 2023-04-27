@@ -21,4 +21,8 @@ public class Point {
     public void setY(int Y){
         y = Y;
     }
+    public String toString(){
+        String str = "("+ x + ", " + y + ")";
+        return str;
+    }
 }
