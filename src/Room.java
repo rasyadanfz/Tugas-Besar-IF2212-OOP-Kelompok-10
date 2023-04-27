@@ -8,11 +8,22 @@ public class Room {
     private Point roomPosition;
     private HashMap<String, Point> placedObject;
 
-    public Room(String namaRuangan, House rumah) {
+    // Konstruktor dengan Point lokasi yang jelas
+    public Room(String namaRuangan, House rumah, int x, int y) {
         this.namaRuangan = namaRuangan;
         this.rumah = rumah;
         placedObject = new HashMap<String, Point>();
         //Default dari game
+        petaRuangan = new Matrix(6, 6);
+        roomPosition = new Point(x, y);
+    }
+
+    // Konstruktor tanpa Point lokasi yang fix
+    public Room(String namaRuangan, House rumah) {
+        this.namaRuangan = namaRuangan;
+        this.rumah = rumah;
+        placedObject = new HashMap<String, Point>();
+        // Set default
         petaRuangan = new Matrix(6, 6);
         roomPosition = new Point(0, 0);
     }
@@ -84,11 +95,9 @@ public class Room {
     //     Room ruang1 = new Room("R1", rumah1);
     //     ruang1.printPetaRuangan();
     //     System.out.println(ruang1.roomSpace.toString());
-    //     Room ruang2 = new Room("R2", rumah1);
 
-    //     boolean available = ruang1.checkSpace("kiri");
-    //     System.out.println(available);
-    //     ruang1.addRoom(ruang2, "kiri");
+    //     System.out.println(ruang1.checkSpace("KIRI"));
+    //     ruang1.addNewRoom("R2", "kiRi");
     //     System.out.println(ruang1.roomSpace.toString());
     // }
 }
