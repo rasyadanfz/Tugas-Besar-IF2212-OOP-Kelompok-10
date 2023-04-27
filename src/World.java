@@ -27,10 +27,10 @@ public class World {
         return world;
     }
 
-    public void addHouse(int x, int y, String nomorRumah) throws Exception {
+    public void addHouse(int x, int y, String kodeRumah) throws Exception {
         if (map.getItem(x, y).equals("-")) {
-            House rumah = new House(nomorRumah, x, y);
-            map.changeItem(x, y, nomorRumah);
+            House rumah = new House(kodeRumah, x, y);
+            map.changeItem(x, y, kodeRumah);
             daftarRumah.add(rumah);
         } else {
             throw new Exception("Gagal menambahkan rumah! Lokasi (" + x + ", " + y + ") sudah diisi oleh rumah lain!");
