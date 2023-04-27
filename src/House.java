@@ -48,37 +48,41 @@ public class House {
     // }
 
     public void addNewRoom(Room referenceRoom, Room newRoom, String arah) {
-        if (checkSpace(referenceRoom, arah.toLowerCase())) {
-            int x = referenceRoom.getRoomPosition().getX();
-            int y = referenceRoom.getRoomPosition().getY();
-            // System.out.println(x);
-            // System.out.println(y);
+        try {
+            if (checkSpace(referenceRoom, arah.toLowerCase())) {
+                int x = referenceRoom.getRoomPosition().getX();
+                int y = referenceRoom.getRoomPosition().getY();
+                // System.out.println(x);
+                // System.out.println(y);
 
-            switch (arah.toLowerCase()) {
-                case ("kiri") :
-                    x -= 1;
-                    break;
-                case ("kanan") :
-                    x += 1;
-                    break;
-                case("atas") :
-                    y += 1;
-                    break;
-                case("bawah") :
-                    y -= 1;
-                    break;
+                switch (arah.toLowerCase()) {
+                    case ("kiri") :
+                        x -= 1;
+                        break;
+                    case ("kanan") :
+                        x += 1;
+                        break;
+                    case("atas") :
+                        y += 1;
+                        break;
+                    case("bawah") :
+                        y -= 1;
+                        break;
+                }
+
+                // System.out.println(x);
+                // System.out.println(y);
+                newRoom.setRoomPosition(x, y);
+                petaRumah.changeItem(x, y, newRoom.getNamaRuangan());
+            } else {
+                System.out.println("Ruangan gagal ditambahkan! Terdapat ruangan lain pada space tersebut");
             }
-
-            // System.out.println(x);
-            // System.out.println(y);
-            newRoom.setRoomPosition(x, y);
-            petaRumah.changeItem(x, y, newRoom.getNamaRuangan());
-        } else {
-            System.out.println("Ruangan gagal ditambahkan! Terdapat ruangan lain pada space tersebut");
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
-    public boolean checkSpace(Room ruang, String arah) {
+    public boolean checkSpace(Room ruang, String arah) throws Exception {
         boolean avail = false;
         int x = ruang.getRoomPosition().getX();
         int y = ruang.getRoomPosition().getY();
@@ -111,30 +115,33 @@ public class House {
             }
         }
         else {
-            System.out.println("Arah tidak valid!");
+            throw new Exception("Gagal memeriksa ketersediaan ruang! Arah tidak valid!");
         }
 
         return avail;
     }
 
-    // public static void main(String[] args) {
-    //     House rumah1 = new House("H1", 1, 1);
-    //     rumah1.printPetaRumah();
+    public static void main(String[] args) {
+        House rumah1 = new House("H1", 1, 1);
+        rumah1.printPetaRumah();
 
-    //     Room ruang1 = rumah1.getDaftarRuangan().get(0);
-    //     System.out.println(ruang1.getRoomPosition().getX());
-    //     System.out.println(ruang1.getRoomPosition().getY());
-    //     System.out.println(rumah1.checkSpace(ruang1, "kiri"));
+        Room ruang1 = rumah1.getDaftarRuangan().get(0);
+        System.out.println(ruang1.getRoomPosition().getX());
+        System.out.println(ruang1.getRoomPosition().getY());
+        try {
+            System.out.println(rumah1.checkSpace(ruang1, "kanan"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        Room ruang2 = new Room("R2", rumah1);
+        rumah1.addNewRoom(ruang1, ruang2, "kanan");
+        rumah1.printPetaRumah();
 
-    //     Room ruang2 = new Room("R2", rumah1);
-    //     rumah1.addNewRoom(ruang1, ruang2, "kanan");
-    //     rumah1.printPetaRumah();
-
-    //     System.out.println("====== BATAS SUCI ======");
-    //     Room ruang3 = new Room("R3", rumah1);
-    //     System.out.println(rumah1.checkSpace(ruang1, "kanan"));
-    //     System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("-"));
-    //     rumah1.addNewRoom(ruang1, ruang3, "kanan");
-    //     rumah1.printPetaRumah();
-    // }
+        System.out.println("====== BATAS SUCI ======");
+        Room ruang3 = new Room("R3", rumah1);
+        System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("-"));
+        rumah1.addNewRoom(ruang1, ruang3, "hayo");
+        rumah1.addNewRoom(ruang1, ruang3, "kanan");
+        rumah1.printPetaRumah();
+    }
 }
