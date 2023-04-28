@@ -11,7 +11,7 @@ public class Sim {
     private int kekenyangan;
     private int kesehatan;
     private int mood;
-    private Inventory inventory;
+    private Inventory<? extends Item> inventory;
     private Room currentRoom;
     private House currentHouse;
     private Point currentPos;
@@ -21,7 +21,7 @@ public class Sim {
         uang = 100;
         kekenyangan = 80; kesehatan = 80; mood = 80;
         getJob(); // Set pekerjaan Sim secara random
-        inventory = new Inventory();
+        inventory = new Inventory<>();
         justChangedJob = false;
     }
     
@@ -50,7 +50,7 @@ public class Sim {
         return status;
     }
 
-    public Inventory getInventory(){
+    public Inventory<? extends Item> getInventory(){
         return inventory;
     }
 
@@ -130,9 +130,9 @@ public class Sim {
     
     //Aksi
     public void eating(Food food){
-        if (inventory.containsItem(food.getNama())){
+        if (inventory.containsItem(food)){
             changeKekenyangan(food.getKekenyangan());
-            inventory.removeItem(food.getNama());
+            inventory.removeItem(food);
         }
     }
     
@@ -141,7 +141,7 @@ public class Sim {
     }
 
     public void watchingTV(TV televisi){
-        televisi.WatchingTV(this);
+        televisi.nontonTV(this);
     }
 
     public void pee(Toilet toilet){
@@ -153,7 +153,7 @@ public class Sim {
     }
 
     public void seeTime(Jam jam){
-        jam.lihatWaktu(this);
+        jam.lihatWaktu();
     }
 
     public void cooking(Kompor kompor){
