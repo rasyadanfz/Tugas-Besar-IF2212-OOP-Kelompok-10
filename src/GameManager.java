@@ -9,12 +9,14 @@ public class GameManager {
     private int hari;
     private ArrayList<String> listOfActions;
     private Sim activeSim;
+    private int houseCount;
 
     public GameManager(){
         world = World.getWorld();
         simList = new ArrayList<Sim>();
         hari = 0;
         listOfActions = new ArrayList<String>();
+        houseCount = 0;
     }
 
     public World getWorld(){
@@ -39,6 +41,10 @@ public class GameManager {
 
     public int getTime(){
         return time;
+    }
+
+    public int getHouseCount(){
+        return houseCount;
     }
 
     public void printSimList(){
