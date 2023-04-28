@@ -7,13 +7,14 @@ public class Main {
     private static GameManager game;
     private static String input;
     private static boolean inGame = false;
+    private static Scanner inputScanner;
     public static void main(String[] args) {
         // Initialize Game
         initializeGame();
 
-        Scanner scanner = new Scanner(System.in);
+        inputScanner = new Scanner(System.in);
         System.out.printf("Selamat Datang di Simplicity!!\nSilakan pilih aksi selanjutnya :");
-        input = scanner.nextLine();
+        input = inputScanner.nextLine();
 
         // Commands
         gameCommands(input);
@@ -31,12 +32,17 @@ public class Main {
         game.setActiveSim(newSim);
 
         // Create Rumah
-        gameWorld.addHouse(1, 1, new House("R" + (game.getHouseCount() + 1)));
+        try{
+            gameWorld.addHouse(1, 1, "R1");
+        }
+        catch(Exception e){
+            System.out.println("ERROR: " + e.getMessage());
+        }
         // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada posisi (1,1)
         try{
             firstHouse = gameWorld.getHouse("R1");
             game.getActiveSim().changeCurrentHouse(firstHouse);
-            game.getActiveSim().changeCurrentRoom(firstHouse.getSeluruhRuangan().get(0));
+            game.getActiveSim().changeCurrentRoom(firstHouse.getDaftarRuangan().get(0));
             game.getActiveSim().changeCurrentPos(new Point(1,1));
         }
         catch (Exception e){
@@ -60,7 +66,7 @@ public class Main {
         }
         else if (input.equals("EXIT")){
             System.out.println("Apakah Anda yakin ingin keluar dari Simplicity? (Y/N)");
-            if (scanner.next().equals("Y")){
+            if (inputScanner.nextLine().equals("Y")){
                 // TODO : Create & Insert Exit Method Here
             }
         }
