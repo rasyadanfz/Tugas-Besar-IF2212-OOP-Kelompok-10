@@ -1,4 +1,9 @@
 package src;
-public interface Item {
-    public void interact(Sim person);
+
+public abstract class Item {
+    public String nama;
+
+    public String getNama() {
+        return nama;
+    }
 }

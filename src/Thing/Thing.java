@@ -1,7 +1,9 @@
 package src.Thing;
-import java.util.*;
 
-public abstract class Thing implements Purchaseable {
+import java.util.*;
+import src.*;
+
+public abstract class Thing extends Item implements Purchaseable {
     private String nama;
     private String kode;
     private int panjang;
@@ -33,7 +35,7 @@ public abstract class Thing implements Purchaseable {
     public int getLebar() {
         return lebar;
     }
-    
+
     public int getHarga() {
         return harga;
     }

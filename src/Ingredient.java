@@ -1,7 +1,7 @@
 package src;
 import java.util.*;
 
-public abstract class Ingredient implements Purchaseable{
+public abstract class Ingredient extends Item implements Purchaseable{
     private String nama;
     private int price;
     private int kekenyangan;
