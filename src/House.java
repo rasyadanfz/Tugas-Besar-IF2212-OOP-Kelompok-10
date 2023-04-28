@@ -121,46 +121,46 @@ public class House {
         return avail;
     }
 
-    public static void main(String[] args) {
-        World world = World.getWorld();
-        try {
-            world.addHouse(0, 0, "H01");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        world.getMap().printMatrix();
-        House rumah1 = world.getDaftarRumah().get(0);
+    // public static void main(String[] args) {
+    //     World world = World.getWorld();
+    //     try {
+    //         world.addHouse(0, 0, "H01");
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
+    //     world.getMap().printMatrix();
+    //     House rumah1 = world.getDaftarRumah().get(0);
 
-        System.out.println();
-        rumah1.printPetaRumah();
+    //     System.out.println();
+    //     rumah1.printPetaRumah();
 
-        Room ruang1 = rumah1.getDaftarRuangan().get(0);
-        System.out.println(ruang1.getRoomPosition().getX());
-        System.out.println(ruang1.getRoomPosition().getY());
-        try {
-            System.out.println(rumah1.checkSpace(ruang1, "kanan"));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    //     Room ruang1 = rumah1.getDaftarRuangan().get(0);
+    //     System.out.println(ruang1.getRoomPosition().getX());
+    //     System.out.println(ruang1.getRoomPosition().getY());
+    //     try {
+    //         System.out.println(rumah1.checkSpace(ruang1, "kanan"));
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
 
-        Room ruang2 = new Room("R02", rumah1);
-        try {
-            rumah1.addNewRoom(ruang1, ruang2, "kanan");
-        }  catch (Exception e) {
-            System.out.println(e);
-        }
-        rumah1.printPetaRumah();
+    //     Room ruang2 = new Room("R02", rumah1);
+    //     try {
+    //         rumah1.addNewRoom(ruang1, ruang2, "kanan");
+    //     }  catch (Exception e) {
+    //         System.out.println(e);
+    //     }
+    //     rumah1.printPetaRumah();
 
-        System.out.println("====== BATAS SUCI ======");
-        Room ruang3 = new Room("R03", rumah1);
-        System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("---"));
+    //     System.out.println("====== BATAS SUCI ======");
+    //     Room ruang3 = new Room("R03", rumah1);
+    //     System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("---"));
 
-        try {
-            rumah1.addNewRoom(ruang1, ruang3, "hayo");
-            rumah1.addNewRoom(ruang1, ruang3, "kanan");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        rumah1.printPetaRumah();
-    }
+    //     try {
+    //         rumah1.addNewRoom(ruang1, ruang3, "hayo");
+    //         rumah1.addNewRoom(ruang1, ruang3, "kanan");
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
+    //     rumah1.printPetaRumah();
+    // }
 }

@@ -83,22 +83,22 @@ public class Room {
         }
     }
 
-    public static void main(String[] args) {
-        House rumah1 = new House("H01", 0, 0);
-        Room ruang1 = new Room("R01", rumah1);
-        ruang1.printPetaRuangan();
+    // public static void main(String[] args) {
+    //     House rumah1 = new House("H01", 0, 0);
+    //     Room ruang1 = new Room("R01", rumah1);
+    //     ruang1.printPetaRuangan();
 
-        System.out.println();
-        KasurSingle kasur1 = new KasurSingle();
-        MejaKursi mejaKursi = new MejaKursi();
-        try {
-            ruang1.placeItem(kasur1, 1, 1);
-            ruang1.placeItem(mejaKursi, 1, 2);
-            ruang1.printPetaRuangan();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    //     System.out.println();
+    //     KasurSingle kasur1 = new KasurSingle();
+    //     MejaKursi mejaKursi = new MejaKursi();
+    //     try {
+    //         ruang1.placeItem(kasur1, 1, 1);
+    //         ruang1.placeItem(mejaKursi, 1, 2);
+    //         ruang1.printPetaRuangan();
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
 
-        ruang1.printPlacedObject();
-    }
+    //     ruang1.printPlacedObject();
+    // }
 }
