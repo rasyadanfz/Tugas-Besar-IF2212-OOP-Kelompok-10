@@ -92,25 +92,25 @@ public class House {
         //Cek dalam empat arah
         if (arah.toLowerCase().equals("atas")) {
             //Jika ruangan tersebut mentok di atas
-            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y+1).equals("-"))){
+            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y+1).equals("--"))){
                 avail = true;
             }
         }
         else if (arah.toLowerCase().equals("bawah")) {
             //Jika ruangan tersebut mentok di bawah
-            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1).equals("-"))){
+            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1).equals("--"))){
                 avail = true;
             }
         }
         else if (arah.toLowerCase().equals("kanan")) {
             //Jika ruangan tersebut mentok di kanan
-            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x+1, y).equals("-"))){
+            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x+1, y).equals("--"))){
                 avail = true;
             }
         }
         else if (arah.toLowerCase().equals("kiri")) {
             //Jika ruangan tersebut mentok di kiri
-            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x-1, y).equals("-"))){
+            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x-1, y).equals("--"))){
                 avail = true;
             }
         }
@@ -121,37 +121,46 @@ public class House {
         return avail;
     }
 
-    // public static void main(String[] args) {
-    //     House rumah1 = new House("H1", 1, 1);
-    //     rumah1.printPetaRumah();
+    public static void main(String[] args) {
+        World world = World.getWorld();
+        try {
+            world.addHouse(0, 0, "H1");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        world.getMap().printMatrix();
+        House rumah1 = world.getDaftarRumah().get(0);
 
-    //     Room ruang1 = rumah1.getDaftarRuangan().get(0);
-    //     System.out.println(ruang1.getRoomPosition().getX());
-    //     System.out.println(ruang1.getRoomPosition().getY());
-    //     try {
-    //         System.out.println(rumah1.checkSpace(ruang1, "kanan"));
-    //     } catch (Exception e) {
-    //         System.out.println(e);
-    //     }
+        System.out.println();
+        rumah1.printPetaRumah();
 
-    //     Room ruang2 = new Room("R2", rumah1);
-    //     try {
-    //         rumah1.addNewRoom(ruang1, ruang2, "kanan");
-    //     }  catch (Exception e) {
-    //         System.out.println(e);
-    //     }
-    //     rumah1.printPetaRumah();
+        Room ruang1 = rumah1.getDaftarRuangan().get(0);
+        System.out.println(ruang1.getRoomPosition().getX());
+        System.out.println(ruang1.getRoomPosition().getY());
+        try {
+            System.out.println(rumah1.checkSpace(ruang1, "kanan"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
-    //     System.out.println("====== BATAS SUCI ======");
-    //     Room ruang3 = new Room("R3", rumah1);
-    //     System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("-"));
+        Room ruang2 = new Room("R2", rumah1);
+        try {
+            rumah1.addNewRoom(ruang1, ruang2, "kanan");
+        }  catch (Exception e) {
+            System.out.println(e);
+        }
+        rumah1.printPetaRumah();
 
-    //     try {
-    //         rumah1.addNewRoom(ruang1, ruang3, "hayo");
-    //         rumah1.addNewRoom(ruang1, ruang3, "kanan");
-    //     } catch (Exception e) {
-    //         System.out.println(e);
-    //     }
-    //     rumah1.printPetaRumah();
-    // }
+        System.out.println("====== BATAS SUCI ======");
+        Room ruang3 = new Room("R3", rumah1);
+        System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("--"));
+
+        try {
+            rumah1.addNewRoom(ruang1, ruang3, "hayo");
+            rumah1.addNewRoom(ruang1, ruang3, "kanan");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        rumah1.printPetaRumah();
+    }
 }

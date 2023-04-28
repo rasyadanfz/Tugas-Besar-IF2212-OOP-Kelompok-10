@@ -67,7 +67,7 @@ public class Room {
         } else {
             for (int i = x; i < x + panjangItem; i++) {
                 for (int j = y; j < y + lebarItem; j++) {
-                    if (petaRuangan.getItem(i, j) != "-") {
+                    if (petaRuangan.getItem(i, j) != "--") {
                         throw new Exception("Tidak bisa meletakkan benda karena terdapat benda lain di lokasi tersebut!");
                     }
                 }
@@ -86,8 +86,9 @@ public class Room {
     public static void main(String[] args) {
         House rumah1 = new House("H1", 0, 0);
         Room ruang1 = new Room("R1", rumah1);
-        //ruang1.printPetaRuangan();
+        ruang1.printPetaRuangan();
 
+        System.out.println();
         KasurSingle kasur1 = new KasurSingle();
         try {
             ruang1.placeItem(kasur1, 1, 1);
