@@ -12,7 +12,7 @@ public class Matrix {
 
         for (int i = 0; i < panjang; i++) {
             for (int j = 0; j < lebar; j++) {
-                instance[i][j] = "--";
+                instance[i][j] = "---";
             }
         }
     }

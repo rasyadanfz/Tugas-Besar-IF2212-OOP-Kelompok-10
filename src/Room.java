@@ -67,7 +67,7 @@ public class Room {
         } else {
             for (int i = x; i < x + panjangItem; i++) {
                 for (int j = y; j < y + lebarItem; j++) {
-                    if (petaRuangan.getItem(i, j) != "--") {
+                    if (petaRuangan.getItem(i, j) != "---") {
                         throw new Exception("Tidak bisa meletakkan benda karena terdapat benda lain di lokasi tersebut!");
                     }
                 }

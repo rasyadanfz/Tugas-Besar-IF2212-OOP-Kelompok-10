@@ -28,7 +28,7 @@ public class World {
     }
 
     public void addHouse(int x, int y, String kodeRumah) throws Exception {
-        if (map.getWorldItem(x, y).equals("--")) {
+        if (map.getWorldItem(x, y).equals("---")) {
             House rumah = new House(kodeRumah, x, y);
             map.changeWorldItem(x, y, kodeRumah);
             daftarRumah.add(rumah);
