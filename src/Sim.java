@@ -198,8 +198,12 @@ public class Sim {
         changeKekenyangan(-10);
     }
 
-    public void upgradeRumah(){
-        currentHouse.upgrade();
+    public void upgradeRumah(Room oldRoom, Room newRoom, String arah) {
+        try {
+            currentHouse.addNewRoom(oldRoom, newRoom, arah);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void sellBarang(){

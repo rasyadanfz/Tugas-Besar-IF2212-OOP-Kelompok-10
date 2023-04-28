@@ -28,9 +28,9 @@ public class World {
     }
 
     public void addHouse(int x, int y, String kodeRumah) throws Exception {
-        if (map.getItem(x, y).equals("-")) {
+        if (map.getWorldItem(x, y).equals("---")) {
             House rumah = new House(kodeRumah, x, y);
-            map.changeItem(x, y, kodeRumah);
+            map.changeWorldItem(x, y, kodeRumah);
             daftarRumah.add(rumah);
         } else {
             throw new Exception("Gagal menambahkan rumah! Lokasi (" + x + ", " + y + ") sudah diisi oleh rumah lain!");
