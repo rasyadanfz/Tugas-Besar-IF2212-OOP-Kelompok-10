@@ -3,9 +3,9 @@ package src.Thing;
 import src.Sim;
 
 public class Shower extends Thing {
-    public Shower() {
+    public Shower(String kodeItem) {
         // agak ngasal karena ga ada objeknya di spesifikasi
-        super("Shower", 1, 1, 50);
+        super("Shower", kodeItem, 1, 1, 50);
     }
 
     public void mandi(Sim sim) {

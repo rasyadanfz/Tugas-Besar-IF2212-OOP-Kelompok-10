@@ -3,9 +3,9 @@ package src.Thing;
 import src.Sim;
 
 public class Lukisan extends Thing {
-    public Lukisan() {
+    public Lukisan(String kodeItem) {
         // ngasal karena objeknya ga ada di spesifikasi
-        super("Lukisan", 1, 1, 100);
+        super("Lukisan", kodeItem, 1, 1, 100);
     }
 
     public void mengamati(Sim sim) {

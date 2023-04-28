@@ -24,7 +24,6 @@ public abstract class Thing implements Purchaseable {
         return nama;
     }
 
-
     public String getKode() {
         return kode;
     }
@@ -43,6 +42,7 @@ public abstract class Thing implements Purchaseable {
 
     public void buyItem(Sim sim) {
         sim.getInventory().addItem(this.getNama());
+    }
 
     public void rotateItem() {
         int temp = panjang;
