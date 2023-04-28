@@ -58,7 +58,8 @@ public class Room {
     }
     
     public void placeItem(Thing object, int x, int y) throws Exception {
-        String kodeItem = object.getNama();
+        String namaItem = object.getNama();
+        String kodeItem = object.getKode();
         int panjangItem = object.getPanjang();
         int lebarItem = object.getLebar();
 
@@ -79,7 +80,7 @@ public class Room {
                 }
             }
             
-            placedObject.put(kodeItem, new Point(x, y));
+            placedObject.put(namaItem, new Point(x, y));
         }
     }
 
@@ -89,8 +90,8 @@ public class Room {
     //     ruang1.printPetaRuangan();
 
     //     System.out.println();
-    //     KasurSingle kasur1 = new KasurSingle();
-    //     MejaKursi mejaKursi = new MejaKursi();
+    //     KasurSingle kasur1 = new KasurSingle("KS1");
+    //     MejaKursi mejaKursi = new MejaKursi("MK1");
     //     try {
     //         ruang1.placeItem(kasur1, 1, 1);
     //         ruang1.placeItem(mejaKursi, 1, 2);
