@@ -2,8 +2,8 @@ package src.Thing;
 import src.Sim;
 
 public class Toilet extends Thing {
-    public Toilet(){
-        super("Toilet", 1, 1, 50);
+    public Toilet(String kodeItem){
+        super("Toilet", kodeItem, 1, 1, 50);
     }
     
     public void buangAir(Sim sim){
