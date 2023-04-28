@@ -1,5 +1,7 @@
 package src.Thing;
+
 import java.util.*;
+import src.*;
 
 public abstract class Thing implements Purchaseable {
     private String nama;
@@ -22,6 +24,7 @@ public abstract class Thing implements Purchaseable {
         return nama;
     }
 
+
     public String getKode() {
         return kode;
     }
@@ -33,10 +36,13 @@ public abstract class Thing implements Purchaseable {
     public int getLebar() {
         return lebar;
     }
-    
+
     public int getHarga() {
         return harga;
     }
+
+    public void buyItem(Sim sim) {
+        sim.getInventory().addItem(this.getNama());
 
     public void rotateItem() {
         int temp = panjang;

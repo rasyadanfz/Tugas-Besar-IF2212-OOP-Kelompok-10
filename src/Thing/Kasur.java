@@ -1,4 +1,5 @@
 package src.Thing;
+
 import src.Sim;
 
 public abstract class Kasur extends Thing implements Sleep {
@@ -9,7 +10,7 @@ public abstract class Kasur extends Thing implements Sleep {
     public void Sleeping(Sim sim) {
         // butuh timer buat ngukur 4 menit
         // untuk setiap 4 menit:
-        sim.changeMood((sim.getMood()) + 30);
-        sim.changeKekenyangan((sim.getKesehatan()) + 20);
+        sim.changeMood(30);
+        sim.changeKekenyangan(20);
     }
 }
