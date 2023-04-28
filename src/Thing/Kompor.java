@@ -2,8 +2,8 @@ package src.Thing;
 import src.*;
 
 public abstract class Kompor extends Thing implements Cook {
-    public Kompor(String nama, int panjang, int lebar, int harga){
-        super(nama, panjang, lebar, harga);
+    public Kompor(String nama, String kodeItem, int panjang, int lebar, int harga){
+        super(nama, kodeItem, panjang, lebar, harga);
     }
     
     public void Cooking(Sim sim, Food food){

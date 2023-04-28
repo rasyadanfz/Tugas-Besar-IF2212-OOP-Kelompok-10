@@ -14,7 +14,7 @@ public class House {
         lokasi = new Point(x, y);
 
         //SetDefault setiap kali beli rumah 
-        Room ruang1 = new Room("R1", this, 5, 5);       
+        Room ruang1 = new Room("R01", this, 5, 5);       
         daftarRuangan.add(ruang1);
         petaRumah.changeItem(5, 5, ruang1.getNamaRuangan());
     }
@@ -92,25 +92,25 @@ public class House {
         //Cek dalam empat arah
         if (arah.toLowerCase().equals("atas")) {
             //Jika ruangan tersebut mentok di atas
-            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y+1).equals("-"))){
+            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y+1).equals("---"))){
                 avail = true;
             }
         }
         else if (arah.toLowerCase().equals("bawah")) {
             //Jika ruangan tersebut mentok di bawah
-            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1).equals("-"))){
+            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y-1).equals("---"))){
                 avail = true;
             }
         }
         else if (arah.toLowerCase().equals("kanan")) {
             //Jika ruangan tersebut mentok di kanan
-            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x+1, y).equals("-"))){
+            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x+1, y).equals("---"))){
                 avail = true;
             }
         }
         else if (arah.toLowerCase().equals("kiri")) {
             //Jika ruangan tersebut mentok di kiri
-            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x-1, y).equals("-"))){
+            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x-1, y).equals("---"))){
                 avail = true;
             }
         }
@@ -122,7 +122,16 @@ public class House {
     }
 
     // public static void main(String[] args) {
-    //     House rumah1 = new House("H1", 1, 1);
+    //     World world = World.getWorld();
+    //     try {
+    //         world.addHouse(0, 0, "H01");
+    //     } catch (Exception e) {
+    //         System.out.println(e);
+    //     }
+    //     world.getMap().printMatrix();
+    //     House rumah1 = world.getDaftarRumah().get(0);
+
+    //     System.out.println();
     //     rumah1.printPetaRumah();
 
     //     Room ruang1 = rumah1.getDaftarRuangan().get(0);
@@ -134,7 +143,7 @@ public class House {
     //         System.out.println(e);
     //     }
 
-    //     Room ruang2 = new Room("R2", rumah1);
+    //     Room ruang2 = new Room("R02", rumah1);
     //     try {
     //         rumah1.addNewRoom(ruang1, ruang2, "kanan");
     //     }  catch (Exception e) {
@@ -143,8 +152,8 @@ public class House {
     //     rumah1.printPetaRumah();
 
     //     System.out.println("====== BATAS SUCI ======");
-    //     Room ruang3 = new Room("R3", rumah1);
-    //     System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("-"));
+    //     Room ruang3 = new Room("R03", rumah1);
+    //     System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("---"));
 
     //     try {
     //         rumah1.addNewRoom(ruang1, ruang3, "hayo");
