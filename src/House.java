@@ -14,7 +14,7 @@ public class House {
         lokasi = new Point(x, y);
 
         //SetDefault setiap kali beli rumah 
-        Room ruang1 = new Room("R1", this, 5, 5);       
+        Room ruang1 = new Room("R01", this, 5, 5);       
         daftarRuangan.add(ruang1);
         petaRumah.changeItem(5, 5, ruang1.getNamaRuangan());
     }
@@ -124,7 +124,7 @@ public class House {
     public static void main(String[] args) {
         World world = World.getWorld();
         try {
-            world.addHouse(0, 0, "H1");
+            world.addHouse(0, 0, "H01");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -143,7 +143,7 @@ public class House {
             System.out.println(e);
         }
 
-        Room ruang2 = new Room("R2", rumah1);
+        Room ruang2 = new Room("R02", rumah1);
         try {
             rumah1.addNewRoom(ruang1, ruang2, "kanan");
         }  catch (Exception e) {
@@ -152,7 +152,7 @@ public class House {
         rumah1.printPetaRumah();
 
         System.out.println("====== BATAS SUCI ======");
-        Room ruang3 = new Room("R3", rumah1);
+        Room ruang3 = new Room("R03", rumah1);
         System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("---"));
 
         try {
