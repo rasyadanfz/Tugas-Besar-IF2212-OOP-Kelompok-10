@@ -24,6 +24,7 @@ public abstract class Thing extends Item implements Purchaseable {
         return nama;
     }
 
+
     public String getKode() {
         return kode;
     }
@@ -40,6 +41,10 @@ public abstract class Thing extends Item implements Purchaseable {
         return harga;
     }
 
+    public void buyItem(Sim sim) {
+        sim.getInventory().addItem(this);
+    }
+    
     public void rotateItem() {
         int temp = panjang;
         panjang = lebar;
