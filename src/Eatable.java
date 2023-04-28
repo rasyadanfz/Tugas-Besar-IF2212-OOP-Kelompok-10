@@ -1,4 +1,5 @@
 package src;
-public interface Eatable{
+
+public interface Eatable {
     void eat(Sim sim);
 }

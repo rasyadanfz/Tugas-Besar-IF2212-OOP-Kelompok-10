@@ -3,8 +3,8 @@ package src.Thing;
 import src.Sim;
 
 public abstract class Kasur extends Thing implements Sleep {
-    public Kasur(String nama, int panjang, int lebar, int harga) {
-        super(nama, panjang, lebar, harga);
+    public Kasur(String nama, String kodeItem, int panjang, int lebar, int harga) {
+        super(nama, kodeItem, panjang, lebar, harga);
     }
 
     public void Sleeping(Sim sim) {

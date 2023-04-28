@@ -12,9 +12,17 @@ public class Matrix {
 
         for (int i = 0; i < panjang; i++) {
             for (int j = 0; j < lebar; j++) {
-                instance[i][j] = "-";
+                instance[i][j] = "---";
             }
         }
+    }
+
+    public String getWorldItem(int x, int y) {
+        return instance[x][y];
+    }
+
+    public void changeWorldItem(int x, int y, String item) {
+        instance[x][y] = item;
     }
 
     public String getItem(int x, int y) {
