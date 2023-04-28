@@ -1,15 +1,15 @@
 package src;
 import java.util.*;
 
-public class Inventory {
-    private HashMap<String, Integer> daftarItem;
+public class Inventory<T extends Item> {
+    private HashMap<T, Integer> daftarItem;
 
     public Inventory(){
-        daftarItem = new HashMap<String, Integer>();
+        daftarItem = new HashMap<T, Integer>();
     }
 
-    public boolean containsItem(String itemName){
-        if (daftarItem.containsKey(itemName)){
+    public boolean containsItem(T item){
+        if (daftarItem.containsKey(item)){
             return true;
         }
         else{
@@ -17,38 +17,38 @@ public class Inventory {
         }
     }
 
-    public void removeItem(String itemName){
+    public void removeItem(T item){
         // Jumlah Item >= 1
-        if (daftarItem.containsKey(itemName)){
-            if (daftarItem.get(itemName) > 1){
-                daftarItem.put(itemName, daftarItem.get(itemName) - 1);
+        if (daftarItem.containsKey(item)){
+            if (daftarItem.get(item) > 1){
+                daftarItem.put(item, daftarItem.get(item) - 1);
             }
             else{
-                daftarItem.remove(itemName);
+                daftarItem.remove(item);
             }
         }
         else{
-            System.out.println("Item " + itemName + " tidak ada di dalam inventory!");
+            System.out.println("Item " + item + " tidak ada di dalam inventory!");
         }
     }
 
-    public void addItem(String itemName){
-        if (daftarItem.containsKey(itemName)){
-            daftarItem.put(itemName, daftarItem.get(itemName) + 1);
+    public void addItem(T item){
+        if (daftarItem.containsKey(item)){
+            daftarItem.put(item, daftarItem.get(item) + 1);
         }
         else{
-            daftarItem.put(itemName, 1);
+            daftarItem.put(item, 1);
         }
     }
 
     //TODO : Implementasi getItem
-    public void getItem(String itemName){
+    public void getItem(T item){
 
     }
 
     public void printItems(){
         int i = 1;
-        for (String s : daftarItem.keySet()){
+        for (T s : daftarItem.keySet()){
             System.out.println(i + ". " + s);
             i++;
         }
