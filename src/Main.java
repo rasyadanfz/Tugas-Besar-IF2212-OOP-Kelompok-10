@@ -38,8 +38,6 @@ public class Main {
         }
         
     }
-<<<<<<< Updated upstream
-=======
 
     private static void initializeGame(){
         isActive = true;
@@ -197,5 +195,4 @@ public class Main {
             System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
         }
     }
->>>>>>> Stashed changes
 }
