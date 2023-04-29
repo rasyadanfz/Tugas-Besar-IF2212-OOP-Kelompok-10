@@ -141,7 +141,7 @@ public class Sim {
     }
 
     public void watchingTV(TV televisi){
-        televisi.WatchingTV(this);
+        televisi.nontonTV(this);
     }
 
     public void pee(Toilet toilet){
@@ -210,12 +210,12 @@ public class Sim {
         ruangan.ambilBarang(this);
     }
 
-    public void washingHand(Shower shower){
-        shower.washingHand(this);
+    public void washingHand(Wastafel wastafel){
+        wastafel.cuciTangan(this);
     }
 
-    public void mirroring(Mirror mirror){
-        mirror.bercermin(this);
+    public void mirroring(Cermin cermin){
+        cermin.bercermin(this);
     }
 
     public void lookPainting(Lukisan lukisan){
