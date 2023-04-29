@@ -8,7 +8,7 @@ public class Lukisan extends Thing {
         super("Lukisan", kodeItem, 1, 1, 100);
     }
 
-    public void mengamati(Sim sim) {
+    public void lihatLukisan(Sim sim) {
         // untuk setiap 20 detik (ngasal juga)
         sim.changeMood(20);
     }
