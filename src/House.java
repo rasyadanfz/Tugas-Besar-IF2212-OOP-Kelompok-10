@@ -66,11 +66,7 @@ public class House {
                 newRoom.setRoomPosition(x, y);
                 petaRumah.changeItem(x, y, newRoom.getNamaRuangan());
             } else {
-                if (x == 1 || x == 9 || y == 1 || y == 9) {
-                    throw new Exception("Gagal menambahkan ruangan! Acuan ruangan sudah mentok di pinggir rumah");
-                } else {
-                    throw new Exception("Ruangan gagal ditambahkan! Terdapat ruangan lain pada space tersebut");
-                }
+                throw new Exception("Ruangan gagal ditambahkan! Terdapat ruangan lain pada space tersebut");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -110,7 +106,11 @@ public class House {
             }
         }
         else {
-            throw new Exception("Gagal memeriksa ketersediaan ruang! Arah tidak valid!");
+            if (x == 1 || x == 9 || y == 1 || y == 9) {
+                throw new Exception("Gagal menambahkan ruangan! Acuan ruangan sudah mentok di pinggir rumah");
+            } else {
+                throw new Exception("Gagal memeriksa ketersediaan ruang! Arah tidak valid!");
+            }
         }
 
         return avail;

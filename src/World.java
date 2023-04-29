@@ -6,6 +6,7 @@ import src.Exceptions.HouseNotFoundException;
 public class World {
     private Matrix map;
     private ArrayList<House> daftarRumah;
+    private Timer timer;
     
     private static World world = new World();
 
@@ -25,6 +26,10 @@ public class World {
 
     public static World getWorld() {
         return world;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     public void addHouse(int x, int y, String kodeRumah) throws Exception {
