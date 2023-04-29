@@ -11,6 +11,7 @@ public class GameManager {
     private ArrayList<String> listOfActions;
     private Sim activeSim;
     private int houseCount;
+    private int kasurCount = 0;
 
     public GameManager(){
         world = World.getWorld();
@@ -46,6 +47,10 @@ public class GameManager {
 
     public int getHouseCount(){
         return houseCount;
+    }
+
+    public int getKasurCount(){
+        return kasurCount;
     }
 
     public void printSimList(){
@@ -150,7 +155,7 @@ public class GameManager {
         System.out.println("      \033[1;30mn)Wastafel ");
         System.out.println("      \033[1;30mo)Cermin ");
 
-        System.out.println("\033[1;93m====================================================================================================================================================================");
+        System.out.println("\033[1;93m====================================================================================================================================================================\033[0;39m");
     }
 
     // TODO : Implementasi Exit

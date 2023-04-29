@@ -183,11 +183,12 @@ public class Sim {
         currentRoom = ruangan;
     }
 
-    public void installBarang(Room ruangan){
-        ruangan.installBarang(this);
+    public void installBarang(Thing thing, int x, int y) throws Exception{
+        currentRoom.placeItem(thing, x, y);
     }
 
     public void seeInventory(){
+        System.out.println("Inventory Sim : ");
         inventory.printItems();
     }
 
