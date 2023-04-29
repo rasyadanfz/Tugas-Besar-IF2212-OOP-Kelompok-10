@@ -2,7 +2,7 @@ package src;
 
 import java.util.ArrayList;
 
-public abstract class Food implements Eatable{
+public abstract class Food extends Item implements Eatable{
     private String nama;
     private int kekenyangan;
     private ArrayList<Ingredient> bahanMakanan;

@@ -3,8 +3,8 @@ package src.Thing;
 import src.Sim;
 
 public class TV extends Thing {
-    public TV() {
-        super("TV", 2, 1, 200);
+    public TV(String kodeItem) {
+        super("TV", kodeItem, 2, 1, 200);
         // ini agak ngasal ya panjang, lebar, sm harganya, soalnya ini objek bikinan
         // sendiri
     }
