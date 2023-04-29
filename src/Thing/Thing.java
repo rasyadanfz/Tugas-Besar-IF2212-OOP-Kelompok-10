@@ -3,7 +3,7 @@ package src.Thing;
 import java.util.*;
 import src.*;
 
-public abstract class Thing implements Purchaseable {
+public abstract class Thing extends Item implements Purchaseable {
     private String nama;
     private String kode;
     private int panjang;
@@ -41,7 +41,7 @@ public abstract class Thing implements Purchaseable {
     }
 
     public void buyItem(Sim sim) {
-        sim.getInventory().addItem(this.getNama());
+        sim.getInventory().addItem(this);
     }
 
     public void rotateItem() {

@@ -25,4 +25,19 @@ public class Point {
         String str = "("+ x + ", " + y + ")";
         return str;
     }
+    
+    // Cek apakah posisi X kedua Point sama
+    public boolean horizontalEquals(Point p1, Point p2){
+        return (p1.getX() == p2.getX());
+    }
+
+    // Cek apakah posisi Y kedua Point sama
+    public boolean verticalEquals(Point p1, Point p2){
+        return (p1.getY() == p2.getY());
+    }
+
+    // Cek apakah dua Point ada di lokasi yang sama
+    public boolean equals(Point p1, Point p2){
+        return (horizontalEquals(p1, p2) && verticalEquals(p1, p2));
+    }
 }

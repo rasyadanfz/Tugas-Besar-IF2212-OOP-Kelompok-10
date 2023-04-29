@@ -9,7 +9,7 @@ public class Toilet extends Thing {
     public void buangAir(Sim sim){
         sim.changeMood(10);
         // masih bingung
-        sim.changeKekenyangan();
+        sim.changeKekenyangan(-20);
     }
 
     public void buyItem(Sim sim) {}
