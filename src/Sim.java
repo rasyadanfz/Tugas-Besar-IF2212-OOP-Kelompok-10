@@ -11,17 +11,18 @@ public class Sim {
     private int kekenyangan;
     private int kesehatan;
     private int mood;
-    private Inventory inventory;
+    private Inventory<Item> inventory;
     private Room currentRoom;
     private House currentHouse;
     private Point currentPos;
+    private static World world;
 
     public Sim(String namaLengkap) {
         this.namaLengkap = namaLengkap;
         uang = 100;
         kekenyangan = 80; kesehatan = 80; mood = 80;
         getJob(); // Set pekerjaan Sim secara random
-        inventory = new Inventory();
+        inventory = new Inventory<>();
         justChangedJob = false;
     }
     
@@ -50,7 +51,7 @@ public class Sim {
         return status;
     }
 
-    public Inventory getInventory(){
+    public Inventory<Item> getInventory(){
         return inventory;
     }
 
@@ -111,6 +112,15 @@ public class Sim {
         }
     }
 
+    public void changeUang(int amount) {
+        if (uang + amount < 0){
+            uang = 0;
+        }
+        else {
+            uang += amount;
+        }
+    }
+
     public void changeCurrentHouse(House newHouse){
         currentHouse = newHouse;
     }
@@ -130,13 +140,13 @@ public class Sim {
     
     //Aksi
     public void eating(Food food){
-        if (inventory.containsItem(food.getNama())){
+        if (inventory.containsItem(food)){
             changeKekenyangan(food.getKekenyangan());
-            inventory.removeItem(food.getNama());
+            inventory.removeItem(food);
         }
     }
     
-    public void sleeping(Kasur kasur){
+    public void sleeping(Kasur kasur){ 
         kasur.Sleeping(this);
     }
 
@@ -153,7 +163,7 @@ public class Sim {
     }
 
     public void seeTime(Jam jam){
-        jam.lihatWaktu(this);
+        jam.lihatWaktu();
     }
 
     public void cooking(Kompor kompor){
@@ -198,11 +208,42 @@ public class Sim {
         changeKekenyangan(-10);
     }
 
-    public void upgradeRumah(Room oldRoom, Room newRoom, String arah) {
-        try {
-            currentHouse.addNewRoom(oldRoom, newRoom, arah);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    public void upgradeRumah(Room oldRoom, Room newRoom, String arah) throws Exception {
+        if (this.getUang() < 1500) {
+            System.out.println("Sim tidak dapat melakukan upgrade rumah karena uang tidak cukup");
+        } else {
+            boolean check = false;
+            House temp = currentHouse;
+
+            try {
+                check = temp.checkSpace(oldRoom, arah);
+                temp.addNewRoom(oldRoom, newRoom, arah);
+            } catch (Exception e) {
+                throw e;
+            }
+
+            if (check) {
+                Thread t = new Thread() {
+                    public void run() {
+                        try {
+                            boolean upgrade = true;
+                            int waktuUpgrade = 1080; // 18 menit
+                            int waktuMulai = world.getTimer().getTime();
+
+                            while (upgrade) {
+                                if (waktuMulai + waktuUpgrade >= world.getTimer().getTime()) {
+                                    upgrade = false;
+                                }
+                            }
+
+                            currentHouse.addNewRoom(oldRoom, newRoom, arah);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                };
+                t.start();
+            }
         }
     }
 
