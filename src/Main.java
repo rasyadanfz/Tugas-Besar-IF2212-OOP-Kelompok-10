@@ -157,7 +157,20 @@ public class Main {
                     System.out.println("Sim tidak dalam suatu rumah");
                 }
                 else{
-                    // TODO : Insert Method Pindah Ruangan Here
+                    System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
+                    input = inputScanner.nextLine();
+                    if (!input.equals(game.getActiveSim().getCurrentRoom().getNamaRuangan())){
+                        Room targetRoom = game.getActiveSim().getCurrentHouse().getRoom(input);
+                        if (!Objects.isNull(targetRoom)){
+                            game.getActiveSim().moveRuangan(targetRoom);
+                        }
+                        else{
+                            System.out.println("Ruangan dengan kode " + input + " tidak ada");
+                        }
+                    }
+                    else{
+                        System.out.println("Sim sudah ada di ruangan " + game.getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
+                    }
                 }
             }
         }
@@ -207,30 +220,12 @@ public class Main {
             // Tampilin List Aksi yang bisa dilakukan Sim (bergantung pada objek yang ada di sekitarnya kalo aksinya butuh objek)
             input = inputScanner.nextLine();
 
-            // Aksi tanpa waktu
-            if (input.equals("PINDAH RUANGAN")){
-                System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
-                input = inputScanner.nextLine();
-                if (!input.equals(game.getActiveSim().getCurrentRoom().getNamaRuangan())){
-                    Room targetRoom = game.getActiveSim().getCurrentHouse().getRoom(input);
-                    if (!Objects.isNull(targetRoom)){
-                        game.getActiveSim().moveRuangan(targetRoom);
-                    }
-                    else{
-                        System.out.println("Ruangan dengan kode " + input + " tidak ada");
-                    }
-                }
-                else{
-                    System.out.println("Sim sudah ada di ruangan " + game.getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
-                }
-            }
-            else if (input.equals("PASANG BARANG")){
+            if (input.equals("PASANG BARANG")){
                 // Tampilin barang yang ada di inventory, minta user pilih barang yang mau dipasang
                 // game.getActiveSim().seeInventory();
                 // System.out.printf("Pilih barang yang akan dipasang: ");
                 // input = inputScanner.nextLine();
                 // Thing toPlace = game.getActiveSim().getInventory().getItem(); // TODO : Bingung terkait akses inventorynya sama placeItem
-
             }
             
         }
