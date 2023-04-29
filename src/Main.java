@@ -165,8 +165,7 @@ public class Main {
                         Room newRoom = new Room("R0" + kodeIterator, gameWorld.getHouse("H1"));
                         System.out.println("Silakan masukkan arah penambahan ruangan: ");
                         String arah = inputScanner.nextLine();
-                        game.getActiveSim().getCurrentHouse().addNewRoom(game.getActiveSim().getCurrentRoom(), newRoom,
-                                arah);
+                        game.getActiveSim().upgradeRumah(game.getActiveSim().getCurrentRoom(), newRoom, arah);
                     } catch (Exception e) {
                         System.out.println(e);
                     }
