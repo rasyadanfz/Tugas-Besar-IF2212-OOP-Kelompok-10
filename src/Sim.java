@@ -11,7 +11,7 @@ public class Sim {
     private int kekenyangan;
     private int kesehatan;
     private int mood;
-    private Inventory inventory;
+    private Inventory<Item> inventory;
     private Room currentRoom;
     private House currentHouse;
     private Point currentPos;
@@ -21,7 +21,7 @@ public class Sim {
         uang = 100;
         kekenyangan = 80; kesehatan = 80; mood = 80;
         getJob(); // Set pekerjaan Sim secara random
-        inventory = new Inventory();
+        inventory = new Inventory<>();
         justChangedJob = false;
     }
     
@@ -50,7 +50,7 @@ public class Sim {
         return status;
     }
 
-    public Inventory getInventory(){
+    public Inventory<Item> getInventory(){
         return inventory;
     }
 
@@ -173,11 +173,12 @@ public class Sim {
         currentRoom = ruangan;
     }
 
-    public void installBarang(Room ruangan){
-        ruangan.installBarang(this);
+    public void installBarang(Thing thing, int x, int y) throws Exception{
+        currentRoom.placeItem(thing, x, y);
     }
 
     public void seeInventory(){
+        System.out.println("Inventory Sim : ");
         inventory.printItems();
     }
 

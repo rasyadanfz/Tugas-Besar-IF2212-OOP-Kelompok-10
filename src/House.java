@@ -38,6 +38,22 @@ public class House {
         petaRumah.printMatrix();
     }
 
+    public Room getRoom(String namaRuangan){
+        boolean found = false;
+        Iterator<Room> roomIterator = daftarRuangan.iterator();
+        Room targetRoom = null;
+        while (!found && roomIterator.hasNext()){
+            targetRoom = roomIterator.next();
+            if (targetRoom.getNamaRuangan().equals(namaRuangan)){
+                found = true;
+            }
+            else{
+                targetRoom = null;
+            }
+        }
+        return targetRoom;
+    }
+
     public void addNewRoom(Room referenceRoom, Room newRoom, String arah) throws Exception {
         try {
             int x = referenceRoom.getRoomPosition().getX();
