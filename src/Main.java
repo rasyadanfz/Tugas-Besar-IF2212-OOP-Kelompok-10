@@ -20,7 +20,22 @@ public class Main {
         initializeGame();
 
         inputScanner = new Scanner(System.in);
-        System.out.printf("Selamat Datang di Simplicity!!\nSilakan pilih aksi selanjutnya: ");
+        System.out.println("\033[1;92m================================================================================================");
+        System.out.println("\033[1;92m _ _ _ _____ __    _____ _____ _____ _____    _____ _____ ");
+        System.out.println("\033[1;92m| | | |   __|  |  |     |     |     |   __|  |_   _|     |");
+        System.out.println("\033[1;92m| | | |   __|  |__|   --|  |  | | | |   __|    | | |  |  |");
+        System.out.println("\033[1;92m|_____|_____|_____|_____|_____|_|_|_|_____|    |_| |_____|");
+
+        System.out.println("\033[1;92m _______  ___   __   __             _______  ___      ___   _______  ___   _______  __   __ ");
+        System.out.println("\033[1;92m|       ||   | |  |_|  |           |       ||   |    |   | |       ||   | |       ||  | |  |");
+        System.out.println("\033[1;92m|  _____||   | |       |   ____    |    _  ||   |    |   | |       ||   | |_     _||  |_|  |");
+        System.out.println("\033[1;92m| |_____ |   | |       |  |____|   |   |_| ||   |    |   | |       ||   |   |   |  |       |");
+        System.out.println("\033[1;92m|_____  ||   | |       |           |    ___||   |___ |   | |      _||   |   |   |  |_     _|");
+        System.out.println("\033[1;92m _____| ||   | | ||_|| |           |   |    |       ||   | |     |_ |   |   |   |    |   |  ");
+        System.out.println("\033[1;92m|_______||___| |_|   |_|           |___|    |_______||___| |_______||___|   |___|    |___|  ");
+        System.out.println("\033[1;92m================================================================================================\n\n");
+
+        System.out.println("\033[1;93mSilakan pilih aksi selanjutnya :");
         input = inputScanner.nextLine();
 
         // Commands

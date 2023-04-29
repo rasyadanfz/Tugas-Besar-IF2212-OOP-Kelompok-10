@@ -6,8 +6,7 @@ import src.Exceptions.HouseNotFoundException;
 public class World {
     private Matrix map;
     private ArrayList<House> daftarRumah;
-    private int day;
-    private int time; //detik
+    private Timer timer;
     
     private static World world = new World();
 
@@ -15,8 +14,6 @@ public class World {
     private World() {
         map = new Matrix(64, 64);
         daftarRumah = new ArrayList<House>();
-        day = 0;
-        time = 720;
     }
     
     public Matrix getMap() {
@@ -31,25 +28,8 @@ public class World {
         return world;
     }
 
-    public int getDay(){
-        return day;
-    }
-
-    public int getTime(){
-        return time;
-    }
-
-    public void addDay(int inc){
-        day += inc;
-    }
-
-    public void decreaseTime(int dec){
-        if (time - dec < 0){
-            dec -= time;
-            addDay(1);
-            time = 720;
-        }
-        time -= dec;
+    public Timer getTimer() {
+        return timer;
     }
 
     public void addHouse(int x, int y, String kodeRumah) throws Exception {
