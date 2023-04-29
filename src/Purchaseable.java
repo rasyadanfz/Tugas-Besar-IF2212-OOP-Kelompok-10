@@ -1,5 +1,5 @@
 package src;
 
-public interface Purchaseable{
-    void buyItem(Sim sim);
+public interface Purchaseable {
+    public void buyItem(Sim sim);
 }

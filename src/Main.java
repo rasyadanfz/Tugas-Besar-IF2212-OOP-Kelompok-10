@@ -2,38 +2,78 @@ package src;
 
 import java.util.*;
 
+import src.Thing.Jam;
+import src.Thing.KasurSingle;
+import src.Thing.KomporGas;
+import src.Thing.MejaKursi;
+import src.Thing.Toilet;
+
 public class Main {
     private static World gameWorld;
+    private static GameManager game;
+    private static String input;
+    private static boolean inGame = false;
+    private static Scanner inputScanner;
+    private static boolean isActive = false;
     public static void main(String[] args) {
-        
-        GameManager game = new GameManager();
-        gameWorld = game.getWorld();
+        // Initialize Game
+        initializeGame();
 
-        startGame(game);
+        inputScanner = new Scanner(System.in);
+        System.out.println("\033[1;92m================================================================================================");
+        System.out.println("\033[1;92m _ _ _ _____ __    _____ _____ _____ _____    _____ _____ ");
+        System.out.println("\033[1;92m| | | |   __|  |  |     |     |     |   __|  |_   _|     |");
+        System.out.println("\033[1;92m| | | |   __|  |__|   --|  |  | | | |   __|    | | |  |  |");
+        System.out.println("\033[1;92m|_____|_____|_____|_____|_____|_|_|_|_____|    |_| |_____|");
+
+        System.out.println("\033[1;92m _______  ___   __   __             _______  ___      ___   _______  ___   _______  __   __ ");
+        System.out.println("\033[1;92m|       ||   | |  |_|  |           |       ||   |    |   | |       ||   | |       ||  | |  |");
+        System.out.println("\033[1;92m|  _____||   | |       |   ____    |    _  ||   |    |   | |       ||   | |_     _||  |_|  |");
+        System.out.println("\033[1;92m| |_____ |   | |       |  |____|   |   |_| ||   |    |   | |       ||   |   |   |  |       |");
+        System.out.println("\033[1;92m|_____  ||   | |       |           |    ___||   |___ |   | |      _||   |   |   |  |_     _|");
+        System.out.println("\033[1;92m _____| ||   | | ||_|| |           |   |    |       ||   | |     |_ |   |   |   |    |   |  ");
+        System.out.println("\033[1;92m|_______||___| |_|   |_|           |___|    |_______||___| |_______||___|   |___|    |___|  ");
+        System.out.println("\033[1;92m================================================================================================\n\n");
+
+        System.out.println("\033[1;93mSilakan pilih aksi selanjutnya :");
+        input = inputScanner.nextLine();
+
+        // Commands
+        while(isActive){
+            gameCommands(input);
+            System.out.printf("Silakan pilih aksi selanjutnya: ");
+            input = inputScanner.nextLine();
+        }
+        
     }
 
     private static void startGame(GameManager game){
-        Scanner scanner = new Scanner(System.in);
         House firstHouse;
 
         // Create New First Sim
-        System.out.print("Masukkan nama lengkap sim baru: ");
-        Sim newSim = new Sim(scanner.nextLine());
+        System.out.println("Masukkan nama lengkap sim baru: ");
+        String newSimName = inputScanner.nextLine();
+        Sim newSim = new Sim(newSimName);
         game.getSimList().add(newSim);
         game.setActiveSim(newSim);
 
+        // Masukkan Item Default ke Inventory Sim
+        game.getActiveSim().getInventory().addItem(new KasurSingle("K01")); // TODO : Implementasi Kode Otomatis Setiap ada yang baru
+        game.getActiveSim().getInventory().addItem(new Toilet("T01")); // TODO : Implementasi Kode Otomatis Setiap ada yang baru
+        game.getActiveSim().getInventory().addItem(new KomporGas("GS01")); // TODO : Implementasi Kode Otomatis Setiap ada yang baru
+        game.getActiveSim().getInventory().addItem(new MejaKursi("MK01")); // TODO : Implementasi Kode Otomatis Setiap ada yang baru
+        game.getActiveSim().getInventory().addItem(new Jam("J01")); // TODO : Implementasi Kode Otomatis Setiap ada yang baru
+
         // Create Rumah
-        gameWorld.addHouse(1, 1, new House("R" + (game.getHouseCount() + 1)));
-        // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada posisi (1,1)
         try{
+            gameWorld.addHouse(1, 1, "R1");
+             // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada posisi (1,1)
             firstHouse = gameWorld.getHouse("R1");
-            Room newRoom = new Room("Ruangan Utama", firstHouse);
-            firstHouse.addRuangan(newRoom);
             game.getActiveSim().changeCurrentHouse(firstHouse);
-            game.getActiveSim().changeCurrentRoom(newRoom);
+            game.getActiveSim().changeCurrentRoom(firstHouse.getDaftarRuangan().get(0));
             game.getActiveSim().changeCurrentPos(new Point(1,1));
         }
-        catch (Exception e){
+        catch(Exception e){
             System.out.println(e.getMessage());
         }
         
