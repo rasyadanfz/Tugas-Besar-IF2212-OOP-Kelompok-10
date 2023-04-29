@@ -200,6 +200,10 @@ public class Main {
             }
             else{
                 // TODO : Insert Method Add Sim Here
+                System.out.print("Masukkan nama Sim baru : ");
+                input = inputScanner.nextLine();
+                game.addSim(input);
+                System.out.printf("Sim %s berhasil dibuat!\n", input);
             }
         }
         else if (input.equals("CHANGE SIM")){
@@ -208,6 +212,17 @@ public class Main {
             }
             else{
                 // TODO : Insert Method Change Sim Here
+                game.printSimList();
+                System.out.print("Mau ganti ke Sim mana? Ketik namanya : ");
+                input = inputScanner.nextLine();
+                //Validasi nama Sim
+                Sim currentSim = game.getSim(input);
+                while (currentSim == null){
+                    System.out.print("Nama Sim salah! Coba input ulang : ");
+                    input = inputScanner.nextLine();
+                    currentSim = game.getSim(input);
+                }
+                game.setActiveSim(currentSim);
             }
         }
         else if (input.equals("LIST OBJECT")){

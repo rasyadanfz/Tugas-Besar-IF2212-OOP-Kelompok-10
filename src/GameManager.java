@@ -1,7 +1,6 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameManager {
     private World world;
@@ -27,6 +26,22 @@ public class GameManager {
     
     public ArrayList<Sim> getSimList(){
         return simList;
+    }
+
+    public Sim getSim(String namaSim){
+        Iterator<Sim> simIterator = simList.iterator();
+        boolean found = false;
+        Sim targetSim = null;
+        while (!found && simIterator.hasNext()){
+            targetSim = simIterator.next();
+            if (targetSim.getNamaLengkap().equals(namaSim)){
+                found = true;
+            }
+            else{
+                targetSim = null;
+            }
+        }
+        return targetSim;
     }
 
     public int getHari(){
@@ -61,13 +76,18 @@ public class GameManager {
         }
     }
 
-    // Setter
+    // Setter dan Adder
     public void setActiveSim(Sim sim){
         activeSim = sim;
     }
 
     public void setHari(int hari){
         this.hari = hari;
+    }
+
+    public void addSim(String sim){
+        Sim newSim = new Sim(sim);
+        this.simList.add(newSim);
     }
 
     // Menu
@@ -177,12 +197,13 @@ public class GameManager {
 
     // TODO : Implementasi viewSimInfo
     public void viewSimInfo(){
-
+        getActiveSim().showSimInfo();
     }
 
     // TODO : Implementasi viewCurrentLocation
     public void viewCurrentLocation(){
-
+        System.out.println("Lokasi saat ini : " + getActiveSim().getCurrentPos().toString());
+        //Ini koordinat aja atau sampe ke rumah dan ruangan juga?
     }
 
     public void viewInventory(){

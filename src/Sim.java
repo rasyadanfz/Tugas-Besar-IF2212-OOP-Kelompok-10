@@ -75,6 +75,21 @@ public class Sim {
         return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
     }
 
+    public void showSimInfo(){
+        System.out.printf("Nama : %s\n", getNamaLengkap());
+        System.out.printf("Status : %s\n", getStatus());
+        System.out.printf("Pekerjaan : %s\n", getPekerjaan());
+        System.out.println("Kesejahteraan Sim :");
+        System.out.printf("Uang : %d\n", getUang());
+        System.out.printf("Kekenyangan : %d\n", getKekenyangan());
+        System.out.printf("Kesehatan : %d\n", getKesehatan());
+        System.out.printf("Mood : %d\n", getMood());
+        seeInventory();
+        System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
+        System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
+        System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
+    }
+
     // Setter
     public void changeKekenyangan(int exp) {
         if (kekenyangan + exp > 100){
