@@ -144,6 +144,7 @@ public class Main {
                 }
                 else{
                     // TODO : Insert Method Upgrade Rumah Here
+                    game.upgradeRumah();
                 }
             }
         }
