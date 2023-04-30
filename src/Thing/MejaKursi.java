@@ -6,9 +6,15 @@ public class MejaKursi extends Thing {
         super("Meja dan Kursi", kodeItem, 3, 3, 50);
     }
     
-    public void makan(Sim sim, Food food){
+    public void makan(Sim sim, Food food,int duration ){
+        sim.addAction(new Action("eating", duration));
+        sim.setStatus("active");
+        while (duration>0) {
+            //setiap datu siklus makan 30 detik
         sim.changeKekenyangan(food.getKekenyangan());
+        duration--;
+        }
     }
 
-    public void buyItem(Sim sim) {}
+    
 }
