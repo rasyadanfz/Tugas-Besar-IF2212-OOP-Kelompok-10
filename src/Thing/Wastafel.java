@@ -10,5 +10,5 @@ public class Wastafel extends Thing {
         sim.changeKesehatan(10);
     }
 
-    public void buyItem(Sim sim) {}
+   
 }
