@@ -6,5 +6,4 @@ public class KomporGas extends Kompor {
         super("Kompor Gas", kodeItem, 2, 1, 100);
     }
 
-    public void buyItem(Sim sim) {}
 }
