@@ -24,7 +24,6 @@ public abstract class Thing extends Item implements Purchaseable {
         return nama;
     }
 
-
     public String getKode() {
         return kode;
     }
@@ -41,10 +40,25 @@ public abstract class Thing extends Item implements Purchaseable {
         return harga;
     }
 
-    public void buyItem(Sim sim) {
-        sim.getInventory().addItem(this);
+    // masih belum dicoba
+    public void buyItem() {
+        Random rand = new Random();
+        int int_random = rand.nextInt(4) + 1;
+        int waktuPengiriman = int_random * 30 * 1000;
+        Thread t = new Thread() {
+            public void run() {
+                boolean pengiriman = true;
+                int waktuMulai = Main.getCurrentTime();
+                while (pengiriman) {
+                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
+                        pengiriman = false;
+                    }
+                }
+            }
+        };
+        t.start();
     }
-    
+
     public void rotateItem() {
         int temp = panjang;
         panjang = lebar;

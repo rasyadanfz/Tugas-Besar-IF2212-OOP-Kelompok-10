@@ -14,6 +14,7 @@ public class World {
     private World() {
         map = new Matrix(64, 64);
         daftarRumah = new ArrayList<House>();
+        timer = Timer.getTimer();
     }
     
     public Matrix getMap() {
@@ -42,9 +43,9 @@ public class World {
         }
     }
 
-    public House getHouse(String kodeRumah) throws HouseNotFoundException{
+    public House getHouse(String kodeRumah){
         Iterator<House> iterator = daftarRumah.iterator();
-        House targetHouse;
+        House targetHouse = null;
         // Kalau ada rumah dengan kode yang ditentukan, return reference to Rumah itu
         // else, throw HouseNotFoundException
         while (iterator.hasNext()){
@@ -53,7 +54,6 @@ public class World {
                 return targetHouse;
             }
         }
-        throw new HouseNotFoundException("Rumah dengan kode " + kodeRumah + " tidak ada!");
-        
+        return targetHouse;
     }
 }
