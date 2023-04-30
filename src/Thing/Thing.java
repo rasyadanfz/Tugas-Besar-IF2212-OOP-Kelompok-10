@@ -40,8 +40,21 @@ public abstract class Thing extends Item implements Purchaseable {
         return harga;
     }
 
-    public void buyItem(Sim sim) {
-        sim.getInventory().addItem(this);
+    // masih belum dicoba
+    public void buyItem() {
+        Random rand = new Random();
+        int int_random = rand.nextInt(4) + 1;
+        int waktuPengiriman = int_random * 30 * 1000;
+        Thread t = new Thread() {
+            public void run() {
+                try {
+                    sleep(waktuPengiriman);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        };
+        t.start();
     }
 
     public void rotateItem() {
