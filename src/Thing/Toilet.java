@@ -12,5 +12,5 @@ public class Toilet extends Thing {
         sim.changeKekenyangan(-20);
     }
 
-    public void buyItem(Sim sim) {}
+   
 }
