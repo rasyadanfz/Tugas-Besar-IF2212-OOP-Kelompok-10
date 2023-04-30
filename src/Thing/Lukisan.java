@@ -14,7 +14,7 @@ public class Lukisan extends Thing {
         // untuk setiap 20 detik (ngasal juga)
         try {
             if (duration % 20 == 0) {
-                sim.addAction(new Action("sleeping", duration));
+                sim.addAction(new Action("lihatLukisan", duration));
                 sim.setStatus("active");
                 int x = duration / 20;
                 for (int i = 0; i < x; i++) {

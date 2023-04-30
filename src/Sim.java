@@ -297,6 +297,7 @@ public class Sim {
                             boolean upgrade = true;
                             int waktuUpgrade = 1080; // 18 menit
                             int waktuMulai = world.getTimer().getTime();
+                            Jam.ambilSisaWaktuUpgrade(waktuMulai, waktuUpgrade);
 
                             while (upgrade) {
                                 if (waktuMulai + waktuUpgrade >= world.getTimer().getTime()) {

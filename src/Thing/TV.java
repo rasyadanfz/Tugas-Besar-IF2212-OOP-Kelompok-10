@@ -16,7 +16,7 @@ public class TV extends Thing {
         // validasi durasi
         try {
             if (duration % 30 == 0) {
-                sim.addAction(new Action("sleeping", duration));
+                sim.addAction(new Action("nontonTV", duration));
                 sim.setStatus("active");
                 int x = duration / 30;
                 for (int i = 0; i < x; i++) {
