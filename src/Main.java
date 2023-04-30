@@ -47,11 +47,13 @@ public class Main {
         System.out.println(
                 "\033[1;92m================================================================================================\n\n");
 
-        System.out.println("\033[1;93mSilakan pilih aksi selanjutnya :");
+        System.out.println("\033[1;93mSilakan pilih aksi selanjutnya :\033[0;39m");
         input = inputScanner.nextLine();
 
         // Commands
         while (isActive) {
+            // TODO: Delete debug time kalo udah bener timenya
+            System.out.println("TIME : " + game.getWorldTimer().getTime());
             gameCommands(input);
             System.out.printf("Silakan pilih aksi selanjutnya: ");
             input = inputScanner.nextLine();
@@ -59,15 +61,13 @@ public class Main {
 
     }
 
-    private static void startGame(GameManager game) {
+    private static void startGame() {
         House firstHouse;
 
         // Create New First Sim
         System.out.println("Masukkan nama lengkap sim baru: ");
         String newSimName = inputScanner.nextLine();
-        Sim newSim = new Sim(newSimName);
-        game.getSimList().add(newSim);
-        game.setActiveSim(newSim);
+        game.addSim(newSimName);
 
         // Masukkan Item Default ke Inventory Sim
         game.getActiveSim().getInventory().addItem(new KasurSingle("K0" + kodeIterator)); // TODO : Implementasi Kode
@@ -89,7 +89,7 @@ public class Main {
 
         // Create Rumah
         try {
-            gameWorld.addHouse(1, 1, "H1");
+            game.addNewHouse(game.getActiveSim(), 1, 1);
             // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada
             // posisi (1,1)
             firstHouse = gameWorld.getHouse("H1");
@@ -110,7 +110,7 @@ public class Main {
 
     private static void gameCommands(String input) {
         if (input.equals("START")) {
-            startGame(game);
+            startGame();
             inGame = true;
         } else if (input.equals("HELP")) {
             game.help();

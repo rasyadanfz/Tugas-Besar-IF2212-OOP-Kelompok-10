@@ -2,16 +2,15 @@ package src;
 
 public class Timer {
     private int time;
-    private static Timer timer;
+    private int day;
+    private static Timer timer = new Timer();
 
     private Timer(){
-        time = 0;
+        day = 1;
+        time = 720;
     }
 
-    public static synchronized Timer getTimer(){
-        if (timer == null){
-            timer = new Timer();
-        }
+    public static Timer getTimer(){
         return timer;
     }
 
@@ -19,16 +18,37 @@ public class Timer {
         return time;
     }
 
-    public void addTime(int add){
-        time += add;
+    // Reduce Time
+    public void reduceTime(){
+        time--;
+        if (time == 0){
+            changeDay();
+        }
     }
 
-    public void reduceTime(int subtractor){
-        if (time - subtractor < 0){
-            time = 0;
+    public void reduceTime(int subtractor, GameManager game){
+      for (int i = 0; i < subtractor; i++){
+        try{
+            Thread.sleep(1000); // Tunggu 1 detik
+            // Kurangi setiap aksi yang ada di setiap sim dengan 1 detik
+            for (Sim sim : game.getSimList()) { 
+                for (Action a: sim.getActionList()){
+                    sim.decreaseActionDuration(a);
+                }
+            }
+            reduceTime();
         }
-        else{
-            time -= subtractor;
+        catch(Exception e){
+            System.out.println(e.getMessage());
         }
+      }
     }
+
+    public void changeDay(){
+        day++;
+        time = 720;
+    }
+    
+
+    
 }

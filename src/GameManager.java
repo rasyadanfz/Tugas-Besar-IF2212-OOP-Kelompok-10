@@ -5,9 +5,7 @@ import java.util.*;
 public class GameManager {
     private World world;
     private ArrayList<Sim> simList;
-    private int time;
-    private int hari;
-    private ArrayList<String> listOfActions;
+    private Timer worldTimer;
     private Sim activeSim;
     private int houseCount;
     private int kasurCount = 0;
@@ -15,8 +13,7 @@ public class GameManager {
     public GameManager(){
         world = World.getWorld();
         simList = new ArrayList<Sim>();
-        hari = 0;
-        listOfActions = new ArrayList<String>();
+        worldTimer = world.getTimer();
         houseCount = 0;
     }
 
@@ -26,6 +23,10 @@ public class GameManager {
     
     public ArrayList<Sim> getSimList(){
         return simList;
+    }
+
+    public Timer getWorldTimer(){
+        return worldTimer;
     }
 
     public Sim getSim(String namaSim){
@@ -44,20 +45,8 @@ public class GameManager {
         return targetSim;
     }
 
-    public int getHari(){
-        return hari;
-    }
-
-    public ArrayList<String> getListOfActions(){
-        return listOfActions;
-    }
-
     public Sim getActiveSim(){
         return activeSim;
-    }
-
-    public int getTime(){
-        return time;
     }
 
     public int getHouseCount(){
@@ -81,13 +70,31 @@ public class GameManager {
         activeSim = sim;
     }
 
-    public void setHari(int hari){
-        this.hari = hari;
-    }
-
     public void addSim(String sim){
         Sim newSim = new Sim(sim);
         this.simList.add(newSim);
+        setActiveSim(newSim);
+    }
+
+    public void addNewHouse(Sim sim){
+        String kodeRumahBaru = "H" + houseCount;
+        while(Objects.isNull(world.getHouse(kodeRumahBaru))){
+            try{
+                world.addHouse(new Random().nextInt(64) + 1, new Random().nextInt(64) + 1, kodeRumahBaru);
+            }
+            catch(Exception e){
+            }
+        }
+    }
+
+    public void addNewHouse(Sim sim, int x, int y){
+        String kodeRumahBaru = "H" + houseCount;
+        try{
+            world.addHouse(x, y, kodeRumahBaru);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     // Menu
@@ -208,6 +215,25 @@ public class GameManager {
 
     public void viewInventory(){
         activeSim.getInventory().printItems();
+    }
+
+    public void runTime(){
+        Sim firstActiveSim = null;
+        Iterator<Sim> simIterator = simList.iterator();
+        boolean stop = false;
+        while (!stop && simIterator.hasNext()){
+            firstActiveSim = simIterator.next();
+            if (firstActiveSim.getStatus().equals("active")){
+                stop = true;
+            }
+            else if (!simIterator.hasNext()){
+                firstActiveSim = null;
+            }
+        }
+        
+        if (!Objects.isNull(firstActiveSim)){
+            worldTimer.reduceTime(1, this);
+        }
     }
 
 }
