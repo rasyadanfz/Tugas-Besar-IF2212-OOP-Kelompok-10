@@ -1,5 +1,7 @@
 package src;
 import src.Thing.*;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Sim {
@@ -16,6 +18,7 @@ public class Sim {
     private House currentHouse;
     private Point currentPos;
     private static World world;
+    private ArrayList<Action> actionList;
 
     public Sim(String namaLengkap) {
         this.namaLengkap = namaLengkap;
@@ -24,6 +27,8 @@ public class Sim {
         getJob(); // Set pekerjaan Sim secara random
         inventory = new Inventory<>();
         justChangedJob = false;
+        status = "idle";
+        actionList = new ArrayList<Action>();
     }
     
     // Getter
@@ -73,6 +78,27 @@ public class Sim {
 
     public String getPekerjaan() {
         return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
+    }
+    
+    public ArrayList<Action> getActionList(){
+        return actionList;
+    }
+
+    public void decreaseActionDuration(Action a){
+        a.decreaseDuration();
+        // Hapus aksi jika durasinya 0
+        if (a.getDurationLeft() == 0){
+            actionList.remove(a);
+        }
+    }
+
+    public void addAction(Action a){
+        if (status.equals("idle")){
+            actionList.add(a);
+        }
+        else{
+            System.out.println("Sim sedang melakukan aksi lain!");
+        }
     }
 
     public void showSimInfo(){
@@ -146,6 +172,10 @@ public class Sim {
 
     public void changeCurrentPos(Point newPos){
         currentPos = newPos;
+    }
+
+    public void setStatus(String newStatus){
+        status = newStatus;
     }
 
     public void getJob() {
