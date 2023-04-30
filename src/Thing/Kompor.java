@@ -14,6 +14,7 @@ public abstract class Kompor extends Thing implements Cook {
         while (duration > 0) {
         sim.setMood((sim.getMood()) + 10);
         duration--;
+        }
     }
 }
 
