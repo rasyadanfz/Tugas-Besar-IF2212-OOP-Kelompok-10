@@ -6,10 +6,14 @@ public abstract class Kompor extends Thing implements Cook {
         super(nama, kodeItem, panjang, lebar, harga);
     }
     
-    public void Cooking(Sim sim, Food food){
-        int waktu;
-        waktu = 1.5 * food.getKekenyangan();
+    public void Cooking(Sim sim, Food food, int duration){
+        sim.addAction(new Action("cooking", duration));
+        sim.setStatus("active");
+        int duration;
+        duration = 1.5 * food.getKekenyangan();
+        while (duration > 0) {
         sim.setMood((sim.getMood()) + 10);
+        duration--;
     }
 }
 
