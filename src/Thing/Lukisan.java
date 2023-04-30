@@ -1,6 +1,7 @@
 package src.Thing;
 
 import src.Sim;
+import src.Exceptions.DurationNotValidException;
 import src.Action;
 
 public class Lukisan extends Thing {
@@ -10,12 +11,21 @@ public class Lukisan extends Thing {
     }
 
     public void lihatLukisan(Sim sim, int duration) {
-        sim.addAction(new Action("sleeping", duration));
-        sim.setStatus("active");
         // untuk setiap 20 detik (ngasal juga)
-        while (duration > 0) {
-            sim.changeMood(20);
-            duration--;
+        try {
+            if (duration % 20 == 0) {
+                sim.addAction(new Action("sleeping", duration));
+                sim.setStatus("active");
+                int x = duration / 20;
+                for (int i = 0; i < x; i++) {
+                    sim.changeKesehatan(-10);
+                    sim.changeMood(20);
+                }
+            } else {
+                throw new DurationNotValidException(20);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
     }
