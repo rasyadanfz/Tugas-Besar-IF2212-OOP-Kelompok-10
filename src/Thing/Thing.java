@@ -47,10 +47,12 @@ public abstract class Thing extends Item implements Purchaseable {
         int waktuPengiriman = int_random * 30 * 1000;
         Thread t = new Thread() {
             public void run() {
-                try {
-                    sleep(waktuPengiriman);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                boolean pengiriman = true;
+                int waktuMulai = Main.getCurrentTime();
+                while (pengiriman) {
+                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
+                        pengiriman = false;
+                    }
                 }
             }
         };
