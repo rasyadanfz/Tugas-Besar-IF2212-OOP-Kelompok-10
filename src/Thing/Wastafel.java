@@ -7,7 +7,7 @@ public class Wastafel extends Thing {
     }
 
     public void cuciTangan(Sim sim, int duration){
-        sim.addAction(new Action("eating", duration));
+        sim.addAction(new Action("washingHand", duration));
         sim.setStatus("active");
         while (duration>0) {
         sim.changeKesehatan(10);
