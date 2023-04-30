@@ -61,6 +61,10 @@ public class Main {
 
     }
 
+    public static int getCurrentTime() {
+        return game.getWorldTimer().getTime();
+    }
+
     private static void startGame() {
         House firstHouse;
 
@@ -232,9 +236,9 @@ public class Main {
                 game.printSimList();
                 System.out.print("Mau ganti ke Sim mana? Ketik namanya : ");
                 input = inputScanner.nextLine();
-                //Validasi nama Sim
+                // Validasi nama Sim
                 Sim currentSim = game.getSim(input);
-                while (currentSim == null){
+                while (currentSim == null) {
                     System.out.print("Nama Sim salah! Coba input ulang : ");
                     input = inputScanner.nextLine();
                     currentSim = game.getSim(input);

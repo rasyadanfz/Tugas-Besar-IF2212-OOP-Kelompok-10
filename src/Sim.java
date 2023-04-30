@@ -1,4 +1,5 @@
 package src;
+
 import src.Thing.*;
 
 import java.util.ArrayList;
@@ -23,14 +24,16 @@ public class Sim {
     public Sim(String namaLengkap) {
         this.namaLengkap = namaLengkap;
         uang = 100;
-        kekenyangan = 80; kesehatan = 80; mood = 80;
+        kekenyangan = 80;
+        kesehatan = 80;
+        mood = 80;
         getJob(); // Set pekerjaan Sim secara random
         inventory = new Inventory<>();
         justChangedJob = false;
         status = "idle";
         actionList = new ArrayList<Action>();
     }
-    
+
     // Getter
     public int getKekenyangan() {
         return kekenyangan;
@@ -44,64 +47,63 @@ public class Sim {
         return mood;
     }
 
-    public String getNamaLengkap(){
+    public String getNamaLengkap() {
         return namaLengkap;
     }
 
-    public int getUang(){
+    public int getUang() {
         return uang;
     }
 
-    public String getStatus(){
+    public String getStatus() {
         return status;
     }
 
-    public Inventory<Item> getInventory(){
+    public Inventory<Item> getInventory() {
         return inventory;
     }
 
-    public House getCurrentHouse(){
+    public House getCurrentHouse() {
         return currentHouse;
     }
 
-    public Room getCurrentRoom(){
+    public Room getCurrentRoom() {
         return currentRoom;
     }
 
-    public Point getCurrentPos(){
+    public Point getCurrentPos() {
         return currentPos;
     }
 
-    public boolean getJustChangedJob(){
+    public boolean getJustChangedJob() {
         return justChangedJob;
     }
 
     public String getPekerjaan() {
         return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
     }
-    
-    public ArrayList<Action> getActionList(){
+
+    public ArrayList<Action> getActionList() {
         return actionList;
     }
 
-    public void decreaseActionDuration(Action a){
+    public void decreaseActionDuration(Action a) {
         a.decreaseDuration();
         // Hapus aksi jika durasinya 0
-        if (a.getDurationLeft() == 0){
+        if (a.getDurationLeft() == 0) {
             actionList.remove(a);
         }
     }
 
-    public void addAction(Action a){
-        if (status.equals("idle")){
+    public void addAction(Action a) {
+        if (status.equals("idle")) {
             actionList.add(a);
-        }
-        else{
+        } else {
             System.out.println("Sim sedang melakukan aksi lain!");
         }
     }
 
-    public void showSimInfo(){
+    public void showSimInfo() {
         System.out.printf("Nama : %s\n", getNamaLengkap());
         System.out.printf("Status : %s\n", getStatus());
         System.out.printf("Pekerjaan : %s\n", getPekerjaan());
@@ -118,63 +120,56 @@ public class Sim {
 
     // Setter
     public void changeKekenyangan(int exp) {
-        if (kekenyangan + exp > 100){
+        if (kekenyangan + exp > 100) {
             kekenyangan = 100;
-        }
-        else if(kekenyangan + exp < 0){
+        } else if (kekenyangan + exp < 0) {
             kekenyangan = 0;
-        }
-        else{
+        } else {
             kekenyangan += exp;
         }
     }
 
     public void changeKesehatan(int exp) {
-        if (kesehatan + exp > 100){
+        if (kesehatan + exp > 100) {
             kesehatan = 100;
-        }
-        else if(kesehatan + exp < 0){
+        } else if (kesehatan + exp < 0) {
             kesehatan = 0;
-        }
-        else{
+        } else {
             kesehatan += exp;
         }
     }
 
     public void changeMood(int exp) {
-        if (mood + exp > 100){
+        if (mood + exp > 100) {
             mood = 100;
-        }
-        else if(mood + exp < 0){
+        } else if (mood + exp < 0) {
             mood = 0;
-        }
-        else{
+        } else {
             mood += exp;
         }
     }
 
     public void changeUang(int amount) {
-        if (uang + amount < 0){
+        if (uang + amount < 0) {
             uang = 0;
-        }
-        else {
+        } else {
             uang += amount;
         }
     }
 
-    public void changeCurrentHouse(House newHouse){
+    public void changeCurrentHouse(House newHouse) {
         currentHouse = newHouse;
     }
 
-    public void changeCurrentRoom(Room newRoom){
+    public void changeCurrentRoom(Room newRoom) {
         currentRoom = newRoom;
     }
 
-    public void changeCurrentPos(Point newPos){
+    public void changeCurrentPos(Point newPos) {
         currentPos = newPos;
     }
 
-    public void setStatus(String newStatus){
+    public void setStatus(String newStatus) {
         status = newStatus;
     }
 
@@ -182,73 +177,77 @@ public class Sim {
         Random random = new Random();
         Job.findJob(pekerjaan, random.nextInt(5));
     }
-    
-    //Aksi
-    public void eating(Food food){
-        if (inventory.containsItem(food)){
+
+    // Aksi
+    public void eating(Food food) {
+        if (inventory.containsItem(food)) {
             changeKekenyangan(food.getKekenyangan());
             inventory.removeItem(food);
         }
     }
-    
-    public void sleeping(Kasur kasur){ 
+
+    public void sleeping(Kasur kasur) {
         kasur.Sleeping(this);
     }
 
-    public void watchingTV(TV televisi){
+    public void watchingTV(TV televisi) {
         televisi.nontonTV(this);
     }
 
-    public void pee(Toilet toilet){
+    public void pee(Toilet toilet) {
         toilet.buangAir(this);
     }
 
-    public void bath(Shower shower){
+    public void bath(Shower shower) {
         shower.mandi(this);
     }
 
-    public void seeTime(Jam jam){
+    public void seeTime(Jam jam) {
         jam.lihatWaktu();
     }
 
-    public void cooking(Kompor kompor){
+    public void cooking(Kompor kompor) {
         kompor.cooking(this);
     }
 
-    public void buyItem(Item item){
-        if (item instanceof Purchaseable){
-            if (uang >= item.getHarga()){
-                uang -= item.getHarga();
+    public void buyItem(Item item) {
+        if (item instanceof Purchaseable) {
+            if (uang >= ((Thing) item).getHarga()) {
+                uang -= ((Thing) item).getHarga();
+                ((Thing) item).buyItem();
+                inventory.addItem(item);
+            } else if (uang >= ((Ingredient) item).getPrice()) {
+                uang -= ((Ingredient) item).getPrice();
                 inventory.addItem(item);
             }
         }
     }
 
-    public void moveRuangan(Room ruangan){
+    public void moveRuangan(Room ruangan) {
         currentRoom = ruangan;
     }
 
-    public void installBarang(Thing thing, int x, int y) throws Exception{
+    public void installBarang(Thing thing, int x, int y) throws Exception {
         currentRoom.placeItem(thing, x, y);
     }
 
-    public void seeInventory(){
+    public void seeInventory() {
         System.out.println("Inventory Sim : ");
         inventory.printItems();
     }
 
-    public void visit(){
+    public void visit() {
         changeMood(+10);
         changeKekenyangan(-10);
     }
 
-    public void olahraga(){
+    public void olahraga() {
         changeKesehatan(+5);
         changeMood(+10);
         changeKekenyangan(-5);
     }
 
-    public void kerja(){
+    public void kerja() {
         uang += pekerjaan.getGaji();
         changeMood(-10);
         changeKekenyangan(-10);
@@ -293,23 +292,23 @@ public class Sim {
         }
     }
 
-    public void sellBarang(){
+    public void sellBarang() {
         inventory.sellItems();
     }
 
-    public void ambilBarang(Room ruangan){
+    public void ambilBarang(Room ruangan) {
         ruangan.ambilBarang(this);
     }
 
-    public void washingHand(Wastafel wastafel){
+    public void washingHand(Wastafel wastafel) {
         wastafel.cuciTangan(this);
     }
 
-    public void mirroring(Cermin cermin){
+    public void mirroring(Cermin cermin) {
         cermin.bercermin(this);
     }
 
-    public void lookPainting(Lukisan lukisan){
+    public void lookPainting(Lukisan lukisan) {
         lukisan.lihatLukisan(this);
     }
-}   
+}
