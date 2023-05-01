@@ -1,5 +1,6 @@
 package src;
 
+import src.Exceptions.ItemNotFoundException;
 import src.Thing.*;
 
 import java.util.ArrayList;
@@ -227,8 +228,39 @@ public class Sim {
         currentRoom = ruangan;
     }
 
-    public void installBarang(Thing thing, int x, int y) throws Exception {
-        currentRoom.placeItem(thing, x, y);
+    public void installBarang(String namaBarang, int x, int y) throws ItemNotFoundException, Exception {
+        Thing thing = (Thing) inventory.getItem(namaBarang);
+        String itemName = getFirstWord(thing.getNama());
+        String kode = "P000";
+        if (itemName.equals("Kasur")) {
+            kode = new String("KS" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Cermin")) {
+            kode = new String("CR" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Jam")) {
+            kode = new String("JM" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Kompor")) {
+            kode = new String("KM" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Lukisan")) {
+            kode = new String("LK" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Meja")) {
+            kode = new String("MK" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Shower")) {
+            kode = new String("SH" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Toilet")) {
+            kode = new String("TO" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("TV")) {
+            kode = new String("TV" + currentRoom.getKodeJumlah(thing.getNama()));
+        } else if (itemName.equals("Wastafel")) {
+            kode = new String("WF" + currentRoom.getKodeJumlah(thing.getNama()));
+        }
+        thing.setKode(kode);
+        try {
+            currentRoom.placeItem(thing, x, y);
+            inventory.removeItem(thing.getNama());
+            inventory.getItemContainer().remove(thing);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     public void seeInventory() {
@@ -251,6 +283,17 @@ public class Sim {
         uang += pekerjaan.getGaji();
         changeMood(-10);
         changeKekenyangan(-10);
+    }
+
+    public void move(int x, int y) {
+        if (x < 1 || y < 1 || x > 6 || y > 6) {
+            System.out.println("Sim tidak bisa bergerak keluar ruangan");
+        } else {
+            currentPos.setX(x);
+            currentPos.setY(y);
+            System.out.println("Sim bergerak ke " + "<" + x + "," + y + ">");
+        }
+
     }
 
     public void upgradeRumah(Room oldRoom, Room newRoom, String arah) throws Exception {
@@ -310,5 +353,15 @@ public class Sim {
 
     public void lookPainting(Lukisan lukisan) {
         lukisan.lihatLukisan(this);
+    }
+
+    // Helper Method
+    private String getFirstWord(String text) {
+        int index = text.indexOf(' ');
+        if (index > -1) {
+            return text.substring(0, index).trim();
+        } else {
+            return text;
+        }
     }
 }

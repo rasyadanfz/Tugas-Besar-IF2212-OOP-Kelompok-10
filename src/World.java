@@ -1,4 +1,5 @@
 package src;
+
 import java.util.*;
 
 import src.Exceptions.HouseNotFoundException;
@@ -7,7 +8,7 @@ public class World {
     private Matrix map;
     private ArrayList<House> daftarRumah;
     private Timer timer;
-    
+
     private static World world = new World();
 
     // Design Pattern Singleton : membuat konstruktor menjadi private
@@ -16,7 +17,7 @@ public class World {
         daftarRumah = new ArrayList<House>();
         timer = Timer.getTimer();
     }
-    
+
     public Matrix getMap() {
         return map;
     }
@@ -34,7 +35,7 @@ public class World {
     }
 
     public void addHouse(int x, int y, String kodeRumah) throws Exception {
-        if (map.getWorldItem(x, y).equals("---")) {
+        if (map.getWorldItem(x, y).equals("----")) {
             House rumah = new House(kodeRumah, x, y);
             map.changeWorldItem(x, y, kodeRumah);
             daftarRumah.add(rumah);
@@ -43,14 +44,14 @@ public class World {
         }
     }
 
-    public House getHouse(String kodeRumah){
+    public House getHouse(String kodeRumah) {
         Iterator<House> iterator = daftarRumah.iterator();
         House targetHouse = null;
         // Kalau ada rumah dengan kode yang ditentukan, return reference to Rumah itu
         // else, throw HouseNotFoundException
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             targetHouse = iterator.next();
-            if (targetHouse.getKodeRumah().equals(kodeRumah)){
+            if (targetHouse.getKodeRumah().equals(kodeRumah)) {
                 return targetHouse;
             }
         }

@@ -19,6 +19,13 @@ public abstract class Thing extends Item implements Purchaseable {
         this.harga = harga;
     }
 
+    public Thing(String nama, int panjang, int lebar, int harga) {
+        this.nama = nama;
+        this.panjang = panjang;
+        this.lebar = lebar;
+        this.harga = harga;
+    }
+
     // getter
     public String getNama() {
         return nama;
@@ -38,6 +45,10 @@ public abstract class Thing extends Item implements Purchaseable {
 
     public int getHarga() {
         return harga;
+    }
+
+    public void setKode(String kode) {
+        this.kode = kode;
     }
 
     // masih belum dicoba

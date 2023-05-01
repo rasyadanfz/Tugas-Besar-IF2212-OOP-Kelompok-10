@@ -7,6 +7,10 @@ public abstract class Kompor extends Thing implements Cook {
         super(nama, kodeItem, panjang, lebar, harga);
     }
 
+    public Kompor(String nama, int panjang, int lebar, int harga) {
+        super(nama, panjang, lebar, harga);
+    }
+
     public void Cooking(Sim sim, Food food) {
         double waktu;
         waktu = 1.5 * food.getKekenyangan();

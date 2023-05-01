@@ -1,63 +1,86 @@
 package src;
+
 import java.util.*;
 
-public class Inventory<T extends Item> {
-    private HashMap<T, Integer> daftarItem;
+import src.Exceptions.ItemNotFoundException;
 
-    public Inventory(){
-        daftarItem = new HashMap<T, Integer>();
+public class Inventory<T extends Item> {
+    private HashMap<String, Integer> daftarItem;
+    private ArrayList<T> itemContainer;
+
+    public Inventory() {
+        daftarItem = new HashMap<String, Integer>();
+        itemContainer = new ArrayList<T>();
     }
 
-    public boolean containsItem(T item){
-        if (daftarItem.containsKey(item)){
+    public boolean containsItem(String item) {
+        if (daftarItem.containsKey(item)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public void removeItem(T item){
+    public ArrayList<T> getItemContainer() {
+        return itemContainer;
+    }
+
+    public void removeItem(String item) {
         // Jumlah Item >= 1
-        if (daftarItem.containsKey(item)){
-            if (daftarItem.get(item) > 1){
+        if (daftarItem.containsKey(item)) {
+            if (daftarItem.get(item) > 1) {
                 daftarItem.put(item, daftarItem.get(item) - 1);
-            }
-            else{
+            } else {
                 daftarItem.remove(item);
             }
-        }
-        else{
+        } else {
             System.out.println("Item " + item + " tidak ada di dalam inventory!");
         }
     }
 
-    public void addItem(T item){
-        if (daftarItem.containsKey(item)){
-            daftarItem.put(item, daftarItem.get(item) + 1);
+    public void addItem(T item) {
+        if (daftarItem.containsKey(item.getNama())) {
+            daftarItem.put(item.getNama(), daftarItem.get(item.getNama()) + 1);
+        } else {
+            daftarItem.put(item.getNama(), 1);
         }
-        else{
-            daftarItem.put(item, 1);
-        }
+        itemContainer.add(item);
     }
 
-    //TODO : Implementasi getItem
-    public T getItem(T item){
-        removeItem(item);
-        
+    // TODO : Implementasi getItem
+    public T getItem(String item) throws ItemNotFoundException {
+        T toGet = findItemInContainer(item);
+        return toGet;
     }
 
-    public void printItems(){
+    public void printItems() {
         int i = 1;
-        if (daftarItem.isEmpty()){
+        if (daftarItem.isEmpty()) {
             System.out.println("Inventory Sim Kosong!!");
-        }
-        else{
-            for (T s : daftarItem.keySet()){
-                System.out.println(i + ". " + s.getNama() + "(" + daftarItem.get(s) + ")");
+        } else {
+            for (String s : daftarItem.keySet()) {
+                System.out.println(i + ". " + s + "(" + daftarItem.get(s) + ")");
                 i++;
             }
         }
-        
+
+    }
+
+    public T findItemInContainer(String itemName) throws ItemNotFoundException {
+        T item = null;
+        Iterator<T> containerIterator = itemContainer.iterator();
+        boolean found = false;
+        while (!found && containerIterator.hasNext()) {
+            item = containerIterator.next();
+            if (item.getNama().equals(itemName)) {
+                found = true;
+            }
+        }
+
+        if (found) {
+            return item;
+        } else {
+            throw new ItemNotFoundException("Item " + itemName + " tidak ada!");
+        }
     }
 }

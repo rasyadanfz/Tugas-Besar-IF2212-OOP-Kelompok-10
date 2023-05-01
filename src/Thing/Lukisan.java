@@ -9,6 +9,11 @@ public class Lukisan extends Thing {
         super("Lukisan", kodeItem, 1, 1, 100);
     }
 
+    public Lukisan() {
+        // ngasal karena objeknya ga ada di spesifikasi
+        super("Lukisan", 1, 1, 100);
+    }
+
     public void lihatLukisan(Sim sim, int duration) {
         sim.addAction(new Action("sleeping", duration));
         sim.setStatus("active");

@@ -1,4 +1,5 @@
 package src.Thing;
+
 import src.*;
 
 public class Cermin extends Thing {
@@ -6,9 +7,14 @@ public class Cermin extends Thing {
         super("Cermin", kodeItem, 2, 2, 50);
     }
 
-    public void bercermin(Sim sim){
+    public Cermin() {
+        super("Cermin", 2, 2, 50);
+    }
+
+    public static void bercermin(Sim sim) {
         sim.changeMood(15);
     }
 
-    public void buyItem(Sim sim) {}
+    public void buyItem(Sim sim) {
+    }
 }

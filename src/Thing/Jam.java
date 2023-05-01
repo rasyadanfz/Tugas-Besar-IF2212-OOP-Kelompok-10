@@ -10,6 +10,10 @@ public class Jam extends Thing {
         super("Jam", kodeItem, 1, 1, 10);
     }
 
+    public Jam() {
+        super("Jam", 1, 1, 10);
+    }
+
     public void ambilSisaWaktuUpgrade(int waktuMulai, int waktuUpgrade) {
         int waktuSelesai = waktuMulai + waktuUpgrade;
         sisaWaktuUpgrade = waktuSelesai - Main.getCurrentTime();
