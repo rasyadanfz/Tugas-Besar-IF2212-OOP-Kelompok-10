@@ -2,6 +2,8 @@ package src;
 
 import java.util.*;
 
+import javax.swing.event.SwingPropertyChangeSupport;
+
 import src.Exceptions.ItemNotFoundException;
 import src.Thing.*;
 import src.Thing.*;
@@ -298,12 +300,17 @@ public class GameManager {
                     }
                     break;
                 case ("Kompor"):
-                    System.out.println("Sim bisa melakukan Cook. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
                         try {
-                            ((Kompor) (getActiveSim().getInventory().getItem(obj))).Cooking(getActiveSim(), null);
+                            if (((Kompor) (getActiveSim().getInventory().getItem(obj)))
+                                    .checkBahanMasak(getActiveSim().getInventory())) {
+                                System.out.println("Masukkan nama makanan yang ingin dimasak: ");
+                                String namaMakanan = actionScanner.nextLine();
+                                ((Kompor) (getActiveSim().getInventory().getItem(obj))).Cooking(getActiveSim(),
+                                        namaMakanan);
+                            }
                         } catch (ItemNotFoundException e) {
                             System.out.println(e.getMessage());
                         }
