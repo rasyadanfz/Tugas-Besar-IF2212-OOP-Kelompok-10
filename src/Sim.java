@@ -22,6 +22,7 @@ public class Sim {
     private Point currentPos;
     private static World world;
     private ArrayList<Action> actionList;
+    private boolean inActiveAction = false;
 
     public Sim(String namaLengkap) {
         this.namaLengkap = namaLengkap;
@@ -89,10 +90,15 @@ public class Sim {
         return actionList;
     }
 
+    public boolean getInActiveAction() {
+        return inActiveAction;
+    }
+
     public void decreaseActionDuration(Action a) {
         a.decreaseDuration();
         // Hapus aksi jika durasinya 0
         if (a.getDurationLeft() == 0) {
+            a.getActionObject().effect(this, a.getOriginalDuration());
             actionList.remove(a);
         }
     }
@@ -129,6 +135,10 @@ public class Sim {
         } else {
             kekenyangan += exp;
         }
+    }
+
+    public void setInActiveAction(boolean newValue) {
+        inActiveAction = newValue;
     }
 
     public void changeKesehatan(int exp) {
@@ -182,9 +192,9 @@ public class Sim {
 
     // Aksi
     public void eating(Food food) {
-        if (inventory.containsItem(food)) {
+        if (inventory.containsItem(food.getNama())) {
             changeKekenyangan(food.getKekenyangan());
-            inventory.removeItem(food);
+            inventory.removeItem(food.getNama());
         }
     }
 
@@ -208,8 +218,8 @@ public class Sim {
         jam.lihatWaktu();
     }
 
-    public void cooking(Kompor kompor) {
-        kompor.cooking(this);
+    public void cooking(Kompor kompor, Food food) {
+        kompor.Cooking(this, food);
     }
 
     public void buyItem(Item item) {
@@ -359,24 +369,24 @@ public class Sim {
         }
     }
 
-    public void sellBarang() {
-        inventory.sellItems();
-    }
+    // public void sellBarang() {
+    // inventory.sellItems();
+    // }
 
-    public void ambilBarang(Room ruangan) {
-        ruangan.ambilBarang(this);
-    }
+    // public void ambilBarang(Room ruangan) {
+    // ruangan.ambilBarang(this);
+    // }
 
-    public void washingHand(Wastafel wastafel) {
-        wastafel.cuciTangan(this);
+    public void washingHand(Wastafel wastafel, int duration) {
+        wastafel.cuciTangan(this, duration);
     }
 
     public void mirroring(Cermin cermin) {
         cermin.bercermin(this);
     }
 
-    public void lookPainting(Lukisan lukisan) {
-        lukisan.lihatLukisan(this);
+    public void lookPainting(Lukisan lukisan, int duration) {
+        lukisan.lihatLukisan(this, duration);
     }
 
     // Helper Method

@@ -3,7 +3,7 @@ package src;
 import java.util.*;
 
 import src.Exceptions.ItemNotFoundException;
-import src.Thing.Cermin;
+import src.Thing.*;
 
 public class GameManager {
     private World world;
@@ -11,7 +11,6 @@ public class GameManager {
     private Timer worldTimer;
     private Sim activeSim;
     private int houseCount;
-    private int kasurCount = 0;
 
     public GameManager() {
         world = World.getWorld();
@@ -53,10 +52,6 @@ public class GameManager {
 
     public int getHouseCount() {
         return houseCount;
-    }
-
-    public int getKasurCount() {
-        return kasurCount;
     }
 
     public void printSimList() {
@@ -102,7 +97,6 @@ public class GameManager {
     }
 
     // Menu
-    // TODO : Implementasi Help
     public void help() {
 
         System.out.println("\033[1;92m█░█ █▀▀ █░░ █▀█");
@@ -366,19 +360,24 @@ public class GameManager {
         for (String obj : objectsNearSim) {
             String firstWord = getFirstWord(obj);
             String answer;
+            Thing object = getActiveSim().getCurrentRoom().findItemInContainer(getActiveSim().getCurrentPos());
             switch (firstWord) {
                 case ("Kasur"):
                     System.out.println("Sim bisa melakukan Sleep. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
-                        // Do Action
+                        System.out.print("Masukkan durasi tidur sim: ");
+                        int durasiTidur = Integer.parseInt(actionScanner.nextLine());
+                        Kasur currentKasur = (Kasur) object;
+                        currentKasur.Sleeping(activeSim, durasiTidur);
                     }
                     break;
                 case ("Cermin"):
                     System.out.println("Sim bisa melakukan Mirror. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
-                        Cermin.bercermin(activeSim);
+                        Cermin currentCermin = (Cermin) object;
+                        currentCermin.bercermin(activeSim);
                     }
                     break;
                 case ("Jam"):
@@ -420,7 +419,10 @@ public class GameManager {
                     System.out.println("Sim bisa melakukan Pee. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
-                        // Do Action
+                        Toilet toilet = (Toilet) object;
+                        System.out.print("Masukkan durasi pee sim: ");
+                        int durasiPee = Integer.parseInt(actionScanner.nextLine());
+                        toilet.buangAir(activeSim, durasiPee);
                     }
                     break;
                 case ("TV"):
@@ -457,6 +459,8 @@ public class GameManager {
 
         if (!Objects.isNull(firstActiveSim)) {
             worldTimer.reduceTime(1, this);
+        } else {
+            getActiveSim().setInActiveAction(false);
         }
     }
 

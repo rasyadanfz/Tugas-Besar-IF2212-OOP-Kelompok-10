@@ -17,7 +17,6 @@ public class Main {
     private static boolean inGame = false;
     private static Scanner inputScanner;
     private static boolean isActive = false;
-    private static int kodeIterator = 1;
 
     public static void main(String[] args) {
         // Initialize Game
@@ -25,28 +24,34 @@ public class Main {
 
         inputScanner = new Scanner(System.in);
         System.out.println(
-            "\033[1;92m================================================================================================");
-    System.out.println("\033[1;92m ░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗ ████████╗░█████╗░ ");
-    System.out.println("\033[1;92m ░██║░░██╗░░██║██╔════╝██║░░░░░██╔══██╗██╔══██╗████╗░████║██╔════╝ ╚══██╔══╝██╔══██╗");
-    System.out.println("\033[1;92m ░╚██╗████╗██╔╝█████╗░░██║░░░░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░ ░░░██║░░░██║░░██║");
-    System.out.println("\033[1;92m ░░████╔═████║░██╔══╝░░██║░░░░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░ ░░░██║░░░██║░░██║");
-    System.out.println("\033[1;92m ░░╚██╔╝░╚██╔╝░███████╗███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗ ░░░██║░░░╚█████╔╝");
-    System.out.println("\033[1;92m ░░░╚═╝░░░╚═╝░░╚══════╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝ ░░░╚═╝░░░░╚════╝░");
+                "\033[1;92m================================================================================================");
+        System.out.println(
+                "\033[1;92m ░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗ ████████╗░█████╗░ ");
+        System.out.println(
+                "\033[1;92m ░██║░░██╗░░██║██╔════╝██║░░░░░██╔══██╗██╔══██╗████╗░████║██╔════╝ ╚══██╔══╝██╔══██╗");
+        System.out.println(
+                "\033[1;92m ░╚██╗████╗██╔╝█████╗░░██║░░░░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░ ░░░██║░░░██║░░██║");
+        System.out.println(
+                "\033[1;92m ░░████╔═████║░██╔══╝░░██║░░░░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░ ░░░██║░░░██║░░██║");
+        System.out.println(
+                "\033[1;92m ░░╚██╔╝░╚██╔╝░███████╗███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗ ░░░██║░░░╚█████╔╝");
+        System.out.println(
+                "\033[1;92m ░░░╚═╝░░░╚═╝░░╚══════╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝ ░░░╚═╝░░░░╚════╝░");
 
-    System.out.println(
-            "\033[1;92m ░██████╗██╗███╗░░░███╗░░░░░░██████╗░██╗░░░░░██╗░█████╗░██╗████████╗██╗░░░██╗ ");
-    System.out.println(
-            "\033[1;92m ██╔════╝██║████╗░████║░░░░░░██╔══██╗██║░░░░░██║██╔══██╗██║╚══██╔══╝╚██╗░██╔╝");
-    System.out.println(
-            "\033[1;92m ╚█████╗░██║██╔████╔██║█████╗██████╔╝██║░░░░░██║██║░░╚═╝██║░░░██║░░░░╚████╔╝░");
-    System.out.println(
-            "\033[1;92m ░╚═══██╗██║██║╚██╔╝██║╚════╝██╔═══╝░██║░░░░░██║██║░░██╗██║░░░██║░░░░░╚██╔╝░░");
-    System.out.println(
-            "\033[1;92m ██████╔╝██║██║░╚═╝░██║░░░░░░██║░░░░░███████╗██║╚█████╔╝██║░░░██║░░░░░░██║░░░");
-    System.out.println(
-            "\033[1;92m ╚═════╝░╚═╝╚═╝░░░░░╚═╝░░░░░░╚═╝░░░░░╚══════╝╚═╝░╚════╝░╚═╝░░░╚═╝░░░░░░╚═╝░░░");
-    System.out.println(
-            "\033[1;92m================================================================================================\n\n");
+        System.out.println(
+                "\033[1;92m ░██████╗██╗███╗░░░███╗░░░░░░██████╗░██╗░░░░░██╗░█████╗░██╗████████╗██╗░░░██╗ ");
+        System.out.println(
+                "\033[1;92m ██╔════╝██║████╗░████║░░░░░░██╔══██╗██║░░░░░██║██╔══██╗██║╚══██╔══╝╚██╗░██╔╝");
+        System.out.println(
+                "\033[1;92m ╚█████╗░██║██╔████╔██║█████╗██████╔╝██║░░░░░██║██║░░╚═╝██║░░░██║░░░░╚████╔╝░");
+        System.out.println(
+                "\033[1;92m ░╚═══██╗██║██║╚██╔╝██║╚════╝██╔═══╝░██║░░░░░██║██║░░██╗██║░░░██║░░░░░╚██╔╝░░");
+        System.out.println(
+                "\033[1;92m ██████╔╝██║██║░╚═╝░██║░░░░░░██║░░░░░███████╗██║╚█████╔╝██║░░░██║░░░░░░██║░░░");
+        System.out.println(
+                "\033[1;92m ╚═════╝░╚═╝╚═╝░░░░░╚═╝░░░░░░╚═╝░░░░░╚══════╝╚═╝░╚════╝░╚═╝░░░╚═╝░░░░░░╚═╝░░░");
+        System.out.println(
+                "\033[1;92m================================================================================================\n\n");
 
         System.out.println("Perintah Awal:");
         System.out.println("1. START");
@@ -54,11 +59,20 @@ public class Main {
         System.out.println("3. EXIT");
 
         while (isActive) {
+            while (!inGame) {
+                System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
+                input = inputScanner.nextLine();
+                gameCommands(input);
+            }
             // TODO: Delete debug time kalo udah bener timenya
             System.out.println("TIME : " + game.getWorldTimer().getTime());
-            System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
-            input = inputScanner.nextLine();
-            gameCommands(input);
+            if (!game.getActiveSim().getInActiveAction()) {
+                System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
+                input = inputScanner.nextLine();
+                gameCommands(input);
+            } else {
+                game.runTime();
+            }
         }
 
     }
@@ -107,6 +121,7 @@ public class Main {
     }
 
     private static void gameCommands(String input) {
+
         input = input.toUpperCase();
         if (!inGame) {
             if (input.equals("START")) {
@@ -117,64 +132,73 @@ public class Main {
             } else if (input.equals("EXIT")) {
                 System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
                 input = inputScanner.nextLine();
-                game.exit(input);
+                game.exit();
             } else {
                 System.out.println("Silakan pilih perintah START, HELP, atau EXIT");
             }
         } else {
-            if (input.equals("VIEW SIM INFO")) {
-                game.viewSimInfo();
-            } else if (input.equals("VIEW CURRENT LOCATION")) {
-                game.viewCurrentLocation();
+            if (!game.getActiveSim().getStatus().equals("active")) {
+                if (input.equals("HELP")) {
+                    game.help();
+                } else if (input.equals("EXIT")) {
+                    System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
+                    input = inputScanner.nextLine();
+                    game.exit();
+                } else if (input.equals("VIEW SIM INFO")) {
+                    game.viewSimInfo();
+                } else if (input.equals("VIEW CURRENT LOCATION")) {
+                    game.viewCurrentLocation();
 
-            } else if (input.equals("VIEW INVENTORY")) {
-                game.viewInventory();
-            } else if (input.equals("UPGRADE RUMAH")) {
-                System.out.println("Silakan masukkan arah penambahan ruangan: ");
-                input = inputScanner.nextLine();
-                game.upgradeRumah(input);
-            } else if (input.equals("MOVE ROOM")) {
-                System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
-                input = inputScanner.nextLine();
-                game.moveRoom(input);
-            } else if (input.equals("EDIT ROOM")) {
-                game.editRoom();
-            } else if (input.equals("ADD SIM")) {
-                System.out.print("Masukkan nama Sim baru : ");
-                input = inputScanner.nextLine();
-                game.addSim(input);
-                System.out.printf("Sim %s berhasil dibuat!\n", input);
-            } else if (input.equals("CHANGE SIM")) {
-                game.changeSim(input, inputScanner);
-            } else if (input.equals("LIST OBJECT")) {
-                game.listObject();
-            } else if (input.equals("GO TO OBJECT")) {
-                game.listObject();
-                System.out.println("Masukkan posisi x benda yang ingin dituju");
-                int xTarget = Integer.parseInt(inputScanner.nextLine());
-                System.out.println("Masukkan posisi y benda yang ingin dituju");
-                int yTarget = Integer.parseInt(inputScanner.nextLine());
-                game.goToObject(xTarget, yTarget);
-            } else if (input.equals("PASANG BARANG")) {
-                System.out.println("Masukkan nama barang yang ingin dipasang");
-                String itemName = inputScanner.nextLine();
-                System.out.println("Peta ruangan saat ini: ");
-                game.getActiveSim().getCurrentRoom().printPetaRuangan(game.getActiveSim());
-                System.out.println("Masukkan posisi x untuk pemasangan barang: ");
-                int x = Integer.parseInt(inputScanner.nextLine());
-                System.out.println("Masukkan posisi y untuk pemasangan barang: ");
-                int y = Integer.parseInt(inputScanner.nextLine());
-                try {
-                    game.pasangBarang(itemName, x, y);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                } else if (input.equals("VIEW INVENTORY")) {
+                    game.viewInventory();
+                } else if (input.equals("UPGRADE RUMAH")) {
+                    System.out.println("Silakan masukkan arah penambahan ruangan: ");
+                    input = inputScanner.nextLine();
+                    game.upgradeRumah(input);
+                } else if (input.equals("MOVE ROOM")) {
+                    System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
+                    input = inputScanner.nextLine();
+                    game.moveRoom(input);
+                } else if (input.equals("EDIT ROOM")) {
+                    game.editRoom();
+                } else if (input.equals("ADD SIM")) {
+                    System.out.print("Masukkan nama Sim baru : ");
+                    input = inputScanner.nextLine();
+                    game.addSim(input);
+                    System.out.printf("Sim %s berhasil dibuat!\n", input);
+                } else if (input.equals("CHANGE SIM")) {
+                    game.changeSim(input, inputScanner);
+                } else if (input.equals("LIST OBJECT")) {
+                    game.listObject();
+                } else if (input.equals("GO TO OBJECT")) {
+                    game.listObject();
+                    System.out.println("Masukkan posisi x benda yang ingin dituju");
+                    int xTarget = Integer.parseInt(inputScanner.nextLine());
+                    System.out.println("Masukkan posisi y benda yang ingin dituju");
+                    int yTarget = Integer.parseInt(inputScanner.nextLine());
+                    game.goToObject(xTarget, yTarget);
+                } else if (input.equals("PASANG BARANG")) {
+                    System.out.println("Masukkan nama barang yang ingin dipasang");
+                    String itemName = inputScanner.nextLine();
+                    System.out.println("Peta ruangan saat ini: ");
+                    game.getActiveSim().getCurrentRoom().printPetaRuangan(game.getActiveSim());
+                    System.out.println("Masukkan posisi x untuk pemasangan barang: ");
+                    int x = Integer.parseInt(inputScanner.nextLine());
+                    System.out.println("Masukkan posisi y untuk pemasangan barang: ");
+                    int y = Integer.parseInt(inputScanner.nextLine());
+                    try {
+                        game.pasangBarang(itemName, x, y);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (input.equals("ACTION")) {
+                    game.actions();
+                } else {
+                    System.out.println("Perintah tidak dikenali, mohon masukkan perintah yang valid!");
+                    System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
                 }
-            } else if (input.equals("ACTION")) {
-                game.actions();
-            } else {
-                System.out.println("Perintah tidak dikenali, mohon masukkan perintah yang valid!");
-                System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
             }
+
         }
     }
 }

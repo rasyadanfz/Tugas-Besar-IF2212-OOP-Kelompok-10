@@ -1,6 +1,7 @@
 package src.Thing;
 
 import src.Main;
+import src.Sim;
 
 public class Jam extends Thing {
     private static int sisaWaktuUpgrade;
@@ -25,6 +26,10 @@ public class Jam extends Thing {
     }
 
     public void lihatWaktu() {
+        effect(null, 0);
+    }
+
+    public void effect(Sim sim, int duration) {
         System.out.println("TIME: " + Main.getCurrentTime());
         if (sisaWaktuUpgrade > 0) {
             System.out.println("Sisa durasi upgrade rumah: " + sisaWaktuUpgrade);
