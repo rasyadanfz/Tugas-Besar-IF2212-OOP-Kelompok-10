@@ -271,7 +271,6 @@ public class GameManager {
                             try {
                                 ((Kasur) (getActiveSim().getInventory().getItem(obj))).Sleeping(getActiveSim(),
                                         duration);
-
                             } catch (ItemNotFoundException e) {
                                 System.out.println(e.getMessage());
                             }
@@ -291,6 +290,11 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        try {
+                            ((Jam) (getActiveSim().getInventory().getItem(obj))).lihatWaktu();
+                        } catch (ItemNotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                     break;
                 case ("Kompor"):
@@ -298,6 +302,11 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        try {
+                            ((Kompor) (getActiveSim().getInventory().getItem(obj))).Cooking(getActiveSim(), null);
+                        } catch (ItemNotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                     break;
                 case ("Lukisan"):
@@ -370,4 +379,28 @@ public class GameManager {
         }
     }
 
+    // Helper Method
+    private String capitalizeFirstLetter(String str) {
+        String capitalized = Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        return capitalized;
+    }
+
+    private String capitalizeEachWord(String str) {
+        String[] strArray = str.split("\\W+");
+        for (int i = 0; i < strArray.length; i++) {
+            strArray[i] = capitalizeFirstLetter(strArray[i]);
+        }
+        String finalString = String.join(" ", strArray);
+        return finalString;
+
+    }
+
+    private String getFirstWord(String text) {
+        int index = text.indexOf(' ');
+        if (index > -1) {
+            return text.substring(0, index).trim();
+        } else {
+            return text;
+        }
+    }
 }

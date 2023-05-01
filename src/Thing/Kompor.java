@@ -11,14 +11,13 @@ public abstract class Kompor extends ActiveItems implements Cook {
         super(nama, panjang, lebar, harga);
     }
 
-    public void Cooking(Sim sim, Food food, int duration) {
-        // sim.addAction(new Action("cooking", duration, this));
-        // sim.setStatus("active");
-        // int duration;
-        // duration = 1.5 * food.getKekenyangan();
-        // while (duration > 0) {
-        // sim.changeMood((sim.getMood()) + 10);
-        // duration--;
-        // }
+    public void Cooking(Sim sim, Food food) {
+        int duration = (int) (1.5 * food.getKekenyangan());
+        sim.addAction(new Action("cooking", duration, this));
+        sim.setStatus("active");
+        while (duration > 0) {
+            sim.changeMood(10);
+            duration--;
+        }
     }
 }
