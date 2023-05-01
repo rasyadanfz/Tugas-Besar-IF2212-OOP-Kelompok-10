@@ -1,4 +1,5 @@
 package src.Thing;
+
 import src.*;
 
 public class KasurSingle extends Kasur {
@@ -6,7 +7,11 @@ public class KasurSingle extends Kasur {
         super("Kasur Single", kodeItem, 4, 1, 50);
     }
 
+    public KasurSingle() {
+        super("Kasur Single", 4, 1, 50);
+    }
+
     public void buyItem(Sim sim) {
-        
+
     }
 }

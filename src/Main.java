@@ -3,6 +3,7 @@ package src;
 import java.util.*;
 
 import src.Exceptions.HouseNotFoundException;
+import src.Thing.Cermin;
 import src.Thing.Jam;
 import src.Thing.KasurSingle;
 import src.Thing.KomporGas;
@@ -47,16 +48,17 @@ public class Main {
     System.out.println(
             "\033[1;92m================================================================================================\n\n");
 
-        System.out.println("\033[1;93mSilakan pilih aksi selanjutnya :\033[0;39m");
-        input = inputScanner.nextLine();
+        System.out.println("Perintah Awal:");
+        System.out.println("1. START");
+        System.out.println("2. HELP");
+        System.out.println("3. EXIT");
 
-        // Commands
         while (isActive) {
             // TODO: Delete debug time kalo udah bener timenya
             System.out.println("TIME : " + game.getWorldTimer().getTime());
-            gameCommands(input);
-            System.out.printf("Silakan pilih aksi selanjutnya: ");
+            System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
             input = inputScanner.nextLine();
+            gameCommands(input);
         }
 
     }
@@ -74,22 +76,14 @@ public class Main {
         game.addSim(newSimName);
 
         // Masukkan Item Default ke Inventory Sim
-        game.getActiveSim().getInventory().addItem(new KasurSingle("K0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                          // Otomatis Setiap
-        // ada yang baru
-        game.getActiveSim().getInventory().addItem(new Toilet("T0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                     // Otomatis Setiap ada
-        // yang baru
-        game.getActiveSim().getInventory().addItem(new KomporGas("GS0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                         // Otomatis Setiap
-        // ada yang baru
-        game.getActiveSim().getInventory().addItem(new MejaKursi("MK0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                         // Otomatis Setiap
-        // ada yang baru
-        game.getActiveSim().getInventory().addItem(new Jam("J0" + kodeIterator)); // TODO : Implementasi Kode Otomatis
-                                                                                  // Setiap ada yang
-        // baru
-        kodeIterator++;
+        // TODO : Implementasi kode Barang sesuai jumlah barang
+        game.getActiveSim().getInventory().addItem(new KasurSingle());
+        game.getActiveSim().getInventory().addItem(new KasurSingle());
+        game.getActiveSim().getInventory().addItem(new Toilet());
+        game.getActiveSim().getInventory().addItem(new KomporGas());
+        game.getActiveSim().getInventory().addItem(new MejaKursi());
+        game.getActiveSim().getInventory().addItem(new Jam());
+        game.getActiveSim().getInventory().addItem(new Cermin());
 
         // Create Rumah
         try {
@@ -99,7 +93,7 @@ public class Main {
             firstHouse = gameWorld.getHouse("H1");
             game.getActiveSim().changeCurrentHouse(firstHouse);
             game.getActiveSim().changeCurrentRoom(firstHouse.getDaftarRuangan().get(0));
-            game.getActiveSim().changeCurrentPos(new Point(1, 1));
+            game.getActiveSim().changeCurrentPos(new Point(3, 2));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -113,161 +107,74 @@ public class Main {
     }
 
     private static void gameCommands(String input) {
-        if (input.equals("START")) {
-            startGame();
-            inGame = true;
-        } else if (input.equals("HELP")) {
-            game.help();
-        } else if (input.equals("EXIT")) {
-            game.exit();
-        } else if (input.equals("VIEW SIM INFO")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
+        input = input.toUpperCase();
+        if (!inGame) {
+            if (input.equals("START")) {
+                startGame();
+                inGame = true;
+            } else if (input.equals("HELP")) {
+                game.help();
+            } else if (input.equals("EXIT")) {
+                System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
+                input = inputScanner.nextLine();
+                game.exit(input);
             } else {
-                System.out.println("SIM INFO:");
-                System.out.println("Nama Sim: " + game.getActiveSim().getNamaLengkap());
-                System.out.println("Pekerjaan: " + game.getActiveSim().getPekerjaan());
-                System.out.println("Kesehatan: " + game.getActiveSim().getKesehatan());
-                System.out.println("Kekenyangan: " + game.getActiveSim().getKekenyangan());
-                System.out.println("Mood: " + game.getActiveSim().getMood());
-                System.out.println("Uang: " + game.getActiveSim().getUang());
+                System.out.println("Silakan pilih perintah START, HELP, atau EXIT");
             }
-        } else if (input.equals("VIEW CURRENT LOCATION")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                System.out.println("Current Location : ");
-                System.out.println("Rumah : " + game.getActiveSim().getCurrentHouse().getKodeRumah());
-                System.out.println("Ruangan : " + game.getActiveSim().getCurrentRoom().getNamaRuangan());
-                System.out.println("Posisi : " + game.getActiveSim().getCurrentPos().toString());
-                System.out.println("Peta Rumah: ");
-                game.getActiveSim().getCurrentHouse().printPetaRumah();
-                System.out.println("Peta Ruangan: ");
-                game.getActiveSim().getCurrentRoom().printPetaRuangan();
-            }
-        } else if (input.equals("VIEW INVENTORY")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                game.getActiveSim().seeInventory();
-                ;
-            }
-        } else if (input.equals("UPGRADE RUMAH")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                // Sim tidak sedang di rumah
-                if (Objects.isNull(game.getActiveSim().getCurrentHouse())) {
-                    System.out.println("Sim tidak dalam suatu rumah");
-                } else {
-                    // TODO : Insert Method Upgrade Rumah Here\
-                    try {
-                        Room newRoom = new Room("R0" + kodeIterator, gameWorld.getHouse("H1"));
-                        System.out.println("Silakan masukkan arah penambahan ruangan: ");
-                        String arah = inputScanner.nextLine();
-                        game.getActiveSim().upgradeRumah(game.getActiveSim().getCurrentRoom(), newRoom, arah);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-                }
-            }
-        } else if (input.equals("MOVE ROOM")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                // Sim tidak sedang di rumah
-                if (Objects.isNull(game.getActiveSim().getCurrentHouse())) {
-                    System.out.println("Sim tidak dalam suatu rumah");
-                } else {
-                    System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
-                    input = inputScanner.nextLine();
-                    if (!input.equals(game.getActiveSim().getCurrentRoom().getNamaRuangan())) {
-                        Room targetRoom = game.getActiveSim().getCurrentHouse().getRoom(input);
-                        if (!Objects.isNull(targetRoom)) {
-                            game.getActiveSim().moveRuangan(targetRoom);
-                        } else {
-                            System.out.println("Ruangan dengan kode " + input + " tidak ada");
-                        }
-                    } else {
-                        System.out.println("Sim sudah ada di ruangan "
-                                + game.getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
-                    }
-                }
-            }
-        } else if (input.equals("EDIT ROOM")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                // Sim tidak sedang di rumah
-                if (Objects.isNull(game.getActiveSim().getCurrentHouse())) {
-                    System.out.println("Sim tidak dalam suatu rumah!");
-                }
-                // Sim tidak di dalam ruangan
-                else if (Objects.isNull(game.getActiveSim().getCurrentRoom())) {
-                    System.out.println("Sim tidak dalam suatu ruangan!");
-                } else {
-                    // TODO : Insert Method Edit Ruangan Here
-                    // System.out.printf("Opsi Edit:\n1.Beli barang baru\n2.Pemindahan barang");
-                }
-            }
-        } else if (input.equals("ADD SIM")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                // TODO : Insert Method Add Sim Here
+        } else {
+            if (input.equals("VIEW SIM INFO")) {
+                game.viewSimInfo();
+            } else if (input.equals("VIEW CURRENT LOCATION")) {
+                game.viewCurrentLocation();
+
+            } else if (input.equals("VIEW INVENTORY")) {
+                game.viewInventory();
+            } else if (input.equals("UPGRADE RUMAH")) {
+                System.out.println("Silakan masukkan arah penambahan ruangan: ");
+                input = inputScanner.nextLine();
+                game.upgradeRumah(input);
+            } else if (input.equals("MOVE ROOM")) {
+                System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
+                input = inputScanner.nextLine();
+                game.moveRoom(input);
+            } else if (input.equals("EDIT ROOM")) {
+                game.editRoom();
+            } else if (input.equals("ADD SIM")) {
                 System.out.print("Masukkan nama Sim baru : ");
                 input = inputScanner.nextLine();
                 game.addSim(input);
                 System.out.printf("Sim %s berhasil dibuat!\n", input);
-            }
-        } else if (input.equals("CHANGE SIM")) {
-            if (!inGame) {
-                System.out.println(
-                        "Anda belum memasuki permainan! Silakan memasuki permainan untuk menggunakan perintah ini!");
-            } else {
-                // TODO : Insert Method Change Sim Here
-                game.printSimList();
-                System.out.print("Mau ganti ke Sim mana? Ketik namanya : ");
-                input = inputScanner.nextLine();
-                // Validasi nama Sim
-                Sim currentSim = game.getSim(input);
-                while (currentSim == null) {
-                    System.out.print("Nama Sim salah! Coba input ulang : ");
-                    input = inputScanner.nextLine();
-                    currentSim = game.getSim(input);
+            } else if (input.equals("CHANGE SIM")) {
+                game.changeSim(input, inputScanner);
+            } else if (input.equals("LIST OBJECT")) {
+                game.listObject();
+            } else if (input.equals("GO TO OBJECT")) {
+                game.listObject();
+                System.out.println("Masukkan posisi x benda yang ingin dituju");
+                int xTarget = Integer.parseInt(inputScanner.nextLine());
+                System.out.println("Masukkan posisi y benda yang ingin dituju");
+                int yTarget = Integer.parseInt(inputScanner.nextLine());
+                game.goToObject(xTarget, yTarget);
+            } else if (input.equals("PASANG BARANG")) {
+                System.out.println("Masukkan nama barang yang ingin dipasang");
+                String itemName = inputScanner.nextLine();
+                System.out.println("Peta ruangan saat ini: ");
+                game.getActiveSim().getCurrentRoom().printPetaRuangan(game.getActiveSim());
+                System.out.println("Masukkan posisi x untuk pemasangan barang: ");
+                int x = Integer.parseInt(inputScanner.nextLine());
+                System.out.println("Masukkan posisi y untuk pemasangan barang: ");
+                int y = Integer.parseInt(inputScanner.nextLine());
+                try {
+                    game.pasangBarang(itemName, x, y);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
-                game.setActiveSim(currentSim);
+            } else if (input.equals("ACTION")) {
+                game.actions();
+            } else {
+                System.out.println("Perintah tidak dikenali, mohon masukkan perintah yang valid!");
+                System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
             }
-        } else if (input.equals("LIST OBJECT")) {
-            // TODO : Harus dalam inGame, inHouse, dan inRuangan?
-        } else if (input.equals("GO TO OBJECT")) {
-            // TODO : Harus dalam inGame, inHouse, dan inRuangan?
-        } else if (input.equals("ACTION")) {
-            // TODO : Complete Actions
-            // Tampilin List Aksi yang bisa dilakukan Sim (bergantung pada objek yang ada di
-            // sekitarnya kalo aksinya butuh objek)
-            input = inputScanner.nextLine();
-
-            if (input.equals("PASANG BARANG")) {
-                // Tampilin barang yang ada di inventory, minta user pilih barang yang mau
-                // dipasang
-                // game.getActiveSim().seeInventory();
-                // System.out.printf("Pilih barang yang akan dipasang: ");
-                // input = inputScanner.nextLine();
-                // Thing toPlace = game.getActiveSim().getInventory().getItem(); // TODO :
-                // Bingung terkait akses inventorynya sama placeItem
-            }
-
-        } else {
-            System.out.println("Perintah tidak dikenali, mohon masukkan perintah yang valid!");
-            System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
         }
     }
 }

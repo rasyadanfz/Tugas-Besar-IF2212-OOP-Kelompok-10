@@ -10,6 +10,11 @@ public class Lukisan extends Thing {
         super("Lukisan", kodeItem, 1, 1, 100);
     }
 
+    public Lukisan() {
+        // ngasal karena objeknya ga ada di spesifikasi
+        super("Lukisan", 1, 1, 100);
+    }
+
     public void lihatLukisan(Sim sim, int duration) {
         // untuk setiap 20 detik (ngasal juga)
         try {

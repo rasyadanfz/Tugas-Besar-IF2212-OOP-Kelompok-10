@@ -11,6 +11,12 @@ public class TV extends Thing {
         // sendiri
     }
 
+    public TV() {
+        super("TV", 2, 1, 200);
+        // ini agak ngasal ya panjang, lebar, sm harganya, soalnya ini objek bikinan
+        // sendiri
+    }
+
     public void nontonTV(Sim sim, int duration) {
         // ini juga agak ngasal ya
         // validasi durasi
