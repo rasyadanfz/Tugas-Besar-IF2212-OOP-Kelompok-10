@@ -22,6 +22,16 @@ public class Main {
         // Initialize Game
         initializeGame();
 
+        System.out.println("\033[1;97m************ WELCOME SIMPLI-ZEN! ************\n\n");
+        System.out.println("\033[1;97mWelcome to" + " \033[1;92mSim-Plicity!");
+        System.out.println("\033[1;97mGame ini akan membawa kamu ke dalam dunia simulasi kehidupan yang menyenangkan!");
+        System.out.println("\033[1;97mPlease Wait A Few Moments For System To Load The Game...\n");
+        System.out.println("\033[1;97mLoading Game World...");
+        System.out.println("\033[1;97mGame World Loaded!");
+
+        System.out.println("\033[1;94mENJOY THE GAME!\n\n");
+
+
         inputScanner = new Scanner(System.in);
 
         System.out.println("\033[1;97m************ WELCOME SIMPLI-ZEN! ************\n\n");
@@ -31,6 +41,7 @@ public class Main {
         System.out.println("\033[1;97mLoading Game World...");
         System.out.println("\033[1;97mGame World Loaded!");
 
+<<<<<<< Updated upstream
         System.out.println("\033[1;94mENJOY THE GAME!\n\n");
         System.out.println("\033[1;92m================================================================================================");
         System.out.println("\033[1;92m ░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗ ████████╗░█████╗░ ");
@@ -39,6 +50,14 @@ public class Main {
         System.out.println("\033[1;92m ░░████╔═████║░██╔══╝░░██║░░░░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░ ░░░██║░░░██║░░██║");
         System.out.println("\033[1;92m ░░╚██╔╝░╚██╔╝░███████╗███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗ ░░░██║░░░╚█████╔╝");
         System.out.println("\033[1;92m ░░░╚═╝░░░╚═╝░░╚══════╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝ ░░░╚═╝░░░░╚════╝░");
+=======
+        System.out.println("\033[1;93mWelcome to Sim-Plicity!:");
+        System.out.println("\033[1;94m1. START GAME");
+        System.out.println("\033[1;94m2. HELP");
+        System.out.println("\033[1;94m3. EXIT\n\n");
+
+        System.out.print("\033[1;91mEnter command: ");
+>>>>>>> Stashed changes
 
         System.out.println("\033[1;92m ░██████╗██╗███╗░░░███╗░░░░░░██████╗░██╗░░░░░██╗░█████╗░██╗████████╗██╗░░░██╗ ");
         System.out.println("\033[1;92m ██╔════╝██║████╗░████║░░░░░░██╔══██╗██║░░░░░██║██╔══██╗██║╚══██╔══╝╚██╗░██╔╝");
