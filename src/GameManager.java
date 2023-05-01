@@ -100,32 +100,30 @@ public class GameManager {
     // Menu
     // TODO : Implementasi Help
     public void help(){
-        System.out.println("\033[1;32mThis is the help information for the Sim-Plicity.");
 
-        System.out.println("\033[1;91m====================================================================================================================================================================");
+        System.out.println("\033[1;92m█░█ █▀▀ █░░ █▀█");
+        System.out.println("\033[1;92m█▀█ ██▄ █▄▄ █▀▀\n\n");
+        System.out.println("\033[1;92mThis is the help information for the Sim-Plicity.\n\n");
+
+        System.out.println("\033[1;34m1. GAME DESCRIPTION\n");
+        System.out.println("\033[1;34m2. HOW TO PLAY?\n");
+        System.out.println("\033[1;34m3. COMMAND LIST\n");
+
         
-        System.out.println("\033[1;91m ______   _______  _______  ___   _  ______   ___   _______  _______  ___     _______  _______  ______   __   __  _______  ___   __    _  _______  __    _ ");
-        System.out.println("\033[1;91m|      | |       ||       ||   | | ||    _ | |   | |       ||       ||   |   |       ||       ||    _ | |  |_|  ||   _   ||   | |  |  | ||   _   ||  |  | |");
-        System.out.println("\033[1;91m|  _    ||    ___||  _____||   |_| ||   | || |   | |    _  ||  _____||   |   |    _  ||    ___||   | || |       ||  |_|  ||   | |   |_| ||  |_|  ||   |_| |");
-        System.out.println("\033[1;91m| | |   ||   |___ | |_____ |      _||   |_|| |   | |   |_| || |_____ |   |   |   |_| ||   |___ |   |_|| |       ||       ||   | |       ||       ||       |");
-        System.out.println("\033[1;91m| |_|   ||    ___||_____  ||     |_ |    __ ||   | |    ___||_____  ||   |   |    ___||    ___||    __ ||       ||       ||   | |  _    ||       ||  _    |");
-        System.out.println("\033[1;91m|       ||   |___  _____| ||    _  ||   |  |||   | |   |     _____| ||   |   |   |    |   |___ |   |  ||| ||_|| ||   _   ||   | | | |   ||   _   || | |   |");
-        System.out.println("\033[1;91m|______| |_______||_______||___| |_||___|  |||___| |___|    |_______||___|   |___|    |_______||___|  |||_|   |_||__| |__||___| |_|  |__||__| |__||_|  |__|\n");
+        System.out.println("\033[1;91m===================================================================================");
+        
+        System.out.println("\033[1;91m█▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀▄ █▀▀ █▀ █▀▀ █▀█ █ █▀█ ▀█▀ █ █▀█ █▄░█");
+        System.out.println("\033[1;91m█▄█ █▀█ █░▀░█ ██▄   █▄▀ ██▄ ▄█ █▄▄ █▀▄ █ █▀▀ ░█░ █ █▄█ █░▀█\n\n");
     
 
         System.out.println("\033[1;31mSim-plicity adalah permainan yang ingin dimiliki oleh Indra dan Doni. Game ini adalah permainan tentang kehidupan sehari-hari sims, karakter orang dalam game ini. \nSelain sim, game ini memiliki entitas world sebagai dunia virtual, rumah sebagai tempat tinggal sim, ruangan, dan objek-objek. \nSim juga memiliki kesejahteraan yang berparameter mood, kekenyangan, dan kesehatan yang bisa mempengaruhi umur sim. \nSim juga memiliki pekerjaan dan dapat melakukan aksi yang bisa mempengaruhi parameter kesejahteraannya.");
         System.out.println("\033[1;31mGame ini diprogram menggunakan bahasa Java dengan berbasis Command Line Interface. \nPertama, pemain dapat menciptakan sim. Setiap pembuatan satu sim, user akan mendapatkan satu rumah baru berukuran 6x6.  \nUser dapat berpindah-pindah sim untuk memainkannya. Untuk cara bermain, akan dijelaskan lebih rinci pada bagian cara bermain. \n");
-        System.out.println("\033[1;91m====================================================================================================================================================================\n\n\n\n");
+        System.out.println("\033[1;91m===================================================================================\n\n\n\n");
     
 
-        System.out.println("\033[1;93m====================================================================================================================================================================");
-        System.out.println("\033[1;93m _______  _______  ______   _______    _______  _______  ______   __   __  _______  ___   __    _ ");
-        System.out.println("\033[1;93m|       ||   _   ||    _ | |   _   |  |  _    ||       ||    _ | |  |_|  ||   _   ||   | |  |  | |");
-        System.out.println("\033[1;93m|       ||  |_|  ||   | || |  |_|  |  | |_|   ||    ___||   | || |       ||  |_|  ||   | |   |_| |");
-        System.out.println("\033[1;93m|       ||       ||   |_|| |       |  |       ||   |___ |   |_|| |       ||       ||   | |       |");
-        System.out.println("\033[1;93m|      _||       ||    __ ||       |  |  _   | |    ___||    __ ||       ||       ||   | |  _    |");
-        System.out.println("\033[1;93m|     |_ |   _   ||   |  |||   _   |  | |_|   ||   |___ |   |  ||| ||_|| ||   _   ||   | | | |   |");
-        System.out.println("\033[1;93m|_______||__| |__||___|  |||__| |__|  |_______||_______||___|  |||_|   |_||__| |__||___| |_|  |__|" + "\n");
+        System.out.println("\033[1;93m========================================================"); 
+        System.out.println("\033[1;93m█░█ █▀█ █░█░█   ▀█▀ █▀█   █▀█ █░░ ▄▀█ █▄█ ▀█");
+        System.out.println("\033[1;93m█▀█ █▄█ ▀▄▀▄▀   ░█░ █▄█   █▀▀ █▄▄ █▀█ ░█░ ░▄\n");
 
         System.out.println("\033[1;33m1. Buatlah Sim baru! Nantinya, kamu juga bisa memilih sim yang ingin kamu mainkan.");
         System.out.println("\033[1;33m2. Setiap kamu membuat Sim baru, kondisi kesejahteraan kamu (kekenyangan, mood, dan kesehatan) akan otomatis di-set 80 dan kamu juga akan diberi uang awal sebesar 100.");
@@ -180,10 +178,35 @@ public class GameManager {
         System.out.println("      \033[1;30ml)Lukisan ");
         System.out.println("      \033[1;30mm)Toilet ");
         System.out.println("      \033[1;30mn)Wastafel ");
-        System.out.println("      \033[1;30mo)Cermin ");
+        System.out.println("      \033[1;30mo)Cermin \n");
 
+        System.out.println("\033[1;93m========================================================\n\n\n\n");    
+    
+        System.out.println("\033[1;96m==============================================================");    
+        System.out.println("\033[1;96m█▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄░█ █▀▄   █░░ █ █▀ ▀█▀"); 
+        System.out.println("\033[1;96m█▄▄ █▄█ █░▀░█ █░▀░█ █▀█ █░▀█ █▄▀   █▄▄ █ ▄█ ░█░\n"); 
+
+        System.out.println("\033[1;36mBerikut adalah daftar command yang dapat digunakan : \n");
+        System.out.println("\033[1;36m1. START GAME");
+        System.out.println("\033[1;36m2. HELP");
+        System.out.println("\033[1;36m3. EXIT");
+        System.out.println("\033[1;36m4. VIEW SIM INFO");
+        System.out.println("\033[1;36m5. VIEW CURRENT LOCATION");
+        System.out.println("\033[1;36m6. VIEW INVENTORY");
+        System.out.println("\033[1;36m7. UPGRADE RUMAH");
+        System.out.println("\033[1;36m8. MOVE ROOM");
+        System.out.println("\033[1;36m9. EDIT ROOM");
+        System.out.println("\033[1;36m10. ADD SIM");
+        System.out.println("\033[1;36m11. CHANGE SIM");
+        System.out.println("\033[1;36m12. LIST OBJECT");
+        System.out.println("\033[1;36m13. GO TO OBJECT");
+        System.out.println("\033[1;36m14. ACTION\n");
+
+        System.out.println("\033[1;96m==============================================================");    
         System.out.println("\033[1;93m====================================================================================================================================================================\033[0;39m");
     }
+
+
 
     // TODO : Implementasi Exit
     public void exit(){
