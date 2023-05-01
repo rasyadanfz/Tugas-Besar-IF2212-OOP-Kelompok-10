@@ -146,6 +146,9 @@ public class Main {
             } else if (input.equals("COMMAND LIST")) {
                 game.commandList();
             }
+            else{
+                System.out.println("Perintah tidak dikenali!. Silakan masukkan perintah yang benar!");
+            }
         } else if (input.equals("EXIT")) {
             game.exit();
         } else if (input.equals("VIEW SIM INFO")) {
