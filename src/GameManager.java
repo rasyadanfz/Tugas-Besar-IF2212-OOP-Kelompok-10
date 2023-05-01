@@ -2,13 +2,15 @@ package src;
 
 import java.util.*;
 
+import src.Exceptions.ItemNotFoundException;
+import src.Thing.*;
+
 public class GameManager {
     private World world;
     private ArrayList<Sim> simList;
     private Timer worldTimer;
     private Sim activeSim;
     private int houseCount;
-    private int kasurCount = 0;
 
     public GameManager(){
         world = World.getWorld();
@@ -53,11 +55,7 @@ public class GameManager {
         return houseCount;
     }
 
-    public int getKasurCount(){
-        return kasurCount;
-    }
-
-    public void printSimList(){
+    public void printSimList() {
         int i = 1;
         System.out.println("Daftar Sim dalam Game: ");
         for (Sim s : simList){
@@ -98,9 +96,7 @@ public class GameManager {
     }
 
     // Menu
-    // TODO : Implementasi Help
-    public void help(){
-
+    public void help() {
         System.out.println("\033[1;92m█░█ █▀▀ █░░ █▀█");
         System.out.println("\033[1;92m█▀█ ██▄ █▄▄ █▀▀\n\n");
         System.out.println("\033[1;92mThis is the help information for the Sim-Plicity.\n\n");
@@ -239,8 +235,105 @@ public class GameManager {
         //Ini koordinat aja atau sampe ke rumah dan ruangan juga?
     }
 
-    public void viewInventory(){
-        activeSim.getInventory().printItems();
+    public void actions() {
+        Scanner actionScanner = new Scanner(System.in);
+        // Get list of objects di lokasi sim dan di 1 posisi sekitar sim
+        ArrayList<String> objectsNearSim = new ArrayList<String>();
+        HashMap<String, ArrayList<Point>> listOfObjects = getActiveSim().getCurrentRoom().getPlacedObject();
+        for (String key : listOfObjects.keySet()) {
+            for (Point p : listOfObjects.get(key))
+                if (getActiveSim().getCurrentPos().equals(p)) {
+                    if (!objectsNearSim.contains(key)) {
+                        objectsNearSim.add(key);
+                    }
+                }
+        }
+
+        for (String obj : objectsNearSim) {
+            String firstWord = getFirstWord(obj);
+            String answer;
+            Thing object = getActiveSim().getCurrentRoom().findItemInContainer(getActiveSim().getCurrentPos());
+            switch (firstWord) {
+                case ("Kasur"):
+                    System.out.println("Sim bisa melakukan Sleep. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        System.out.print("Masukkan durasi tidur sim: ");
+                        int durasiTidur = Integer.parseInt(actionScanner.nextLine());
+                        Kasur currentKasur = (Kasur) object;
+                        currentKasur.Sleeping(activeSim, durasiTidur);
+                    }
+                    break;
+                case ("Cermin"):
+                    System.out.println("Sim bisa melakukan Mirror. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        Cermin currentCermin = (Cermin) object;
+                        currentCermin.bercermin(activeSim);
+                    }
+                    break;
+                case ("Jam"):
+                    System.out.println("Sim bisa melakukan See Time. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+                case ("Kompor"):
+                    System.out.println("Sim bisa melakukan Cook. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+                case ("Lukisan"):
+                    System.out.println("Sim bisa melakukan View. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+                case ("Meja"):
+                    System.out.println("Sim bisa melakukan Eat. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+                case ("Shower"):
+                    System.out.println("Sim bisa melakukan Shower. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+                case ("Toilet"):
+                    System.out.println("Sim bisa melakukan Pee. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        Toilet toilet = (Toilet) object;
+                        System.out.print("Masukkan durasi pee sim: ");
+                        int durasiPee = Integer.parseInt(actionScanner.nextLine());
+                        toilet.buangAir(activeSim, durasiPee);
+                    }
+                    break;
+                case ("TV"):
+                    System.out.println("Sim bisa melakukan Watch TV. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+                case ("Wastafel"):
+                    System.out
+                            .println("Sim bisa melakukan Wash Hands. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    answer = actionScanner.nextLine();
+                    if (answer.equals("Y")) {
+                        // Do Action
+                    }
+                    break;
+            }
+        }
     }
 
     public void runTime(){
@@ -259,6 +352,8 @@ public class GameManager {
         
         if (!Objects.isNull(firstActiveSim)){
             worldTimer.reduceTime(1, this);
+        } else {
+            getActiveSim().setInActiveAction(false);
         }
     }
 

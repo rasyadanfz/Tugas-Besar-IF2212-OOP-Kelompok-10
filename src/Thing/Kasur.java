@@ -3,7 +3,7 @@ package src.Thing;
 import src.Action;
 import src.Sim;
 
-public abstract class Kasur extends Thing implements Sleep {
+public abstract class Kasur extends ActiveItems implements Sleep {
     public Kasur(String nama, String kodeItem, int panjang, int lebar, int harga) {
         super(nama, kodeItem, panjang, lebar, harga);
     }
@@ -13,11 +13,12 @@ public abstract class Kasur extends Thing implements Sleep {
     }
 
     public void Sleeping(Sim sim, int duration) {
-        sim.addAction(new Action("sleeping", duration));
+        sim.addAction(new Action("sleeping", duration, this));
         sim.setStatus("active");
+        sim.setInActiveAction(true);
     }
 
-    public void sleepEffect(Sim sim, int duration) {
+    public void effect(Sim sim, int duration) {
         while (duration > 0) {
             // Setiap 4 menit :
             sim.changeMood(30);
