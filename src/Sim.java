@@ -187,16 +187,16 @@ public class Sim {
         }
     }
 
-    public void sleeping(Kasur kasur) {
-        kasur.Sleeping(this);
+    public void sleeping(Kasur kasur, int duration) {
+        kasur.Sleeping(this, duration);
     }
 
-    public void watchingTV(TV televisi) {
-        televisi.nontonTV(this);
+    public void watchingTV(TV televisi, int duration) {
+        televisi.nontonTV(this, duration);
     }
 
-    public void pee(Toilet toilet) {
-        toilet.buangAir(this);
+    public void pee(Toilet toilet, int duration) {
+        toilet.buangAir(this, duration);
     }
 
     public void bath(Shower shower) {
