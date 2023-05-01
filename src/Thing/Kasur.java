@@ -17,10 +17,10 @@ public abstract class Kasur extends ActiveItems implements Sleep {
         sim.addAction(new Action("sleeping", duration, this));
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        sleepEffect(sim, duration);
+        effect(sim, duration);
     }
 
-    public void sleepEffect(Sim sim, int duration) {
+    public void effect(Sim sim, int duration) {
         try {
             if (duration % 240 == 0) {
                 int x = duration / 40;

@@ -1,5 +1,7 @@
 package src.Thing;
 
+import java.util.ArrayList;
+
 import src.*;
 
 public class MejaKursi extends ActiveItems {
@@ -11,10 +13,11 @@ public class MejaKursi extends ActiveItems {
         super("Meja Dan Kursi", 3, 3, 50);
     }
 
-    public void makan(Sim sim, Food food, int duration) {
-        sim.addAction(new Action("eating", duration, this));
+    public void makan(Sim sim, Food food) {
+        sim.addAction(new Action("eating", 30, this));
         sim.setStatus("active");
         sim.setInActiveAction(true);
+        effect(sim, 30, food);
     }
 
     public void effect(Sim sim, int duration) {
@@ -27,6 +30,17 @@ public class MejaKursi extends ActiveItems {
             duration -= 30;
         }
 
+    }
+
+    public void printListMakanan(Sim sim) {
+        int i = 1;
+        ArrayList<Item> items = sim.getInventory().getItemContainer();
+        for (Item item : items) {
+            if (item instanceof Food || item instanceof Ingredient) {
+                System.out.println(i + ". " + item);
+                i++;
+            }
+        }
     }
 
 }

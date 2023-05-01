@@ -20,6 +20,7 @@ public abstract class Kompor extends ActiveItems implements Cook {
             sim.changeMood(10);
             duration--;
         }
+        sim.getInventory().addItem(food);
     }
 
     public boolean checkBahanMasak(Inventory inventory) {
@@ -45,6 +46,10 @@ public abstract class Kompor extends ActiveItems implements Cook {
         if (inventory.containsItem("kentang") && inventory.containsItem("sapi")) {
             System.out.println("- Bistik");
             bisaMasak = true;
+        }
+
+        if (!bisaMasak) {
+            System.out.println("Tidak ada makanan yang bisa dimasak");
         }
         return bisaMasak;
     }
