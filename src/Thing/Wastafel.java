@@ -6,9 +6,12 @@ public class Wastafel extends Thing {
         super("Wastafel", kodeItem, 1, 1, 40);
     }
 
-    public void cuciTangan(Sim sim){
+    public void cuciTangan(Sim sim, int duration){
+        sim.addAction(new Action("washingHand", duration));
+        sim.setStatus("active");
+        while (duration>0) {
         sim.changeKesehatan(10);
+        duration--;
+        }
     }
-
-    public void buyItem(Sim sim) {}
 }
