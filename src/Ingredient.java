@@ -2,6 +2,8 @@ package src;
 
 import java.util.*;
 
+import src.Thing.Jam;
+
 public abstract class Ingredient extends Item implements Purchaseable {
     private String nama;
     private int price;
@@ -56,10 +58,13 @@ public abstract class Ingredient extends Item implements Purchaseable {
         int waktuPengiriman = int_random * 30 * 1000;
         Thread t = new Thread() {
             public void run() {
-                try {
-                    sleep(waktuPengiriman);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                boolean pengiriman = true;
+                int waktuMulai = Main.getCurrentTime();
+                Jam.ambilSisaWaktuKirim(waktuMulai, waktuPengiriman);
+                while (pengiriman) {
+                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
+                        pengiriman = false;
+                    }
                 }
             }
         };
