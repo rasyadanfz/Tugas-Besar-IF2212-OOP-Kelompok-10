@@ -108,8 +108,9 @@ public class GameManager {
         System.out.println("\033[1;34m1. GAME DESCRIPTION\n");
         System.out.println("\033[1;34m2. HOW TO PLAY?\n");
         System.out.println("\033[1;34m3. COMMAND LIST\n");
+    }
 
-        
+    public void gameDescription(){
         System.out.println("\033[1;91m===================================================================================");
         
         System.out.println("\033[1;91m█▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀▄ █▀▀ █▀ █▀▀ █▀█ █ █▀█ ▀█▀ █ █▀█ █▄░█");
@@ -119,8 +120,9 @@ public class GameManager {
         System.out.println("\033[1;31mSim-plicity adalah permainan yang ingin dimiliki oleh Indra dan Doni. Game ini adalah permainan tentang kehidupan sehari-hari sims, karakter orang dalam game ini. \nSelain sim, game ini memiliki entitas world sebagai dunia virtual, rumah sebagai tempat tinggal sim, ruangan, dan objek-objek. \nSim juga memiliki kesejahteraan yang berparameter mood, kekenyangan, dan kesehatan yang bisa mempengaruhi umur sim. \nSim juga memiliki pekerjaan dan dapat melakukan aksi yang bisa mempengaruhi parameter kesejahteraannya.");
         System.out.println("\033[1;31mGame ini diprogram menggunakan bahasa Java dengan berbasis Command Line Interface. \nPertama, pemain dapat menciptakan sim. Setiap pembuatan satu sim, user akan mendapatkan satu rumah baru berukuran 6x6.  \nUser dapat berpindah-pindah sim untuk memainkannya. Untuk cara bermain, akan dijelaskan lebih rinci pada bagian cara bermain. \n");
         System.out.println("\033[1;91m===================================================================================\n\n\n\n");
-    
+    }
 
+    public void howToPlay(){
         System.out.println("\033[1;93m========================================================"); 
         System.out.println("\033[1;93m█░█ █▀█ █░█░█   ▀█▀ █▀█   █▀█ █░░ ▄▀█ █▄█ ▀█");
         System.out.println("\033[1;93m█▀█ █▄█ ▀▄▀▄▀   ░█░ █▄█   █▀▀ █▄▄ █▀█ ░█░ ░▄\n");
@@ -181,7 +183,9 @@ public class GameManager {
         System.out.println("      \033[1;30mo)Cermin \n");
 
         System.out.println("\033[1;93m========================================================\n\n\n\n");    
-    
+    }
+
+    public void commandList() {
         System.out.println("\033[1;96m==============================================================");    
         System.out.println("\033[1;96m█▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄░█ █▀▄   █░░ █ █▀ ▀█▀"); 
         System.out.println("\033[1;96m█▄▄ █▄█ █░▀░█ █░▀░█ █▀█ █░▀█ █▄▀   █▄▄ █ ▄█ ░█░\n"); 

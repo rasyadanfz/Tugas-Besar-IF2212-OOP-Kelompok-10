@@ -23,6 +23,15 @@ public class Main {
         initializeGame();
 
         inputScanner = new Scanner(System.in);
+
+        System.out.println("\033[1;97m************ WELCOME SIMPLI-ZEN! ************\n\n");
+        System.out.println("\033[1;97mWelcome to" + " \033[1;92mSim-Plicity!");
+        System.out.println("\033[1;97mGame ini akan membawa kamu ke dalam dunia simulasi kehidupan yang menyenangkan!");
+        System.out.println("\033[1;97mPlease Wait A Few Moments For System To Load The Game...\n");
+        System.out.println("\033[1;97mLoading Game World...");
+        System.out.println("\033[1;97mGame World Loaded!");
+
+        System.out.println("\033[1;94mENJOY THE GAME!\n\n");
         System.out.println(
             "\033[1;92m================================================================================================");
     System.out.println("\033[1;92m ░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗ ████████╗░█████╗░ ");
@@ -47,7 +56,12 @@ public class Main {
     System.out.println(
             "\033[1;92m================================================================================================\n\n");
 
-        System.out.println("\033[1;93mSilakan pilih aksi selanjutnya :\033[0;39m");
+        System.out.println("\033[1;93mWelcome to Sim-Plicity!\n\n");
+        System.out.println("\033[1;94m1. START GAME");
+        System.out.println("\033[1;94m2. HELP");
+        System.out.println("\033[1;94m3. EXIT\n\n");
+
+        System.out.print("\033[1;91mMasukkan perintah: ");
         input = inputScanner.nextLine();
 
         // Commands
@@ -118,6 +132,13 @@ public class Main {
             inGame = true;
         } else if (input.equals("HELP")) {
             game.help();
+            if (input.equals("GAME DESCRIPTION")) {
+                game.gameDescription();
+            } else if (input.equals("HOW TO PLAY")) {
+                game.howToPlay();
+            } else if (input.equals("COMMAND LIST")) {
+                game.commandList();
+            }
         } else if (input.equals("EXIT")) {
             game.exit();
         } else if (input.equals("VIEW SIM INFO")) {
