@@ -89,8 +89,6 @@ public class Main {
         String newSimName = inputScanner.nextLine();
         game.addSim(newSimName);
 
-        // Masukkan Item Default ke Inventory Sim
-        // TODO : Implementasi kode Barang sesuai jumlah barang
         game.getActiveSim().getInventory().addItem(new KasurSingle());
         game.getActiveSim().getInventory().addItem(new KasurSingle());
         game.getActiveSim().getInventory().addItem(new Toilet());
