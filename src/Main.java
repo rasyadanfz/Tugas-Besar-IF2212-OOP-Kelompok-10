@@ -82,6 +82,10 @@ public class Main {
     private static void startGame() {
         House firstHouse;
 
+        // Start Game Interface
+        System.out.println("\033[1;94m█▀ ▀█▀ ▄▀█ █▀█ ▀█▀   █▀▀ ▄▀█ █▀▄▀█ █▀▀");
+        System.out.println("\033[1;94m▄█ ░█░ █▀█ █▀▄ ░█░   █▄█ █▀█ █░▀░█ ██▄\n");
+
         // Create New First Sim
         System.out.println("Masukkan nama lengkap sim baru: ");
         String newSimName = inputScanner.nextLine();
@@ -132,6 +136,9 @@ public class Main {
             inGame = true;
         } else if (input.equals("HELP")) {
             game.help();
+
+            input = inputScanner.nextLine();
+
             if (input.equals("GAME DESCRIPTION")) {
                 game.gameDescription();
             } else if (input.equals("HOW TO PLAY")) {
