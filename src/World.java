@@ -6,13 +6,15 @@ import src.Exceptions.HouseNotFoundException;
 public class World {
     private Matrix map;
     private ArrayList<House> daftarRumah;
+    private Timer timer;
     
     private static World world = new World();
 
-    // Design Pattern Singleton : membuat konstruktur menjadi private
+    // Design Pattern Singleton : membuat konstruktor menjadi private
     private World() {
         map = new Matrix(64, 64);
         daftarRumah = new ArrayList<House>();
+        timer = Timer.getTimer();
     }
     
     public Matrix getMap() {
@@ -27,6 +29,10 @@ public class World {
         return world;
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
     public void addHouse(int x, int y, String kodeRumah) throws Exception {
         if (map.getWorldItem(x, y).equals("---")) {
             House rumah = new House(kodeRumah, x, y);
@@ -37,16 +43,17 @@ public class World {
         }
     }
 
-    public House getHouse(String kodeRumah) throws HouseNotFoundException{
+    public House getHouse(String kodeRumah){
         Iterator<House> iterator = daftarRumah.iterator();
+        House targetHouse = null;
         // Kalau ada rumah dengan kode yang ditentukan, return reference to Rumah itu
         // else, throw HouseNotFoundException
         while (iterator.hasNext()){
-            if (iterator.next().getKodeRumah().equals(kodeRumah)){
-                return iterator.next();
+            targetHouse = iterator.next();
+            if (targetHouse.getKodeRumah().equals(kodeRumah)){
+                return targetHouse;
             }
         }
-        throw new HouseNotFoundException("Rumah dengan kode " + kodeRumah + " tidak ada!");
-        
+        return targetHouse;
     }
 }

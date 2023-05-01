@@ -42,15 +42,22 @@ public class Inventory<T extends Item> {
     }
 
     //TODO : Implementasi getItem
-    public void getItem(T item){
-
+    public T getItem(T item){
+        removeItem(item);
+        
     }
 
     public void printItems(){
         int i = 1;
-        for (T s : daftarItem.keySet()){
-            System.out.println(i + ". " + s);
-            i++;
+        if (daftarItem.isEmpty()){
+            System.out.println("Inventory Sim Kosong!!");
         }
+        else{
+            for (T s : daftarItem.keySet()){
+                System.out.println(i + ". " + s.getNama() + "(" + daftarItem.get(s) + ")");
+                i++;
+            }
+        }
+        
     }
 }

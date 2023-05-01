@@ -1,12 +1,15 @@
 package src;
+
 import java.util.*;
 
-public abstract class Ingredient extends Item implements Purchaseable{
+import src.Thing.Jam;
+
+public abstract class Ingredient extends Item implements Purchaseable {
     private String nama;
     private int price;
     private int kekenyangan;
 
-    public Ingredient(String nama){
+    public Ingredient(String nama) {
         if (nama.toLowerCase().equals("nasi")) {
             price = 5;
             kekenyangan = 5;
@@ -33,14 +36,38 @@ public abstract class Ingredient extends Item implements Purchaseable{
             kekenyangan = 1;
         }
     }
-    //getter
-    public String getNama(){
+
+    // getter
+    public String getNama() {
         return nama;
     }
-    public int getPrice(){
+
+    public int getPrice() {
         return price;
     }
-    public int getKekenyangan(){
+
+    public int getKekenyangan() {
         return kekenyangan;
+    }
+
+    // dari interface
+    // masih belum dicoba
+    public void buyItem() {
+        Random rand = new Random();
+        int int_random = rand.nextInt(4) + 1;
+        int waktuPengiriman = int_random * 30 * 1000;
+        Thread t = new Thread() {
+            public void run() {
+                boolean pengiriman = true;
+                int waktuMulai = Main.getCurrentTime();
+                Jam.ambilSisaWaktuKirim(waktuMulai, waktuPengiriman);
+                while (pengiriman) {
+                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
+                        pengiriman = false;
+                    }
+                }
+            }
+        };
+        t.start();
     }
 }
