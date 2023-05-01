@@ -3,7 +3,7 @@ package src;
 import java.util.*;
 
 import src.Exceptions.ItemNotFoundException;
-import src.Thing.Cermin;
+import src.Thing.*;
 
 public class GameManager {
     private World world;
@@ -372,6 +372,17 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        System.out.println("Masukkan durasi (dalam detik):");
+                        int duration = Integer.parseInt(actionScanner.nextLine());
+                        if (duration >= 180) {
+                            try {
+                                ((Kasur) (getActiveSim().getInventory().getItem(obj))).Sleeping(getActiveSim(),
+                                        duration);
+
+                            } catch (ItemNotFoundException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
                     }
                     break;
                 case ("Cermin"):
