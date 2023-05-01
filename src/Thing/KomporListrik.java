@@ -11,6 +11,12 @@ public class KomporListrik extends Kompor {
         super("Kompor Listrik", 1, 1, 200);
     }
 
+    public void Cooking(Sim sim, Food food) {
+    }
+
+    public void effect(Sim sim, int duration) {
+    }
+
     public void buyItem(Sim sim) {
     }
 }

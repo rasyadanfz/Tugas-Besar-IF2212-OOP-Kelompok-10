@@ -11,6 +11,12 @@ public class KomporGas extends Kompor {
         super("Kompor Gas", 2, 1, 100);
     }
 
+    public void Cooking(Sim sim, Food food) {
+    }
+
+    public void effect(Sim sim, int duration) {
+    }
+
     public void buyItem(Sim sim) {
     }
 }

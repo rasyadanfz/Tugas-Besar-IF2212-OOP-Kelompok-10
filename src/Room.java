@@ -1,6 +1,8 @@
 package src;
 
 import java.util.*;
+
+import src.Exceptions.ItemNotFoundException;
 import src.Thing.*;
 
 public class Room {
@@ -10,6 +12,7 @@ public class Room {
     private Point roomPosition;
     private HashMap<String, ArrayList<Point>> placedObject;
     private HashMap<String, Integer> jumlahItem;
+    private ArrayList<Thing> itemContainer;
 
     // Konstruktor dengan Point lokasi yang jelas
     public Room(String namaRuangan, House rumah, int x, int y) {
@@ -17,6 +20,7 @@ public class Room {
         this.rumah = rumah;
         placedObject = new HashMap<String, ArrayList<Point>>();
         jumlahItem = new HashMap<String, Integer>();
+        itemContainer = new ArrayList<Thing>();
         // Default dari game
         petaRuangan = new Matrix(6, 6);
         roomPosition = new Point(x, y);
@@ -27,6 +31,7 @@ public class Room {
         this.namaRuangan = namaRuangan;
         this.rumah = rumah;
         placedObject = new HashMap<String, ArrayList<Point>>();
+        itemContainer = new ArrayList<Thing>();
         // Set default
         petaRuangan = new Matrix(6, 6);
         roomPosition = new Point(0, 0);
@@ -58,6 +63,10 @@ public class Room {
 
     public HashMap<String, Integer> getDaftarJumlahItem() {
         return jumlahItem;
+    }
+
+    public ArrayList<Thing> getItemContainer() {
+        return itemContainer;
     }
 
     public Matrix getPetaRuangan() {
@@ -95,6 +104,24 @@ public class Room {
             jumlahItem.put(itemName, jumlahItem.get(itemName) - 1);
         } else {
             jumlahItem.remove(itemName);
+        }
+    }
+
+    public Thing findItemInContainer(Point itemPosition) {
+        Thing item = null;
+        Iterator<Thing> containerIterator = itemContainer.iterator();
+        boolean found = false;
+        while (!found && containerIterator.hasNext()) {
+            item = containerIterator.next();
+            if (item.getPosisi().equals(itemPosition)) {
+                found = true;
+            }
+        }
+
+        if (found) {
+            return item;
+        } else {
+            return null;
         }
     }
 
@@ -153,6 +180,8 @@ public class Room {
                 newArray.add(new Point(x, y));
                 placedObject.put(namaItem, newArray);
             }
+            object.setPosisi(x, y);
+            itemContainer.add(object);
             increaseJumlahItem(namaItem);
         }
     }

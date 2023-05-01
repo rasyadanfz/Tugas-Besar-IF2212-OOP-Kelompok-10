@@ -9,6 +9,7 @@ public abstract class Thing extends Item implements Purchaseable {
     private int panjang;
     private int lebar;
     private int harga;
+    private Point posisi;
 
     // konstruktor
     public Thing(String nama, String kode, int panjang, int lebar, int harga) {
@@ -47,8 +48,16 @@ public abstract class Thing extends Item implements Purchaseable {
         return harga;
     }
 
+    public Point getPosisi() {
+        return posisi;
+    }
+
     public void setKode(String kode) {
         this.kode = kode;
+    }
+
+    public void setPosisi(int x, int y) {
+        posisi = new Point(x, y);
     }
 
     // masih belum dicoba
