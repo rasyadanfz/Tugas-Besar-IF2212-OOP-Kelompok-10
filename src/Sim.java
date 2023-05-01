@@ -1,5 +1,6 @@
 package src;
 
+import src.Exceptions.DurationNotValidException;
 import src.Exceptions.ItemNotFoundException;
 import src.Thing.*;
 
@@ -187,16 +188,16 @@ public class Sim {
         }
     }
 
-    public void sleeping(Kasur kasur) {
-        kasur.Sleeping(this);
+    public void sleeping(Kasur kasur, int duration) {
+        kasur.Sleeping(this, duration);
     }
 
-    public void watchingTV(TV televisi) {
-        televisi.nontonTV(this);
+    public void watchingTV(TV televisi, int duration) {
+        televisi.nontonTV(this, duration);
     }
 
-    public void pee(Toilet toilet) {
-        toilet.buangAir(this);
+    public void pee(Toilet toilet, int duration) {
+        toilet.buangAir(this, duration);
     }
 
     public void bath(Shower shower) {
@@ -273,16 +274,38 @@ public class Sim {
         changeKekenyangan(-10);
     }
 
-    public void olahraga() {
-        changeKesehatan(+5);
-        changeMood(+10);
-        changeKekenyangan(-5);
+    public void olahraga(int duration) {
+        try {
+            if (duration % 20 == 0) {
+                int x = duration / 20;
+                for (int i = 0; i < x; i++) {
+                    changeKesehatan(+5);
+                    changeMood(+10);
+                    changeKekenyangan(-5);
+                }
+            } else {
+                throw new DurationNotValidException(20);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void kerja() {
+    public void kerja(int duration) {
         uang += pekerjaan.getGaji();
-        changeMood(-10);
-        changeKekenyangan(-10);
+        try {
+            if (duration % 30 == 0) {
+                int x = duration / 30;
+                for (int i = 0; i < x; i++) {
+                    changeMood(-10);
+                    changeKekenyangan(-10);
+                }
+            } else {
+                throw new DurationNotValidException(30);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void move(int x, int y) {
@@ -317,6 +340,7 @@ public class Sim {
                             boolean upgrade = true;
                             int waktuUpgrade = 1080; // 18 menit
                             int waktuMulai = world.getTimer().getTime();
+                            Jam.ambilSisaWaktuUpgrade(waktuMulai, waktuUpgrade);
 
                             while (upgrade) {
                                 if (waktuMulai + waktuUpgrade >= world.getTimer().getTime()) {

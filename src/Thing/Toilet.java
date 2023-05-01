@@ -11,12 +11,14 @@ public class Toilet extends Thing {
         super("Toilet", 1, 1, 50);
     }
 
-    public static void buangAir(Sim sim) {
-        sim.changeMood(10);
-        // masih bingung
-        sim.changeKekenyangan(-20);
+    public static void buangAir(Sim sim, int duration) {
+        sim.addAction(new Action("pee", duration));
+        sim.setStatus("active");
+        while (duration > 0) {
+            sim.changeMood(10);
+            sim.changeKekenyangan(-20);
+            duration--;
+        }
     }
 
-    public void buyItem(Sim sim) {
-    }
 }

@@ -15,6 +15,4 @@ public class Cermin extends Thing {
         sim.changeMood(15);
     }
 
-    public void buyItem(Sim sim) {
-    }
 }
