@@ -2,10 +2,7 @@ package src;
 
 import java.util.*;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-
-import src.Exceptions.ItemNotFoundException;
-import src.Thing.*;
+import src.Exceptions.*;
 import src.Thing.*;
 
 public class GameManager {
@@ -234,6 +231,7 @@ public class GameManager {
         } else {
             System.out.println("Kembali ke menu utama...");
         }
+        input.close();
     }
 
     public void viewSimInfo() {
@@ -612,6 +610,8 @@ public class GameManager {
                     break;
             }
         }
+
+        actionScanner.close();
     }
 
     public void runTime() {

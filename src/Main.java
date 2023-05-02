@@ -2,12 +2,6 @@ package src;
 
 import java.util.*;
 
-import src.Exceptions.HouseNotFoundException;
-import src.Thing.Jam;
-import src.Thing.KasurSingle;
-import src.Thing.KomporGas;
-import src.Thing.MejaKursi;
-import src.Thing.Toilet;
 import src.Thing.*;
 
 public class Main {

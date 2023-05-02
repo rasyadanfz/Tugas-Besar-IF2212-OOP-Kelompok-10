@@ -1,7 +1,6 @@
 package src;
 
 import src.Thing.ActiveItems;
-import src.Thing.Thing;
 
 public class Action {
     ActiveItems actionObject;

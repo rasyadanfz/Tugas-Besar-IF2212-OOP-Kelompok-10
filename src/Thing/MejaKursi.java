@@ -1,7 +1,5 @@
 package src.Thing;
 
-import java.util.ArrayList;
-
 import src.*;
 
 public class MejaKursi extends ActiveItems {
