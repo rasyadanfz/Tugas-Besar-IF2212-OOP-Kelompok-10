@@ -270,12 +270,10 @@ public class GameManager {
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
                         if (duration >= 180) {
-                            try {
-                                ((Kasur) (getActiveSim().getInventory().getItem(obj))).Sleeping(getActiveSim(),
-                                        duration);
-                            } catch (ItemNotFoundException e) {
-                                System.out.println(e.getMessage());
-                            }
+                            Kasur kasur = (Kasur) object;
+                            kasur.Sleeping(getActiveSim(), duration);
+                        } else {
+                            System.out.println("Durasi minimal 3 menit (180 detik)");
                         }
                     }
                     break;
@@ -292,28 +290,20 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        try {
-                            ((Jam) (getActiveSim().getInventory().getItem(obj))).lihatWaktu();
-                        } catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                        Jam jam = (Jam) object;
+                        jam.lihatWaktu();
                     }
                     break;
                 case ("Kompor"):
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        try {
-                            getActiveSim().getInventory().printListIngredient();
-                            if (((Kompor) (getActiveSim().getInventory().getItem(obj)))
-                                    .checkBahanMasak(getActiveSim().getInventory())) {
-                                System.out.println("Masukkan nama makanan yang ingin dimasak: ");
-                                String namaMakanan = actionScanner.nextLine();
-                                ((Kompor) (getActiveSim().getInventory().getItem(obj))).Cooking(getActiveSim(),
-                                        namaMakanan);
-                            }
-                        } catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
+                        getActiveSim().getInventory().printListIngredient();
+                        Kompor kompor = (Kompor) object;
+                        if (kompor.checkBahanMasak(getActiveSim().getInventory())) {
+                            System.out.println("Masukkan nama makanan yang ingin dimasak: ");
+                            String namaMakanan = actionScanner.nextLine();
+                            kompor.Cooking(getActiveSim(), namaMakanan);
                         }
                     }
                     break;
@@ -324,12 +314,8 @@ public class GameManager {
                         // Do Action
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
-                        try {
-                            ((Lukisan) (getActiveSim().getInventory().getItem(obj))).lihatLukisan(getActiveSim(),
-                                    duration);
-                        } catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                        Lukisan lukisan = (Lukisan) object;
+                        lukisan.lihatLukisan(getActiveSim(), duration);
                     }
                     break;
                 case ("Meja"):
@@ -341,7 +327,8 @@ public class GameManager {
                             getActiveSim().getInventory().printListMakanan();
                             System.out.println("Masukkan nama makanan yang ingin dimakan: ");
                             String namaMakanan = actionScanner.nextLine();
-                            ((MejaKursi) (getActiveSim().getInventory().getItem(obj))).makan(getActiveSim(),
+                            MejaKursi mejakursi = (MejaKursi) object;
+                            mejakursi.makan(getActiveSim(),
                                     (Food) (getActiveSim().getInventory().getItem(namaMakanan)));
                         } catch (ItemNotFoundException e) {
                             System.out.println(e.getMessage());
@@ -353,11 +340,8 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        try {
-                            ((Shower) (getActiveSim().getInventory().getItem(obj))).mandi(getActiveSim());
-                        } catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                        Shower shower = (Shower) object;
+                        shower.mandi(getActiveSim());
                     }
                     break;
                 case ("Toilet"):
@@ -377,11 +361,8 @@ public class GameManager {
                         // Do Action
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
-                        try {
-                            ((TV) (getActiveSim().getInventory().getItem(obj))).nontonTV(getActiveSim(), duration);
-                        } catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                        TV tv = (TV) object;
+                        tv.nontonTV(getActiveSim(), duration);
                     }
                     break;
                 case ("Wastafel"):
@@ -390,11 +371,8 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        try {
-                            ((Wastafel) (getActiveSim().getInventory().getItem(obj))).cuciTangan(getActiveSim());
-                        } catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+                        Wastafel wastafel = (Wastafel) object;
+                        wastafel.cuciTangan(getActiveSim());
                     }
                     break;
             }
