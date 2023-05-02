@@ -2,7 +2,10 @@ package src;
 
 import java.util.*;
 
+import javax.swing.event.SwingPropertyChangeSupport;
+
 import src.Exceptions.ItemNotFoundException;
+import src.Thing.*;
 import src.Thing.*;
 
 public class GameManager {
@@ -74,39 +77,37 @@ public class GameManager {
     }
 
     public void addNewHouse(Sim sim) {
-        String kodeRumahBaru = "H" + (houseCount + 1);
+        String kodeRumahBaru = "H" + houseCount;
         while (Objects.isNull(world.getHouse(kodeRumahBaru))) {
             try {
                 world.addHouse(new Random().nextInt(64) + 1, new Random().nextInt(64) + 1, kodeRumahBaru);
             } catch (Exception e) {
-            } finally {
-                houseCount++;
             }
         }
     }
 
     public void addNewHouse(Sim sim, int x, int y) {
-        String kodeRumahBaru = "H" + (houseCount + 1);
+        String kodeRumahBaru = "H" + houseCount;
         try {
             world.addHouse(x, y, kodeRumahBaru);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            houseCount++;
         }
     }
 
     // Menu
     public void help() {
-
         System.out.println("\033[1;92m█░█ █▀▀ █░░ █▀█");
         System.out.println("\033[1;92m█▀█ ██▄ █▄▄ █▀▀\n\n");
+
         System.out.println("\033[1;92mThis is the help information for the Sim-Plicity.\n\n");
 
         System.out.println("\033[1;34m1. GAME DESCRIPTION\n");
         System.out.println("\033[1;34m2. HOW TO PLAY?\n");
         System.out.println("\033[1;34m3. COMMAND LIST\n");
+    }
 
+    public void gameDescription() {
         System.out.println(
                 "\033[1;91m===================================================================================");
 
@@ -119,10 +120,13 @@ public class GameManager {
                 "\033[1;31mGame ini diprogram menggunakan bahasa Java dengan berbasis Command Line Interface. \nPertama, pemain dapat menciptakan sim. Setiap pembuatan satu sim, user akan mendapatkan satu rumah baru berukuran 6x6.  \nUser dapat berpindah-pindah sim untuk memainkannya. Untuk cara bermain, akan dijelaskan lebih rinci pada bagian cara bermain. \n");
         System.out.println(
                 "\033[1;91m===================================================================================\n\n\n\n");
+    }
+
+    public void howToPlay() {
 
         System.out.println("\033[1;93m========================================================");
-        System.out.println("\033[1;93m█░█ █▀█ █░█░█   ▀█▀ █▀█   █▀█ █░░ ▄▀█ █▄█ ▀█");
-        System.out.println("\033[1;93m█▀█ █▄█ ▀▄▀▄▀   ░█░ █▄█   █▀▀ █▄▄ █▀█ ░█░ ░▄\n");
+        System.out.println("\033[1;93m█░█ █▀█ █░█░█   ▀█▀ █▀█   █▀█ █░░ ▄▀█ █▄█ ▀█");
+        System.out.println("\033[1;93m█▀█ █▄█ ▀▄▀▄▀   ░█░ █▄█   █▀▀ █▄▄ █▀█ ░█░ ░▄\n");
 
         System.out.println(
                 "\033[1;33m1. Buatlah Sim baru! Nantinya, kamu juga bisa memilih sim yang ingin kamu mainkan.");
@@ -188,10 +192,12 @@ public class GameManager {
         System.out.println("      \033[1;30mo)Cermin \n");
 
         System.out.println("\033[1;93m========================================================\n\n\n\n");
+    }
 
+    public void commandList() {
         System.out.println("\033[1;96m==============================================================");
-        System.out.println("\033[1;96m█▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄░█ █▀▄   █░░ █ █▀ ▀█▀");
-        System.out.println("\033[1;96m█▄▄ █▄█ █░▀░█ █░▀░█ █▀█ █░▀█ █▄▀   █▄▄ █ ▄█ ░█░\n");
+        System.out.println("\033[1;96m█▀▀ █▀█ █▀▄▀█ █▀▄▀█ ▄▀█ █▄░█ █▀▄   █░░ █ █▀ ▀█▀");
+        System.out.println("\033[1;96m█▄▄ █▄█ █░▀░█ █░▀░█ █▀█ █░▀█ █▄▀   █▄▄ █ ▄█ ░█░\n");
 
         System.out.println("\033[1;36mBerikut adalah daftar command yang dapat digunakan : \n");
         System.out.println("\033[1;36m1. START GAME");
@@ -210,8 +216,6 @@ public class GameManager {
         System.out.println("\033[1;36m14. ACTION\n");
 
         System.out.println("\033[1;96m==============================================================");
-        System.out.println(
-                "\033[1;93m====================================================================================================================================================================\033[0;39m");
     }
 
     // TODO : Implementasi Exit
@@ -219,9 +223,13 @@ public class GameManager {
         Scanner input = new Scanner(System.in);
         System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
         String answer = input.nextLine();
-        if (answer.equals("Y")) {
-            System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
+
+
+        if (answer.equals("Y")){
+            System.out.println("\033[1;93m▀█▀ █▀▀ █▀█ █ █▀▄▀█ ▄▀█   █▄▀ ▄▀█ █▀ █ █░█   ▀█▀ █▀▀ █░░ ▄▀█ █░█   █▄▄ █▀▀ █▀█ █▀▄▀█ ▄▀█ █ █▄░█");
+            System.out.println("\033[1;93m░█░ ██▄ █▀▄ █ █░▀░█ █▀█   █░█ █▀█ ▄█ █ █▀█   ░█░ ██▄ █▄▄ █▀█ █▀█   █▄█ ██▄ █▀▄ █░▀░█ █▀█ █ █░▀█\n");
             System.exit(0);
+        
         } else {
             System.out.println("Kembali ke menu utama...");
         }
@@ -285,62 +293,23 @@ public class GameManager {
                         + getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
             }
         }
-    }
+        else{
+            System.out.println("Kembali ke menu utama...");
+            // TODO : Implementasi menu utama
 
-    public void editRoom() {
-        // Sim tidak sedang di rumah
-        if (Objects.isNull(getActiveSim().getCurrentHouse())) {
-            System.out.println("Sim tidak dalam suatu rumah!");
-        }
-        // Sim tidak di dalam ruangan
-        else if (Objects.isNull(getActiveSim().getCurrentRoom())) {
-            System.out.println("Sim tidak dalam suatu ruangan!");
-        } else {
-            // TODO : Insert Method Edit Ruangan Here
-            // System.out.printf("Opsi Edit:\n1.Beli barang baru\n2.Pemindahan barang");
-        }
-    }
-
-    public void changeSim(String input, Scanner inputScanner) {
-        printSimList();
-        System.out.print("Mau ganti ke Sim mana? Ketik namanya : ");
-        input = inputScanner.nextLine();
-        // Validasi nama Sim
-        Sim currentSim = getSim(input);
-        while (currentSim == null) {
-            System.out.print("Nama Sim salah! Coba input ulang : ");
-            input = inputScanner.nextLine();
-            currentSim = getSim(input);
-        }
-        setActiveSim(currentSim);
-    }
-
-    public void listObject() {
-        getActiveSim().getCurrentRoom().printPlacedObject();
-    }
-
-    public void goToObject(int x, int y) {
-        Point toCheck = new Point(x, y);
-        boolean found = false;
-        for (String key : getActiveSim().getCurrentRoom().getPlacedObject().keySet()) {
-            for (Point p : getActiveSim().getCurrentRoom().getPlacedObject().get(key)) {
-                if (toCheck.equals(p)) {
-                    found = true;
-                    break;
-                }
-            }
-        }
-        if (found) {
-            getActiveSim().move(x, y);
-            actions();
-        } else {
-            System.out.println("Objek dengan posisi " + toCheck.toString() + " tidak ditemukan");
         }
 
     }
 
-    public void pasangBarang(String itemName, int x, int y) throws ItemNotFoundException, Exception {
-        getActiveSim().installBarang(capitalizeEachWord(itemName), x, y);
+    // TODO : Implementasi viewSimInfo
+    public void viewSimInfo() {
+        getActiveSim().showSimInfo();
+    }
+
+    // TODO : Implementasi viewCurrentLocation
+    public void viewCurrentLocation() {
+        System.out.println("Lokasi saat ini : " + getActiveSim().getCurrentPos().toString());
+        // Ini koordinat aja atau sampe ke rumah dan ruangan juga?
     }
 
     public void actions() {
@@ -366,10 +335,15 @@ public class GameManager {
                     System.out.println("Sim bisa melakukan Sleep. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
-                        System.out.print("Masukkan durasi tidur sim: ");
-                        int durasiTidur = Integer.parseInt(actionScanner.nextLine());
-                        Kasur currentKasur = (Kasur) object;
-                        currentKasur.Sleeping(activeSim, durasiTidur);
+                        // Do Action
+                        System.out.println("Masukkan durasi (dalam detik):");
+                        int duration = Integer.parseInt(actionScanner.nextLine());
+                        if (duration >= 180) {
+                            Kasur kasur = (Kasur) object;
+                            kasur.Sleeping(getActiveSim(), duration);
+                        } else {
+                            System.out.println("Durasi minimal 3 menit (180 detik)");
+                        }
                     }
                     break;
                 case ("Cermin"):
@@ -385,13 +359,21 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        Jam jam = (Jam) object;
+                        jam.lihatWaktu();
                     }
                     break;
                 case ("Kompor"):
-                    System.out.println("Sim bisa melakukan Cook. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        getActiveSim().getInventory().printListIngredient();
+                        Kompor kompor = (Kompor) object;
+                        if (kompor.checkBahanMasak(getActiveSim().getInventory())) {
+                            System.out.println("Masukkan nama makanan yang ingin dimasak: ");
+                            String namaMakanan = actionScanner.nextLine();
+                            kompor.Cooking(getActiveSim(), namaMakanan);
+                        }
                     }
                     break;
                 case ("Lukisan"):
@@ -399,6 +381,10 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        System.out.println("Masukkan durasi (dalam detik):");
+                        int duration = Integer.parseInt(actionScanner.nextLine());
+                        Lukisan lukisan = (Lukisan) object;
+                        lukisan.lihatLukisan(getActiveSim(), duration);
                     }
                     break;
                 case ("Meja"):
@@ -406,6 +392,16 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        try {
+                            getActiveSim().getInventory().printListMakanan();
+                            System.out.println("Masukkan nama makanan yang ingin dimakan: ");
+                            String namaMakanan = actionScanner.nextLine();
+                            MejaKursi mejakursi = (MejaKursi) object;
+                            mejakursi.makan(getActiveSim(),
+                                    (Food) (getActiveSim().getInventory().getItem(namaMakanan)));
+                        } catch (ItemNotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                     break;
                 case ("Shower"):
@@ -413,6 +409,8 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        Shower shower = (Shower) object;
+                        shower.mandi(getActiveSim());
                     }
                     break;
                 case ("Toilet"):
@@ -420,7 +418,7 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         Toilet toilet = (Toilet) object;
-                        System.out.print("Masukkan durasi pee sim: ");
+                        System.out.print("Masukkan durasi (dalam detik): ");
                         int durasiPee = Integer.parseInt(actionScanner.nextLine());
                         toilet.buangAir(activeSim, durasiPee);
                     }
@@ -430,6 +428,10 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        System.out.println("Masukkan durasi (dalam detik):");
+                        int duration = Integer.parseInt(actionScanner.nextLine());
+                        TV tv = (TV) object;
+                        tv.nontonTV(getActiveSim(), duration);
                     }
                     break;
                 case ("Wastafel"):
@@ -438,6 +440,8 @@ public class GameManager {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
+                        Wastafel wastafel = (Wastafel) object;
+                        wastafel.cuciTangan(getActiveSim());
                     }
                     break;
             }
@@ -488,5 +492,4 @@ public class GameManager {
             return text;
         }
     }
-
 }

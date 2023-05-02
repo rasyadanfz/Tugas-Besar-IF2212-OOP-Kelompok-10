@@ -66,6 +66,44 @@ public class Inventory<T extends Item> {
 
     }
 
+    public void printListIngredient() {
+        System.out.println("Berikut adalah bahan makanan yang ada pada inventory: ");
+        int i = 1;
+        if (daftarItem.isEmpty()) {
+            System.out.println("Tidak ada bahan makanan pada inventory !!");
+        } else {
+            try {
+                for (String s : daftarItem.keySet()) {
+                    if (findItemInContainer(s) instanceof Ingredient) {
+                        System.out.println(i + ". " + s + "(" + daftarItem.get(s) + ")");
+                        i++;
+                    }
+                }
+            } catch (ItemNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void printListMakanan() {
+        System.out.println("Berikut adalah makanan yang ada pada inventory: ");
+        int i = 1;
+        if (daftarItem.isEmpty()) {
+            System.out.println("Tidak ada makanan pada inventory !!");
+        } else {
+            try {
+                for (String s : daftarItem.keySet()) {
+                    if (findItemInContainer(s) instanceof Food || findItemInContainer(s) instanceof Ingredient) {
+                        System.out.println(i + ". " + s + "(" + daftarItem.get(s) + ")");
+                        i++;
+                    }
+                }
+            } catch (ItemNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public T findItemInContainer(String itemName) throws ItemNotFoundException {
         T item = null;
         Iterator<T> containerIterator = itemContainer.iterator();

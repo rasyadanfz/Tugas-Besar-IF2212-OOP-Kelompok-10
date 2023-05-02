@@ -25,6 +25,7 @@ public class TV extends ActiveItems {
                 sim.addAction(new Action("nontonTV", duration, this));
                 sim.setStatus("active");
                 sim.setInActiveAction(true);
+                effect(sim, duration);
             } else {
                 throw new DurationNotValidException(30);
             }

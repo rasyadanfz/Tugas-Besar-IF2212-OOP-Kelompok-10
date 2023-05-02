@@ -18,14 +18,11 @@ public class Shower extends ActiveItems {
         sim.addAction(new Action("mandi", 30, this));
         sim.setStatus("active");
         sim.setInActiveAction(true);
+        effect(sim, 30);
     }
 
     public void effect(Sim sim, int duration) {
-        while (duration > 0) {
-            // Setiap 30 detik :
-            sim.changeMood(5);
-            sim.changeKesehatan(5);
-            duration -= 30;
-        }
+        sim.changeMood(5);
+        sim.changeKesehatan(5);
     }
 }
