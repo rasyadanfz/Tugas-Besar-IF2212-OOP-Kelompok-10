@@ -4,7 +4,7 @@ import java.util.*;
 
 import src.Thing.Jam;
 
-public abstract class Ingredient extends Item implements Purchaseable {
+public class Ingredient extends Item implements Purchaseable, Eatable {
     private String nama;
     private int price;
     private int kekenyangan;
@@ -69,5 +69,9 @@ public abstract class Ingredient extends Item implements Purchaseable {
             }
         };
         t.start();
+    }
+
+    public void eat(Sim sim) {
+        sim.changeKekenyangan(getKekenyangan());
     }
 }
