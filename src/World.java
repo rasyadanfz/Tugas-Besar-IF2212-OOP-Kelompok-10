@@ -1,7 +1,6 @@
 package src;
 
 import java.util.*;
-
 import src.Exceptions.HouseNotFoundException;
 
 public class World {

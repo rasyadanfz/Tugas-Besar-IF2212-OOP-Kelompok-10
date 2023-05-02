@@ -1,8 +1,6 @@
 package src;
 
 import java.util.*;
-
-import src.Exceptions.ItemNotFoundException;
 import src.Thing.*;
 
 public class Room {

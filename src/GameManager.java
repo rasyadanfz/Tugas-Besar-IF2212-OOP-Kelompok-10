@@ -422,6 +422,11 @@ public class GameManager {
                 
                 if (destHouse != null) {
                     try {
+                        // int x1 = getActiveSim().getCurrentHouse().getLokasi().getX();
+                        // int y1 = getActiveSim().getCurrentHouse().getLokasi().getY();
+                        // int x2 = destHouse.getLokasi().getX();
+                        // int y2 = destHouse.getLokasi().getY();
+                        // double durasiPP = Math.sqrt((x2-x1)^2 + (y2-y1)^2);
                         getActiveSim().visit(destHouse);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
