@@ -6,12 +6,10 @@ import src.Thing.*;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.lang.Math;
 
 public class Sim {
     private String namaLengkap;
     private String status;
-    private House ownedHouse;
     private Job pekerjaan = new Job();
     private boolean justChangedJob;
     private int uang;
@@ -64,10 +62,6 @@ public class Sim {
         return status;
     }
 
-    public House getOwnedHouse() {
-        return ownedHouse;
-    }
-
     public Inventory<Item> getInventory() {
         return inventory;
     }
@@ -106,6 +100,7 @@ public class Sim {
         if (a.getDurationLeft() == 0) {
             a.getActionObject().effect(this, a.getOriginalDuration());
             actionList.remove(a);
+            setInActiveAction(false);
         }
     }
 
@@ -118,25 +113,18 @@ public class Sim {
     }
 
     public void showSimInfo() {
-        // System.out.printf("Nama : %s\n", getNamaLengkap());
-        // System.out.printf("Status : %s\n", getStatus());
-        // System.out.printf("Pekerjaan : %s\n", getPekerjaan());
-        // System.out.println("Kesejahteraan Sim :");
-        // System.out.printf("Uang : %d\n", getUang());
-        // System.out.printf("Kekenyangan : %d\n", getKekenyangan());
-        // System.out.printf("Kesehatan : %d\n", getKesehatan());
-        // System.out.printf("Mood : %d\n", getMood());
-        // seeInventory();
-        // System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
-        // System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
-        // System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
-        System.out.println("SIM INFO:");
-        System.out.println("Nama Sim: " + getNamaLengkap());
-        System.out.println("Pekerjaan: " + getPekerjaan());
-        System.out.println("Kesehatan: " + getKesehatan());
-        System.out.println("Kekenyangan: " + getKekenyangan());
-        System.out.println("Mood: " + getMood());
-        System.out.println("Uang: " + getUang());
+        System.out.printf("Nama : %s\n", getNamaLengkap());
+        System.out.printf("Status : %s\n", getStatus());
+        System.out.printf("Pekerjaan : %s\n", getPekerjaan());
+        System.out.println("Kesejahteraan Sim :");
+        System.out.printf("Uang : %d\n", getUang());
+        System.out.printf("Kekenyangan : %d\n", getKekenyangan());
+        System.out.printf("Kesehatan : %d\n", getKesehatan());
+        System.out.printf("Mood : %d\n", getMood());
+        seeInventory();
+        System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
+        System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
+        System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
     }
 
     // Setter
@@ -196,10 +184,6 @@ public class Sim {
 
     public void setStatus(String newStatus) {
         status = newStatus;
-    }
-
-    public void setOwnedHouse(House ownedHouse) {
-        this.ownedHouse = ownedHouse;
     }
 
     public void getJob() {
@@ -296,14 +280,9 @@ public class Sim {
         inventory.printItems();
     }
 
-    public void visit(House destHouse) throws Exception {
-        if (destHouse == currentHouse) {
-            throw new Exception("Sim tidak bisa berkunjung ke rumah yang sudah ditempati");
-        } else {
-            currentHouse = destHouse;
-            currentRoom = currentHouse.getRoom("R001");
-            currentPos = new Point(1, 1);
-        }
+    public void visit() {
+        changeMood(+10);
+        changeKekenyangan(-10);
     }
 
     public void olahraga(int duration) {
