@@ -224,7 +224,6 @@ public class GameManager {
         System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
         String answer = input.nextLine();
 
-
         if (answer.equals("Y")){
             System.out.println("\033[1;93m▀█▀ █▀▀ █▀█ █ █▀▄▀█ ▄▀█   █▄▀ ▄▀█ █▀ █ █░█   ▀█▀ █▀▀ █░░ ▄▀█ █░█   █▄▄ █▀▀ █▀█ █▀▄▀█ ▄▀█ █ █▄░█");
             System.out.println("\033[1;93m░█░ ██▄ █▀▄ █ █░▀░█ █▀█   █░█ █▀█ ▄█ █ █▀█   ░█░ ██▄ █▄▄ █▀█ █▀█   █▄█ ██▄ █▀▄ █░▀░█ █▀█ █ █░▀█\n");
@@ -233,27 +232,6 @@ public class GameManager {
         } else {
             System.out.println("Kembali ke menu utama...");
         }
-    }
-
-    public void viewSimInfo() {
-        System.out.println("SIM INFO:");
-        System.out.println("Nama Sim: " + getActiveSim().getNamaLengkap());
-        System.out.println("Pekerjaan: " + getActiveSim().getPekerjaan());
-        System.out.println("Kesehatan: " + getActiveSim().getKesehatan());
-        System.out.println("Kekenyangan: " + getActiveSim().getKekenyangan());
-        System.out.println("Mood: " + getActiveSim().getMood());
-        System.out.println("Uang: " + getActiveSim().getUang());
-    }
-
-    public void viewCurrentLocation() {
-        System.out.println("Current Location : ");
-        System.out.println("Rumah : " + getActiveSim().getCurrentHouse().getKodeRumah());
-        System.out.println("Ruangan : " + getActiveSim().getCurrentRoom().getNamaRuangan());
-        System.out.println("Posisi : " + getActiveSim().getCurrentPos().toString());
-        System.out.println("Peta Rumah: ");
-        getActiveSim().getCurrentHouse().printPetaRumah();
-        System.out.println("Peta Ruangan: ");
-        getActiveSim().getCurrentRoom().printPetaRuangan(getActiveSim());
     }
 
     public void viewInventory() {
@@ -280,7 +258,6 @@ public class GameManager {
         if (Objects.isNull(getActiveSim().getCurrentHouse())) {
             System.out.println("Sim tidak dalam suatu rumah");
         } else {
-
             if (!input.equals(getActiveSim().getCurrentRoom().getNamaRuangan())) {
                 Room targetRoom = getActiveSim().getCurrentHouse().getRoom(input);
                 if (!Objects.isNull(targetRoom)) {
@@ -289,16 +266,14 @@ public class GameManager {
                     System.out.println("Ruangan dengan kode " + input + " tidak ada");
                 }
             } else {
-                System.out.println("Sim sudah ada di ruangan "
-                        + getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
+                System.out.println("Sim sudah ada di ruangan " + getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
             }
         }
-        else{
-            System.out.println("Kembali ke menu utama...");
-            // TODO : Implementasi menu utama
+        // else{
+        //     System.out.println("Kembali ke menu utama...");
+        //     // TODO : Implementasi menu utama
 
-        }
-
+        // }
     }
 
     // TODO : Implementasi viewSimInfo
@@ -308,8 +283,14 @@ public class GameManager {
 
     // TODO : Implementasi viewCurrentLocation
     public void viewCurrentLocation() {
-        System.out.println("Lokasi saat ini : " + getActiveSim().getCurrentPos().toString());
-        // Ini koordinat aja atau sampe ke rumah dan ruangan juga?
+        System.out.println("Current Location : ");
+        System.out.println("Rumah : " + getActiveSim().getCurrentHouse().getKodeRumah());
+        System.out.println("Ruangan : " + getActiveSim().getCurrentRoom().getNamaRuangan());
+        System.out.println("Posisi : " + getActiveSim().getCurrentPos().toString());
+        System.out.println("Peta Rumah: ");
+        getActiveSim().getCurrentHouse().printPetaRumah();
+        System.out.println("Peta Ruangan: ");
+        getActiveSim().getCurrentRoom().printPetaRuangan(getActiveSim());
     }
 
     public void actions() {
