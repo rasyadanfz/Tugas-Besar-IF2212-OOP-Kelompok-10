@@ -6,10 +6,12 @@ import src.Thing.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Math;
 
 public class Sim {
     private String namaLengkap;
     private String status;
+    private House ownedHouse;
     private Job pekerjaan = new Job();
     private boolean justChangedJob;
     private int uang;
@@ -60,6 +62,10 @@ public class Sim {
 
     public String getStatus() {
         return status;
+    }
+
+    public House getOwnedHouse() {
+        return ownedHouse;
     }
 
     public Inventory<Item> getInventory() {
@@ -185,6 +191,10 @@ public class Sim {
         status = newStatus;
     }
 
+    public void setOwnedHouse(House ownedHouse) {
+        this.ownedHouse = ownedHouse;
+    }
+
     public void getJob() {
         Random random = new Random();
         Job.findJob(pekerjaan, random.nextInt(5));
@@ -279,9 +289,14 @@ public class Sim {
         inventory.printItems();
     }
 
-    public void visit() {
-        changeMood(+10);
-        changeKekenyangan(-10);
+    public void visit(House destHouse) throws Exception {
+        if (destHouse == currentHouse) {
+            throw new Exception("Sim tidak bisa berkunjung ke rumah yang sudah ditempati");
+        } else {
+            currentHouse = destHouse;
+            currentRoom = currentHouse.getRoom("R001");
+            currentPos = new Point(1, 1);
+        }
     }
 
     public void olahraga(int duration) {
