@@ -13,15 +13,14 @@ public class Wastafel extends ActiveItems {
     }
 
     public void effect(Sim sim, int duration) {
-        while (duration > 0) {
-            sim.changeKesehatan(1);
-            duration--;
-        }
+        sim.changeKesehatan(5);
+        duration--;
     }
 
-    public void cuciTangan(Sim sim, int duration) {
-        sim.addAction(new Action("washingHand", duration, this));
+    public void cuciTangan(Sim sim) {
+        sim.addAction(new Action("washingHand", 5, this));
         sim.setStatus("active");
         sim.setInActiveAction(true);
+        effect(sim, 5);
     }
 }

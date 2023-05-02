@@ -32,15 +32,4 @@ public class MejaKursi extends ActiveItems {
 
     }
 
-    public void printListMakanan(Sim sim) {
-        int i = 1;
-        ArrayList<Item> items = sim.getInventory().getItemContainer();
-        for (Item item : items) {
-            if (item instanceof Food || item instanceof Ingredient) {
-                System.out.println(i + ". " + item);
-                i++;
-            }
-        }
-    }
-
 }
