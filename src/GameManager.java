@@ -224,9 +224,12 @@ public class GameManager {
         System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
         String answer = input.nextLine();
 
-        if (answer.equals("Y")) {
-            System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
+
+        if (answer.equals("Y")){
+            System.out.println("\033[1;93m▀█▀ █▀▀ █▀█ █ █▀▄▀█ ▄▀█   █▄▀ ▄▀█ █▀ █ █░█   ▀█▀ █▀▀ █░░ ▄▀█ █░█   █▄▄ █▀▀ █▀█ █▀▄▀█ ▄▀█ █ █▄░█");
+            System.out.println("\033[1;93m░█░ ██▄ █▀▄ █ █░▀░█ █▀█   █░█ █▀█ ▄█ █ █▀█   ░█░ ██▄ █▄▄ █▀█ █▀█   █▄█ ██▄ █▀▄ █░▀░█ █▀█ █ █░▀█\n");
             System.exit(0);
+        
         } else {
             System.out.println("Kembali ke menu utama...");
         }
