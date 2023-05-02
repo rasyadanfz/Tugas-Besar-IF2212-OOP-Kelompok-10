@@ -82,6 +82,8 @@ public class GameManager {
             try {
                 world.addHouse(new Random().nextInt(64) + 1, new Random().nextInt(64) + 1, kodeRumahBaru);
             } catch (Exception e) {
+            } finally {
+                houseCount++;
             }
         }
     }
@@ -92,6 +94,8 @@ public class GameManager {
             world.addHouse(x, y, kodeRumahBaru);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            houseCount++;
         }
     }
 
@@ -224,12 +228,9 @@ public class GameManager {
         System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
         String answer = input.nextLine();
 
-
-        if (answer.equals("Y")){
-            System.out.println("\033[1;93m▀█▀ █▀▀ █▀█ █ █▀▄▀█ ▄▀█   █▄▀ ▄▀█ █▀ █ █░█   ▀█▀ █▀▀ █░░ ▄▀█ █░█   █▄▄ █▀▀ █▀█ █▀▄▀█ ▄▀█ █ █▄░█");
-            System.out.println("\033[1;93m░█░ ██▄ █▀▄ █ █░▀░█ █▀█   █░█ █▀█ ▄█ █ █▀█   ░█░ ██▄ █▄▄ █▀█ █▀█   █▄█ ██▄ █▀▄ █░▀░█ █▀█ █ █░▀█\n");
+        if (answer.equals("Y")) {
+            System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
             System.exit(0);
-        
         } else {
             System.out.println("Kembali ke menu utama...");
         }
@@ -280,7 +281,6 @@ public class GameManager {
         if (Objects.isNull(getActiveSim().getCurrentHouse())) {
             System.out.println("Sim tidak dalam suatu rumah");
         } else {
-
             if (!input.equals(getActiveSim().getCurrentRoom().getNamaRuangan())) {
                 Room targetRoom = getActiveSim().getCurrentHouse().getRoom(input);
                 if (!Objects.isNull(targetRoom)) {
@@ -293,43 +293,192 @@ public class GameManager {
                         + getActiveSim().getCurrentRoom().getNamaRuangan() + "!");
             }
         }
-        else{
-            System.out.println("Kembali ke menu utama...");
-            // TODO : Implementasi menu utama
+    }
 
+    public void editRoom() {
+        // Sim tidak sedang di rumah
+        if (Objects.isNull(getActiveSim().getCurrentHouse())) {
+            System.out.println("Sim tidak dalam suatu rumah!");
         }
-
+        // Sim tidak di dalam ruangan
+        else if (Objects.isNull(getActiveSim().getCurrentRoom())) {
+            System.out.println("Sim tidak dalam suatu ruangan!");
+        } else {
+            // TODO : Insert Method Edit Ruangan Here
+            // System.out.printf("Opsi Edit:\n1.Beli barang baru\n2.Pemindahan barang");
+        }
     }
 
-    // TODO : Implementasi viewSimInfo
-    public void viewSimInfo() {
-        getActiveSim().showSimInfo();
+    public void changeSim(String input, Scanner inputScanner) {
+        printSimList();
+        System.out.print("Mau ganti ke Sim mana? Ketik namanya : ");
+        input = inputScanner.nextLine();
+        // Validasi nama Sim
+        Sim currentSim = getSim(input);
+        while (currentSim == null) {
+            System.out.print("Nama Sim salah! Coba input ulang : ");
+            input = inputScanner.nextLine();
+            currentSim = getSim(input);
+        }
+        setActiveSim(currentSim);
     }
 
-    // TODO : Implementasi viewCurrentLocation
-    public void viewCurrentLocation() {
-        System.out.println("Lokasi saat ini : " + getActiveSim().getCurrentPos().toString());
-        // Ini koordinat aja atau sampe ke rumah dan ruangan juga?
+    public void listObject() {
+        getActiveSim().getCurrentRoom().printPlacedObject();
     }
 
-    public void actions() {
-        Scanner actionScanner = new Scanner(System.in);
-        // Get list of objects di lokasi sim dan di 1 posisi sekitar sim
-        ArrayList<String> objectsNearSim = new ArrayList<String>();
-        HashMap<String, ArrayList<Point>> listOfObjects = getActiveSim().getCurrentRoom().getPlacedObject();
-        for (String key : listOfObjects.keySet()) {
-            for (Point p : listOfObjects.get(key))
-                if (getActiveSim().getCurrentPos().equals(p)) {
-                    if (!objectsNearSim.contains(key)) {
-                        objectsNearSim.add(key);
-                    }
+    public void goToObject(int x, int y) {
+        Point toCheck = new Point(x, y);
+        boolean found = false;
+        for (String key : getActiveSim().getCurrentRoom().getPlacedObject().keySet()) {
+            for (Point p : getActiveSim().getCurrentRoom().getPlacedObject().get(key)) {
+                if (toCheck.equals(p)) {
+                    found = true;
+                    break;
                 }
+            }
+        }
+        if (found) {
+            getActiveSim().move(x, y);
+            actions(true);
+        } else {
+            System.out.println("Objek dengan posisi " + toCheck.toString() + " tidak ditemukan");
         }
 
-        for (String obj : objectsNearSim) {
-            String firstWord = getFirstWord(obj);
+    }
+
+    public void pasangBarang(String itemName, int x, int y) throws ItemNotFoundException, Exception {
+        getActiveSim().installBarang(capitalizeEachWord(itemName), x, y);
+    }
+
+    public void actions(boolean goTo) {
+        Scanner actionScanner = new Scanner(System.in);
+        String input;
+        String objectNameNearSim = null;
+        Thing objectNearSim = null;
+        HashMap<String, ArrayList<Point>> listOfObjects = getActiveSim().getCurrentRoom().getPlacedObject();
+        for (String s : listOfObjects.keySet()) {
+            for (Point p : listOfObjects.get(s)) {
+                if (getActiveSim().getCurrentPos().equals(p)) {
+                    objectNearSim = getActiveSim().getCurrentRoom().findItemInContainer(p);
+                    objectNameNearSim = objectNearSim.getNama();
+                }
+            }
+        }
+
+        if (!goTo) {
+            System.out.println("List Aksi: ");
+            System.out.println("1. Work");
+            System.out.println("2. Olahraga");
+            System.out.println("3. Visit");
+            System.out.println("4. ");
+            System.out.println();
+
+            String firstWord = getFirstWord(objectNameNearSim);
+            switch (firstWord) {
+                case ("Kasur"):
+                    System.out.println("5. Sleep");
+                    break;
+                case ("Cermin"):
+                    System.out.println("5. Bercermin");
+                    break;
+                case ("Jam"):
+                    System.out.println("5. Lihat Jam");
+                    break;
+                case ("Toilet"):
+                    System.out.println("5. Pee");
+                    break;
+                case ("Kompor"):
+                    System.out.println("5. Cook");
+                    break;
+                case ("Lukisan"):
+                    System.out.println("5. Lihat Lukisan");
+                    break;
+                case ("Meja"):
+                    System.out.println("5. Makan");
+                    break;
+                case ("Shower"):
+                    System.out.println("5. Mandi");
+                    break;
+                case ("TV"):
+                    System.out.println("5. Nonton TV");
+                    break;
+                case ("Wastafel"):
+                    System.out.println("5. Cuci Tangan");
+                    break;
+            }
+            System.out.println("Masukkan aksi yang ingin dilakukan:");
+            input = actionScanner.nextLine();
+            if (input.equals("Work")) {
+                System.out.print("Masukkan durasi bekerja: ");
+                int durasi = Integer.parseInt(actionScanner.nextLine());
+                getActiveSim().kerja(durasi);
+            } else if (input.equals("Olahraga")) {
+                System.out.print("Masukkan durasi olahraga: ");
+                int durasi = Integer.parseInt(actionScanner.nextLine());
+                getActiveSim().olahraga(durasi);
+            } else if (input.equals("Visit")) {
+                getActiveSim().visit();
+            } else if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
+                System.out.println("Masukkan durasi (dalam detik):");
+                int duration = Integer.parseInt(actionScanner.nextLine());
+                if (duration >= 180) {
+                    Kasur kasur = (Kasur) objectNearSim;
+                    kasur.Sleeping(getActiveSim(), duration);
+                } else {
+                    System.out.println("Durasi minimal 3 menit (180 detik)");
+                }
+            } else if (input.equals("Bercermin") && (firstWord.equals("Cermin"))) {
+                Cermin currentCermin = (Cermin) objectNearSim;
+                currentCermin.bercermin(activeSim);
+            } else if (input.equals("Lihat Jam") && (firstWord.equals("Jam"))) {
+                Jam jam = (Jam) objectNearSim;
+                jam.lihatWaktu();
+            } else if (input.equals("Pee") && firstWord.equals("Toilet")) {
+                Toilet toilet = (Toilet) objectNearSim;
+                System.out.print("Masukkan durasi (dalam detik): ");
+                int durasiPee = Integer.parseInt(actionScanner.nextLine());
+                toilet.buangAir(activeSim, durasiPee);
+            } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
+                getActiveSim().getInventory().printListIngredient();
+                Kompor kompor = (Kompor) objectNearSim;
+                if (kompor.checkBahanMasak(getActiveSim().getInventory())) {
+                    System.out.println("Masukkan nama makanan yang ingin dimasak: ");
+                    String namaMakanan = actionScanner.nextLine();
+                    kompor.Cooking(getActiveSim(), namaMakanan);
+                }
+            } else if (input.equals("Lihat Lukisan") && (firstWord.equals("Lukisan"))) {
+                System.out.println("Masukkan durasi (dalam detik):");
+                int duration = Integer.parseInt(actionScanner.nextLine());
+                Lukisan lukisan = (Lukisan) objectNearSim;
+                lukisan.lihatLukisan(getActiveSim(), duration);
+            } else if (input.equals("Makan") && (firstWord.equals("Meja"))) {
+                try {
+                    getActiveSim().getInventory().printListMakanan();
+                    System.out.println("Masukkan nama makanan yang ingin dimakan: ");
+                    String namaMakanan = actionScanner.nextLine();
+                    MejaKursi mejakursi = (MejaKursi) objectNearSim;
+                    mejakursi.makan(getActiveSim(),
+                            (Food) (getActiveSim().getInventory().getItem(namaMakanan)));
+                } catch (ItemNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else if (input.equals("Mandi") && (firstWord.equals("Shower"))) {
+                Shower shower = (Shower) objectNearSim;
+                shower.mandi(getActiveSim());
+            } else if (input.equals("Nonton TV") && (firstWord.equals("TV"))) {
+                System.out.println("Masukkan durasi (dalam detik):");
+                int duration = Integer.parseInt(actionScanner.nextLine());
+                TV tv = (TV) objectNearSim;
+                tv.nontonTV(getActiveSim(), duration);
+            } else if (input.equals("Cuci Tangan") && (firstWord.equals("Wastafel"))) {
+                Wastafel wastafel = (Wastafel) objectNearSim;
+                wastafel.cuciTangan(getActiveSim());
+            }
+        } else {
+            String firstWord = getFirstWord(objectNameNearSim);
             String answer;
-            Thing object = getActiveSim().getCurrentRoom().findItemInContainer(getActiveSim().getCurrentPos());
+            Thing object = objectNearSim;
             switch (firstWord) {
                 case ("Kasur"):
                     System.out.println("Sim bisa melakukan Sleep. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
@@ -451,17 +600,14 @@ public class GameManager {
     public void runTime() {
         Sim firstActiveSim = null;
         Iterator<Sim> simIterator = simList.iterator();
-        boolean stop = false;
-        while (!stop && simIterator.hasNext()) {
-            firstActiveSim = simIterator.next();
-            if (firstActiveSim.getStatus().equals("active")) {
-                stop = true;
-            } else if (!simIterator.hasNext()) {
-                firstActiveSim = null;
+        for (Sim sim : simList) {
+            if (sim.getStatus().equals("active")) {
+                firstActiveSim = sim;
+                break;
             }
         }
 
-        if (!Objects.isNull(firstActiveSim)) {
+        if (firstActiveSim != null) {
             worldTimer.reduceTime(1, this);
         } else {
             getActiveSim().setInActiveAction(false);
