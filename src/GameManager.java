@@ -2,10 +2,7 @@ package src;
 
 import java.util.*;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-
-import src.Exceptions.ItemNotFoundException;
-import src.Thing.*;
+import src.Exceptions.*;
 import src.Thing.*;
 
 public class GameManager {
@@ -234,6 +231,7 @@ public class GameManager {
         } else {
             System.out.println("Kembali ke menu utama...");
         }
+        input.close();
     }
 
     public void viewSimInfo() {
@@ -418,7 +416,19 @@ public class GameManager {
                 int durasi = Integer.parseInt(actionScanner.nextLine());
                 getActiveSim().olahraga(durasi);
             } else if (input.equals("Visit")) {
-                getActiveSim().visit();
+                System.out.println("Masukkan rumah yang ingin dikunjungi: ");
+                String destHouseCode = actionScanner.nextLine();
+                House destHouse = world.getHouse(destHouseCode);
+                
+                if (destHouse != null) {
+                    try {
+                        getActiveSim().visit(destHouse);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else {
+                    System.out.println("Rumah dengan kode " + destHouseCode + " tidak ditemukan!");
+                }
             } else {
                 if (!Objects.isNull(objectNameNearSim)) {
                     String firstWord = getFirstWord(objectNameNearSim);
@@ -600,6 +610,8 @@ public class GameManager {
                     break;
             }
         }
+
+        actionScanner.close();
     }
 
     public void runTime() {

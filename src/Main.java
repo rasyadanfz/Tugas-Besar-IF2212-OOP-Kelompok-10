@@ -2,12 +2,6 @@ package src;
 
 import java.util.*;
 
-import src.Exceptions.HouseNotFoundException;
-import src.Thing.Jam;
-import src.Thing.KasurSingle;
-import src.Thing.KomporGas;
-import src.Thing.MejaKursi;
-import src.Thing.Toilet;
 import src.Thing.*;
 
 public class Main {
@@ -123,6 +117,7 @@ public class Main {
             // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada
             // posisi (1,1)
             firstHouse = gameWorld.getHouse("H1");
+            game.getActiveSim().setOwnedHouse(firstHouse);
             game.getActiveSim().changeCurrentHouse(firstHouse);
             game.getActiveSim().changeCurrentRoom(firstHouse.getDaftarRuangan().get(0));
             game.getActiveSim().changeCurrentPos(new Point(1, 1));

@@ -3,7 +3,6 @@ package src.Thing;
 import src.Sim;
 import src.Exceptions.DurationNotValidException;
 import src.Action;
-import src.ActionEffect;
 
 public class Lukisan extends ActiveItems {
     public Lukisan(String kodeItem) {

@@ -28,7 +28,7 @@ public class Kompor extends ActiveItems implements Cook {
         sim.changeMood(10);
     }
 
-    public boolean checkBahanMasak(Inventory inventory) {
+    public boolean checkBahanMasak(Inventory<Item> inventory) {
         boolean bisaMasak = false;
         System.out.println("Berikut adalah daftar makanan yang bisa dimasak: ");
         if (inventory.containsItem("nasi") && inventory.containsItem("ayam")) {
