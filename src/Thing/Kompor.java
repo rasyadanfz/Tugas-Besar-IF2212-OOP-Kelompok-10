@@ -2,7 +2,7 @@ package src.Thing;
 
 import src.*;
 
-public abstract class Kompor extends ActiveItems implements Cook {
+public class Kompor extends ActiveItems implements Cook {
     public Kompor(String nama, String kodeItem, int panjang, int lebar, int harga) {
         super(nama, kodeItem, panjang, lebar, harga);
     }
@@ -14,13 +14,18 @@ public abstract class Kompor extends ActiveItems implements Cook {
     public void Cooking(Sim sim, String namaMakanan) {
         Food food = new Food(namaMakanan);
         int duration = (int) (1.5 * food.getKekenyangan());
-        sim.addAction(new Action("cooking", duration, this));
+        Action actionCook = new Action("cooking", duration, this);
+        sim.addAction(actionCook);
         sim.setStatus("active");
-        while (duration > 0) {
-            sim.changeMood(10);
-            duration--;
-        }
         sim.getInventory().addItem(food);
+        effect(sim, actionCook);
+    }
+
+    public void effect(Sim sim, Action action) {
+        while (action.getDurationLeft() > 0) {
+            sim.decreaseActionDuration(action);
+        }
+        sim.changeMood(10);
     }
 
     public boolean checkBahanMasak(Inventory inventory) {

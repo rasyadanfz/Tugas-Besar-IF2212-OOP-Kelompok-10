@@ -22,10 +22,11 @@ public class TV extends ActiveItems {
         // validasi durasi
         try {
             if (duration % 30 == 0) {
-                sim.addAction(new Action("nontonTV", duration, this));
+                Action actionNontonTV = new Action("nontonTV", duration, this);
+                sim.addAction(actionNontonTV);
                 sim.setStatus("active");
                 sim.setInActiveAction(true);
-                effect(sim, duration);
+                effect(sim, actionNontonTV);
             } else {
                 throw new DurationNotValidException(30);
             }
@@ -34,12 +35,15 @@ public class TV extends ActiveItems {
         }
     }
 
-    public void effect(Sim sim, int duration) {
+    public void effect(Sim sim, Action action) {
+        int duration = action.getOriginalDuration();
         int x = duration / 30;
         for (int i = 0; i < x; i++) {
             sim.changeKesehatan(-10);
             sim.changeMood(20);
         }
-
+        while (action.getDurationLeft() > 0) {
+            sim.decreaseActionDuration(action);
+        }
     }
 }

@@ -12,15 +12,18 @@ public class Wastafel extends ActiveItems {
         super("Wastafel", 1, 1, 40);
     }
 
-    public void effect(Sim sim, int duration) {
+    public void effect(Sim sim, Action action) {
+        while (action.getDurationLeft() > 0) {
+            sim.decreaseActionDuration(action);
+        }
         sim.changeKesehatan(5);
-        duration--;
     }
 
     public void cuciTangan(Sim sim) {
-        sim.addAction(new Action("washingHand", 5, this));
+        Action actionCuciTangan = new Action("washingHand", 5, this);
+        sim.addAction(actionCuciTangan);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, 5);
+        effect(sim, actionCuciTangan);
     }
 }

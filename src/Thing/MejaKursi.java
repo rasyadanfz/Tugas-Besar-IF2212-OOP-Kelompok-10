@@ -14,21 +14,21 @@ public class MejaKursi extends ActiveItems {
     }
 
     public void makan(Sim sim, Food food) {
-        sim.addAction(new Action("eating", 30, this));
+        Action actionMakan = new Action("eating", 30, this);
+        sim.addAction(actionMakan);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, 30, food);
+        effect(sim, actionMakan);
     }
 
-    public void effect(Sim sim, int duration) {
+    public void effect(Sim sim, Action action) {
     }
 
-    public void effect(Sim sim, int duration, Food food) {
-        while (duration > 0) {
-            // setiap datu siklus makan 30 detik
-            sim.changeKekenyangan(food.getKekenyangan());
-            duration -= 30;
+    public void effect(Sim sim, Action action, Food food) {
+        while (action.getDurationLeft() > 0) {
+            sim.decreaseActionDuration(action);
         }
+        sim.changeKekenyangan(food.getKekenyangan());
 
     }
 

@@ -20,8 +20,10 @@ public class Lukisan extends ActiveItems {
         // untuk setiap 20 detik (ngasal juga)
         try {
             if (duration % 20 == 0) {
-                sim.addAction(new Action("lihatLukisan", duration, this));
+                Action actionLihatLukisan = new Action("lihatLukisan", duration, this);
+                sim.addAction(actionLihatLukisan);
                 sim.setStatus("active");
+                effect(sim, actionLihatLukisan);
             } else {
                 throw new DurationNotValidException(20);
             }
@@ -31,11 +33,15 @@ public class Lukisan extends ActiveItems {
 
     }
 
-    public void effect(Sim sim, int duration) {
+    public void effect(Sim sim, Action action) {
+        int duration = action.getOriginalDuration();
         int x = duration / 20;
         for (int i = 0; i < x; i++) {
             sim.changeKesehatan(-10);
             sim.changeMood(20);
+        }
+        while (action.getDurationLeft() > 0) {
+            sim.decreaseActionDuration(action);
         }
     }
 }

@@ -15,13 +15,17 @@ public class Shower extends ActiveItems {
     }
 
     public void mandi(Sim sim) {
-        sim.addAction(new Action("mandi", 30, this));
+        Action actionMandi = new Action("mandi", 30, this);
+        sim.addAction(actionMandi);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, 30);
+        effect(sim, actionMandi);
     }
 
-    public void effect(Sim sim, int duration) {
+    public void effect(Sim sim, Action action) {
+        while (action.getDurationLeft() > 0) {
+            sim.decreaseActionDuration(action);
+        }
         sim.changeMood(5);
         sim.changeKesehatan(5);
     }
