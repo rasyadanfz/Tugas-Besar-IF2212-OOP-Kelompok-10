@@ -8,6 +8,7 @@ import src.Thing.KasurSingle;
 import src.Thing.KomporGas;
 import src.Thing.MejaKursi;
 import src.Thing.Toilet;
+import src.Thing.*;
 
 public class Main {
     private static World gameWorld;
@@ -72,8 +73,10 @@ public class Main {
         // Commands
         while (isActive) {
             while (!inGame) {
-                System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
-                input = inputScanner.nextLine();
+                if (input == null) {
+                    System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
+                    input = inputScanner.nextLine();
+                }
                 gameCommands(input);
             }
             // TODO: Delete debug time kalo udah bener timenya
@@ -84,6 +87,7 @@ public class Main {
                 input = inputScanner.nextLine();
                 gameCommands(input);
             } else {
+                System.out.println("Aktif Sim: " + game.getActiveSim().getInActiveAction());
                 game.runTime();
             }
         }
@@ -105,23 +109,13 @@ public class Main {
         String newSimName = inputScanner.nextLine();
         game.addSim(newSimName);
 
-        // Masukkan Item Default ke Inventory Sim
-        game.getActiveSim().getInventory().addItem(new KasurSingle("K0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                          // Otomatis Setiap
-        // ada yang baru
-        game.getActiveSim().getInventory().addItem(new Toilet("T0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                     // Otomatis Setiap ada
-        // yang baru
-        game.getActiveSim().getInventory().addItem(new KomporGas("GS0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                         // Otomatis Setiap
-        // ada yang baru
-        game.getActiveSim().getInventory().addItem(new MejaKursi("MK0" + kodeIterator)); // TODO : Implementasi Kode
-                                                                                         // Otomatis Setiap
-        // ada yang baru
-        game.getActiveSim().getInventory().addItem(new Jam("J0" + kodeIterator)); // TODO : Implementasi Kode Otomatis
-                                                                                  // Setiap ada yang
-        // baru
-        kodeIterator++;
+        game.getActiveSim().getInventory().addItem(new KasurSingle());
+        game.getActiveSim().getInventory().addItem(new KasurSingle());
+        game.getActiveSim().getInventory().addItem(new Toilet());
+        game.getActiveSim().getInventory().addItem(new KomporGas());
+        game.getActiveSim().getInventory().addItem(new MejaKursi());
+        game.getActiveSim().getInventory().addItem(new Jam());
+        game.getActiveSim().getInventory().addItem(new Cermin());
 
         // Create Rumah
         try {
@@ -157,16 +151,10 @@ public class Main {
                 input = inputScanner.nextLine();
                 game.exit();
             } else {
-                System.out.println("SIM INFO:");
-                System.out.println("Nama Sim: " + game.getActiveSim().getNamaLengkap());
-                System.out.println("Pekerjaan: " + game.getActiveSim().getPekerjaan());
-                System.out.println("Kesehatan: " + game.getActiveSim().getKesehatan());
-                System.out.println("Kekenyangan: " + game.getActiveSim().getKekenyangan());
-                System.out.println("Mood: " + game.getActiveSim().getMood());
-                System.out.println("Uang: " + game.getActiveSim().getUang());
+                game.viewSimInfo();
             }
         } else {
-            if (!game.getActiveSim().getStatus().equals("active")) {
+            if (!game.getActiveSim().getInActiveAction()) {
                 if (input.equals("HELP")) {
                     game.help();
                 } else if (input.equals("EXIT")) {
@@ -177,7 +165,6 @@ public class Main {
                     game.viewSimInfo();
                 } else if (input.equals("VIEW CURRENT LOCATION")) {
                     game.viewCurrentLocation();
-
                 } else if (input.equals("VIEW INVENTORY")) {
                     game.viewInventory();
                 } else if (input.equals("UPGRADE RUMAH")) {
@@ -221,14 +208,14 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                 } else if (input.equals("ACTION")) {
-                    game.actions();
+                    game.actions(false);
                 } else {
                     System.out.println("Perintah tidak dikenali, mohon masukkan perintah yang valid!");
                     System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
                 }
+            } else {
+                System.out.println("Sim sedang melakukan aksi aktif!");
             }
-
-
         }
     }
 }

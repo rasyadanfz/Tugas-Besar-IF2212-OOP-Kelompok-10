@@ -100,6 +100,7 @@ public class Sim {
         if (a.getDurationLeft() == 0) {
             // a.getActionObject().effect(this, a.getOriginalDuration());
             actionList.remove(a);
+            setInActiveAction(false);
         }
     }
 
