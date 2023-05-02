@@ -98,7 +98,7 @@ public class Sim {
         a.decreaseDuration();
         // Hapus aksi jika durasinya 0
         if (a.getDurationLeft() == 0) {
-            a.getActionObject().effect(this, a.getOriginalDuration());
+            // a.getActionObject().effect(this, a.getOriginalDuration());
             actionList.remove(a);
         }
     }
