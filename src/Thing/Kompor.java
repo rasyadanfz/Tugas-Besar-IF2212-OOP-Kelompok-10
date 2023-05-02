@@ -23,9 +23,9 @@ public class Kompor extends ActiveItems implements Cook {
 
     public void effect(Sim sim, Action action) {
         while (action.getDurationLeft() > 0) {
-            sim.changeMood(10);
             sim.decreaseActionDuration(action);
         }
+        sim.changeMood(10);
     }
 
     public boolean checkBahanMasak(Inventory inventory) {

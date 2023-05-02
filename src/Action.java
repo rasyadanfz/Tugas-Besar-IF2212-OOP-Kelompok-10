@@ -32,6 +32,10 @@ public class Action {
         durationLeft--;
     }
 
+    public void decreaseDuration(int besarPengurangan) {
+        durationLeft -= besarPengurangan;
+    }
+
     public ActiveItems getActionObject() {
         return actionObject;
     }
