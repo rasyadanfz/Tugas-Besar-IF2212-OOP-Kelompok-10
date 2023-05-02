@@ -118,18 +118,25 @@ public class Sim {
     }
 
     public void showSimInfo() {
-        System.out.printf("Nama : %s\n", getNamaLengkap());
-        System.out.printf("Status : %s\n", getStatus());
-        System.out.printf("Pekerjaan : %s\n", getPekerjaan());
-        System.out.println("Kesejahteraan Sim :");
-        System.out.printf("Uang : %d\n", getUang());
-        System.out.printf("Kekenyangan : %d\n", getKekenyangan());
-        System.out.printf("Kesehatan : %d\n", getKesehatan());
-        System.out.printf("Mood : %d\n", getMood());
-        seeInventory();
-        System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
-        System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
-        System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
+        // System.out.printf("Nama : %s\n", getNamaLengkap());
+        // System.out.printf("Status : %s\n", getStatus());
+        // System.out.printf("Pekerjaan : %s\n", getPekerjaan());
+        // System.out.println("Kesejahteraan Sim :");
+        // System.out.printf("Uang : %d\n", getUang());
+        // System.out.printf("Kekenyangan : %d\n", getKekenyangan());
+        // System.out.printf("Kesehatan : %d\n", getKesehatan());
+        // System.out.printf("Mood : %d\n", getMood());
+        // seeInventory();
+        // System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
+        // System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
+        // System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
+        System.out.println("SIM INFO:");
+        System.out.println("Nama Sim: " + getNamaLengkap());
+        System.out.println("Pekerjaan: " + getPekerjaan());
+        System.out.println("Kesehatan: " + getKesehatan());
+        System.out.println("Kekenyangan: " + getKekenyangan());
+        System.out.println("Mood: " + getMood());
+        System.out.println("Uang: " + getUang());
     }
 
     // Setter
