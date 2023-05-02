@@ -215,7 +215,8 @@ public class GameManager {
         String answer = input.nextLine();
 
         if (answer.equals("Y")){
-            System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
+            System.out.println("\033[1;93m▀█▀ █▀▀ █▀█ █ █▀▄▀█ ▄▀█   █▄▀ ▄▀█ █▀ █ █░█   ▀█▀ █▀▀ █░░ ▄▀█ █░█   █▄▄ █▀▀ █▀█ █▀▄▀█ ▄▀█ █ █▄░█");
+            System.out.println("\033[1;93m░█░ ██▄ █▀▄ █ █░▀░█ █▀█   █░█ █▀█ ▄█ █ █▀█   ░█░ ██▄ █▄▄ █▀█ █▀█   █▄█ ██▄ █▀▄ █░▀░█ █▀█ █ █░▀█");
             System.exit(0);
         } else {
             System.out.println("Kembali ke menu utama...");
