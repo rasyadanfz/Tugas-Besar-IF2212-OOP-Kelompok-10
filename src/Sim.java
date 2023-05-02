@@ -10,6 +10,7 @@ import java.util.Random;
 public class Sim {
     private String namaLengkap;
     private String status;
+    private House ownedHouse;
     private Job pekerjaan = new Job();
     private boolean justChangedJob;
     private int uang;
@@ -60,6 +61,10 @@ public class Sim {
 
     public String getStatus() {
         return status;
+    }
+
+    public House getOwnedHouse() {
+        return ownedHouse;
     }
 
     public Inventory<Item> getInventory() {
@@ -195,6 +200,10 @@ public class Sim {
         status = newStatus;
     }
 
+    public void setOwnedHouse(House ownedHouse) {
+        this.ownedHouse = ownedHouse;
+    }
+
     public void getJob() {
         Random random = new Random();
         Job.findJob(pekerjaan, random.nextInt(5));
@@ -229,7 +238,7 @@ public class Sim {
     }
 
     public void cooking(Kompor kompor, Food food) {
-        kompor.Cooking(this, food);
+        kompor.Cooking(this, food.getNama());
     }
 
     public void buyItem(Item item) {
@@ -289,9 +298,14 @@ public class Sim {
         inventory.printItems();
     }
 
-    public void visit() {
-        changeMood(+10);
-        changeKekenyangan(-10);
+    public void visit(House destHouse) throws Exception {
+        if (destHouse == currentHouse) {
+            throw new Exception("Kamu sudah berada di rumah ini");
+        } else {
+            currentHouse = destHouse;
+            currentRoom = currentHouse.getRoom("R001");
+            currentPos = new Point(1, 1);
+        }
     }
 
     public void olahraga(int duration) {
@@ -388,7 +402,7 @@ public class Sim {
     // }
 
     public void washingHand(Wastafel wastafel, int duration) {
-        wastafel.cuciTangan(this, duration);
+        wastafel.cuciTangan(this);
     }
 
     public void mirroring(Cermin cermin) {

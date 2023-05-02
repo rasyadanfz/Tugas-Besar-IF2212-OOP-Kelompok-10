@@ -418,7 +418,19 @@ public class GameManager {
                 int durasi = Integer.parseInt(actionScanner.nextLine());
                 getActiveSim().olahraga(durasi);
             } else if (input.equals("Visit")) {
-                getActiveSim().visit();
+                System.out.println("Masukkan rumah yang ingin dikunjungi: ");
+                String destHouseCode = actionScanner.nextLine();
+                House destHouse = world.getHouse(destHouseCode);
+                
+                if (destHouse != null) {
+                    try {
+                        getActiveSim().visit(destHouse);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else {
+                    System.out.println("Rumah dengan kode " + destHouseCode + " tidak ditemukan!");
+                }
             } else {
                 if (!Objects.isNull(objectNameNearSim)) {
                     String firstWord = getFirstWord(objectNameNearSim);
