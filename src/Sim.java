@@ -22,7 +22,7 @@ public class Sim {
     private Room currentRoom;
     private House currentHouse;
     private Point currentPos;
-    private static World world;
+    private static World world = World.getWorld();
     private ArrayList<Action> actionList;
     private boolean inActiveAction = false;
 
@@ -107,6 +107,7 @@ public class Sim {
 
     public void decreaseActionDuration(Action a) {
         a.decreaseDuration();
+        world.getTimer().reduceTime();
         try {
             Thread.sleep(1000);
         } catch (Exception e) {
