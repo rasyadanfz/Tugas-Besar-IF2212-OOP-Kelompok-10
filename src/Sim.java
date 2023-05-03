@@ -10,6 +10,7 @@ import java.util.Random;
 public class Sim {
     private String namaLengkap;
     private String status;
+    private boolean isAlive;
     private House ownedHouse;
     private Job pekerjaan = new Job();
     private boolean justChangedJob;
@@ -21,12 +22,13 @@ public class Sim {
     private Room currentRoom;
     private House currentHouse;
     private Point currentPos;
-    private static World world;
+    private static World world = World.getWorld();
     private ArrayList<Action> actionList;
     private boolean inActiveAction = false;
 
     public Sim(String namaLengkap) {
         this.namaLengkap = namaLengkap;
+        isAlive = true;
         uang = 100;
         kekenyangan = 80;
         kesehatan = 80;
@@ -45,6 +47,10 @@ public class Sim {
 
     public int getKesehatan() {
         return kesehatan;
+    }
+
+    public boolean getIsAlive() {
+        return isAlive;
     }
 
     public int getMood() {
@@ -101,6 +107,13 @@ public class Sim {
 
     public void decreaseActionDuration(Action a) {
         a.decreaseDuration();
+        world.getTimer().reduceTime();
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Hapus aksi jika durasinya 0
         if (a.getDurationLeft() == 0) {
             // a.getActionObject().effect(this, a.getOriginalDuration());
@@ -145,6 +158,17 @@ public class Sim {
 
     public void setInActiveAction(boolean newValue) {
         inActiveAction = newValue;
+    }
+
+    public void setIsAlive(boolean newValue) {
+        isAlive = newValue;
+    }
+
+    public void resetSimToOwnedHouse() {
+        // Balikin sim ke rumahnya masing-masing
+        changeCurrentHouse(getOwnedHouse());
+        changeCurrentRoom(getCurrentHouse().getRoom("R001"));
+        changeCurrentPos(new Point(1, 1));
     }
 
     public void changeKesehatan(int exp) {

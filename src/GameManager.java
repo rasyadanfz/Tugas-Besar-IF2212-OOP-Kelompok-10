@@ -11,6 +11,8 @@ public class GameManager {
     private Timer worldTimer;
     private Sim activeSim;
     private int houseCount;
+    private static boolean isCheatEnabled = false;
+    private static Scanner scanner = InputScanner.getInputScanner().getScanner();
 
     public GameManager() {
         world = World.getWorld();
@@ -74,7 +76,7 @@ public class GameManager {
     }
 
     public void addNewHouse(Sim sim) {
-        String kodeRumahBaru = "H" + houseCount;
+        String kodeRumahBaru = "H" + (houseCount + 1);
         while (Objects.isNull(world.getHouse(kodeRumahBaru))) {
             try {
                 world.addHouse(new Random().nextInt(64) + 1, new Random().nextInt(64) + 1, kodeRumahBaru);
@@ -86,7 +88,7 @@ public class GameManager {
     }
 
     public void addNewHouse(Sim sim, int x, int y) {
-        String kodeRumahBaru = "H" + houseCount;
+        String kodeRumahBaru = "H" + (houseCount + 1);
         try {
             world.addHouse(x, y, kodeRumahBaru);
         } catch (Exception e) {
@@ -219,9 +221,21 @@ public class GameManager {
         System.out.println("\033[1;96m==============================================================");
     }
 
+    public boolean getIsCheatEnabled() {
+        return isCheatEnabled;
+    }
+
+    public void setIsCheatEnabled(String passCode, boolean cheatStatus) {
+        if (passCode.equals("nyalaincheatsim123")) {
+            isCheatEnabled = cheatStatus;
+        } else {
+            System.out.println("Passcode menyalakan cheat salah!");
+        }
+    }
+
     // TODO : Implementasi Exit
     public void exit() {
-        Scanner input = new Scanner(System.in);
+        Scanner input = scanner;
         System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
         String answer = input.nextLine();
 
@@ -350,7 +364,7 @@ public class GameManager {
     }
 
     public void actions(boolean goTo) {
-        Scanner actionScanner = new Scanner(System.in);
+        Scanner actionScanner = scanner;
         String input = "";
         String objectNameNearSim = null;
         Thing objectNearSim = null;
@@ -419,7 +433,7 @@ public class GameManager {
                 System.out.println("Masukkan rumah yang ingin dikunjungi: ");
                 String destHouseCode = actionScanner.nextLine();
                 House destHouse = world.getHouse(destHouseCode);
-                
+
                 if (destHouse != null) {
                     try {
                         // int x1 = getActiveSim().getCurrentHouse().getLokasi().getX();
@@ -615,13 +629,10 @@ public class GameManager {
                     break;
             }
         }
-
-        actionScanner.close();
     }
 
     public void runTime() {
         Sim firstActiveSim = null;
-        Iterator<Sim> simIterator = simList.iterator();
         for (Sim sim : simList) {
             if (sim.getStatus().equals("active")) {
                 firstActiveSim = sim;
@@ -633,6 +644,34 @@ public class GameManager {
             worldTimer.reduceTime(1, this);
         } else {
             getActiveSim().setInActiveAction(false);
+        }
+    }
+
+    public void simsAliveCheck() {
+        Iterator<Sim> simIterator = simList.iterator();
+        Sim currentSim;
+        ArrayList<Sim> simsToDelete = new ArrayList<Sim>();
+        while (simIterator.hasNext()) {
+            currentSim = simIterator.next();
+            if (!currentSim.getIsAlive()) {
+                simsToDelete.add(currentSim);
+            }
+        }
+        for (Sim s : simsToDelete) {
+            // balikin setiap sim di rumahnya sim yang dihapus ke rumah masing-masing
+            for (Sim sim : s.getOwnedHouse().getSimInHouse()) {
+                sim.resetSimToOwnedHouse();
+            }
+            // Hapus rumah sim yang dihapus
+            world.getDaftarRumah().remove(s.getOwnedHouse());
+            simList.remove(s);
+        }
+    }
+
+    public void removeSimHouse(Sim sim) {
+        House houseToRemove = sim.getOwnedHouse();
+        for (Sim s : houseToRemove.getSimInHouse()) {
+
         }
     }
 

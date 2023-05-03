@@ -30,7 +30,11 @@ public class Timer {
     public void reduceTime(int subtractor, GameManager game) {
         for (int i = 0; i < subtractor; i++) {
             try {
-                Thread.sleep(1000); // Tunggu 1 detik
+                if (game.getIsCheatEnabled()) {
+                    Thread.sleep(100);
+                } else {
+                    Thread.sleep(1000); // Tunggu 1 detik
+                }
                 // Kurangi setiap aksi yang ada di setiap sim dengan 1 detik
                 for (int j = 0; i < game.getSimList().size(); i++) {
                     if (!game.getSimList().get(j).getActionList().isEmpty()) {
