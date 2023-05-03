@@ -8,12 +8,14 @@ public class House {
     private ArrayList<Room> daftarRuangan;
     private Point lokasi;
     private int roomCount;
+    private ArrayList<Sim> simInHouse;
 
     public House(String kodeRumah, int x, int y) {
         this.kodeRumah = kodeRumah;
         daftarRuangan = new ArrayList<>();
         lokasi = new Point(x, y);
         roomCount = 0;
+        simInHouse = new ArrayList<Sim>();
 
         // SetDefault setiap kali beli rumah
         Room ruang1 = new Room("R001", this, 5, 5);
@@ -33,6 +35,10 @@ public class House {
         return daftarRuangan;
     }
 
+    public ArrayList<Sim> getSimInHouse() {
+        return simInHouse;
+    }
+
     public int getRoomCount() {
         return roomCount;
     }
@@ -43,6 +49,14 @@ public class House {
 
     public void printPetaRumah() {
         petaRumah.printMatrix();
+    }
+
+    public void addSimToHouse(Sim sim) {
+        simInHouse.add(sim);
+    }
+
+    public void removeSimFromHouse(Sim sim) {
+        simInHouse.remove(sim);
     }
 
     public Room getRoom(String namaRuangan) {

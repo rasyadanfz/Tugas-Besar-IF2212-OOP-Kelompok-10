@@ -11,6 +11,7 @@ public class Main {
     private static boolean inGame = false;
     private static Scanner inputScanner;
     private static boolean isActive = false;
+    private static boolean isCheatEnabled = false;
 
     public static void main(String[] args) {
         // Initialize Game
@@ -62,27 +63,24 @@ public class Main {
         System.out.println("\033[1;94m3. EXIT\n\n");
 
         System.out.print("\033[1;91mMasukkan perintah: ");
-        input = inputScanner.nextLine();
 
         // Commands
         while (isActive) {
             while (!inGame) {
-                if (input == null) {
-                    System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
-                    input = inputScanner.nextLine();
-                }
+                input = inputScanner.nextLine();
                 gameCommands(input);
             }
             // TODO: Delete debug time kalo udah bener timenya
             System.out.println("TIME : " + game.getWorldTimer().getTime());
 
             if (!game.getActiveSim().getInActiveAction()) {
+                // Cek Sim Mati
+                game.simsAliveCheck();
                 System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
                 input = inputScanner.nextLine();
                 gameCommands(input);
             } else {
                 System.out.println("Aktif Sim: " + game.getActiveSim().getInActiveAction());
-                game.runTime();
             }
         }
     }
@@ -128,9 +126,11 @@ public class Main {
     }
 
     private static void initializeGame() {
+        inputScanner = InputScanner.getInputScanner().getScanner();
         isActive = true;
         game = new GameManager();
         gameWorld = game.getWorld();
+        isCheatEnabled = game.getIsCheatEnabled();
     }
 
     private static void gameCommands(String input) {
@@ -146,8 +146,14 @@ public class Main {
                 input = inputScanner.nextLine();
                 game.exit();
             } else {
-                game.viewSimInfo();
+                System.out.println("Silakan gunakan perintah START, HELP, atau EXIT!");
+                System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
             }
+        } else if (input.equals("CHEAT")) {
+            System.out.printf("Passcode: ");
+            input = inputScanner.nextLine();
+            game.setIsCheatEnabled(input, true);
+            isCheatEnabled = true;
         } else {
             if (!game.getActiveSim().getInActiveAction()) {
                 if (input.equals("HELP")) {
