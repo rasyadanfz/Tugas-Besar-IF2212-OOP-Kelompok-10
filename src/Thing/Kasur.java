@@ -14,30 +14,42 @@ public abstract class Kasur extends ActiveItems implements Sleep {
     }
 
     public void Sleeping(Sim sim, int duration) {
-        Action actionSleep = new Action("sleeping", duration, this);
-        sim.addAction(actionSleep);
-        sim.setStatus("active");
-        sim.setInActiveAction(true);
-        effect(sim, actionSleep);
+        try {
+            if (duration % 40 == 0) {
+                Action actionSleep = new Action("sleeping", duration, this);
+                sim.addAction(actionSleep);
+                sim.setStatus("active");
+                sim.setInActiveAction(true);
+                effect(sim, actionSleep);
+            } else {
+                throw new DurationNotValidException(40);
+            }
+        } catch (DurationNotValidException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void effect(Sim sim, Action action) {
         int duration = action.getOriginalDuration();
-        try {
-            if (duration % 240 == 0) {
-                int x = duration / 40;
-                for (int i = 0; i < x; i++) {
-                    sim.changeMood(30);
-                    sim.changeKesehatan(20);
-                }
-            } else {
-                throw new DurationNotValidException(40);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        int x = duration / 40;
+        for (int i = 0; i < x; i++) {
+            sim.changeMood(30);
+            sim.changeKesehatan(20);
         }
+        System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
+            if (action.getDurationLeft() < 10) {
+                System.out.print("00" + action.getDurationLeft());
+            } else if (action.getDurationLeft() < 100) {
+                System.out.print("0" + action.getDurationLeft());
+            } else {
+                System.out.print(action.getDurationLeft());
+            }
+            System.out.print("\b\b\b");
             sim.decreaseActionDuration(action);
+            if (action.getDurationLeft() == 0) {
+                System.out.print(000);
+            }
         }
     }
 }
