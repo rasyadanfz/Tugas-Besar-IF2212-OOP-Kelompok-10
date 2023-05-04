@@ -55,16 +55,16 @@ public class Ingredient extends Item implements Purchaseable, Eatable {
     public void buyItem() {
         Random rand = new Random();
         int int_random = rand.nextInt(4) + 1;
-        // int waktuPengiriman = int_random * 30 * 1000;
+        int waktuPengiriman = int_random * 30 * 1000;
         Thread t = new Thread() {
             public void run() {
                 boolean pengiriman = true;
                 int waktuMulai = Main.getCurrentTime();
                 // Jam.ambilSisaWaktuKirim(waktuMulai, waktuPengiriman);
                 while (pengiriman) {
-                    // if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
+                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
                         pengiriman = false;
-                    // }
+                    }
                 }
             }
         };
