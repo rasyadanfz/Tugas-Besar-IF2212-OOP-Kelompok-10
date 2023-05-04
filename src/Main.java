@@ -128,7 +128,7 @@ public class Main {
     private static void initializeGame() {
         inputScanner = InputScanner.getInputScanner().getScanner();
         isActive = true;
-        game = new GameManager();
+        game = GameManager.getGameManager();
         gameWorld = game.getWorld();
         isCheatEnabled = game.getIsCheatEnabled();
     }
@@ -163,21 +163,25 @@ public class Main {
                     input = inputScanner.nextLine();
                     game.exit();
                 } else if (input.equals("VIEW SIM INFO")) {
-                    game.viewSimInfo();
+                    game.getActiveSim().showSimInfo();
                 } else if (input.equals("VIEW CURRENT LOCATION")) {
-                    game.viewCurrentLocation();
+                    game.getActiveSim().viewCurrentLocation();
                 } else if (input.equals("VIEW INVENTORY")) {
-                    game.viewInventory();
+                    game.getActiveSim().seeInventory();
                 } else if (input.equals("UPGRADE RUMAH")) {
                     System.out.println("Silakan masukkan arah penambahan ruangan: ");
                     input = inputScanner.nextLine();
-                    game.upgradeRumah(input);
+                    try {
+                        game.getActiveSim().upgradeRumah(input);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 } else if (input.equals("MOVE ROOM")) {
                     System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
                     input = inputScanner.nextLine();
-                    game.moveRoom(input);
+                    game.getActiveSim().moveRoom(input);
                 } else if (input.equals("EDIT ROOM")) {
-                    game.editRoom();
+                    game.getActiveSim().editRoom();
                 } else if (input.equals("ADD SIM")) {
                     System.out.print("Masukkan nama Sim baru : ");
                     input = inputScanner.nextLine();
@@ -193,7 +197,7 @@ public class Main {
                     int xTarget = Integer.parseInt(inputScanner.nextLine());
                     System.out.println("Masukkan posisi y benda yang ingin dituju");
                     int yTarget = Integer.parseInt(inputScanner.nextLine());
-                    game.goToObject(xTarget, yTarget);
+                    game.getActiveSim().goToObject(xTarget, yTarget);
                 } else if (input.equals("PASANG BARANG")) {
                     System.out.println("Masukkan nama barang yang ingin dipasang");
                     String itemName = inputScanner.nextLine();
@@ -204,12 +208,14 @@ public class Main {
                     System.out.println("Masukkan posisi y untuk pemasangan barang: ");
                     int y = Integer.parseInt(inputScanner.nextLine());
                     try {
-                        game.pasangBarang(itemName, x, y);
+                        game.getActiveSim().installBarang(itemName, x, y);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
+                } else if (input.equals("BELI BARANG")) {
+                    game.getActiveSim().buyFurniture();
                 } else if (input.equals("ACTION")) {
-                    game.actions(false);
+                    game.getActiveSim().actions(false);
                 } else {
                     System.out.println("Perintah tidak dikenali, mohon masukkan perintah yang valid!");
                     System.out.println("Jika ingin mengetahui daftar perintah, ketik 'HELP'!");
