@@ -14,12 +14,14 @@ public class GameManager {
     private static boolean isCheatEnabled = false;
     private Scanner scanner = InputScanner.getInputScanner().getScanner();
     private static GameManager gameManager = new GameManager();
+    private Cheat cheats;
 
     private GameManager() {
         world = World.getWorld();
         simList = new ArrayList<Sim>();
         worldTimer = world.getTimer();
         houseCount = 0;
+        cheats = new Cheat();
     }
 
     public static GameManager getGameManager() {
@@ -306,5 +308,29 @@ public class GameManager {
         } else {
             return text;
         }
+    }
+
+    public class Cheat {
+        private boolean isTimeSkipEnabled;
+
+        Cheat() {
+            isTimeSkipEnabled = false;
+        }
+
+        public void killSim(Sim sim) {
+            sim.setIsAlive(false);
+        }
+
+        public boolean getIsTimeSkipEnabled() {
+            return isTimeSkipEnabled;
+        }
+
+        public void setIsTimeSkipEnabled(boolean timeSkip) {
+            isTimeSkipEnabled = timeSkip;
+        }
+    }
+
+    public Cheat getCheat() {
+        return cheats;
     }
 }

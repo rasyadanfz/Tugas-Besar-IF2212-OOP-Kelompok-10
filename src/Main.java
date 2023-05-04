@@ -150,10 +150,22 @@ public class Main {
                 System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
             }
         } else if (input.equals("CHEAT")) {
-            System.out.printf("Passcode: ");
-            input = inputScanner.nextLine();
-            game.setIsCheatEnabled(input, true);
-            isCheatEnabled = true;
+            if (!isCheatEnabled) {
+                System.out.printf("Passcode: ");
+                input = inputScanner.nextLine();
+                game.setIsCheatEnabled(input, true);
+                isCheatEnabled = true;
+            } else {
+                System.out.printf("Command Cheat:");
+                input = inputScanner.nextLine();
+                if (input.toUpperCase().equals("TS")) {
+                    if (!game.getCheat().getIsTimeSkipEnabled()) {
+                        game.getCheat().setIsTimeSkipEnabled(true);
+                    } else {
+                        game.getCheat().setIsTimeSkipEnabled(false);
+                    }
+                }
+            }
         } else {
             if (!game.getActiveSim().getInActiveAction()) {
                 if (input.equals("HELP")) {
