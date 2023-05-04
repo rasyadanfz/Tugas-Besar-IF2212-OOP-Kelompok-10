@@ -66,42 +66,54 @@ public class Inventory<T extends Item> {
 
     }
 
-    public void printListIngredient() {
+    public boolean printListIngredient() {
         System.out.println("Berikut adalah bahan makanan yang ada pada inventory: ");
         int i = 1;
+        boolean adaBahan = false;
         if (daftarItem.isEmpty()) {
-            System.out.println("Tidak ada bahan makanan pada inventory !!");
+            System.out.println("Inventory Sim Kosong!!");
         } else {
             try {
                 for (String s : daftarItem.keySet()) {
                     if (findItemInContainer(s) instanceof Ingredient) {
                         System.out.println(i + ". " + s + "(" + daftarItem.get(s) + ")");
                         i++;
+                        adaBahan = true;
                     }
+                }
+                if (!adaBahan) {
+                    System.out.println("Tidak ada bahan makanan pada inventory!!");
                 }
             } catch (ItemNotFoundException e) {
                 System.out.println(e.getMessage());
             }
         }
+        return adaBahan;
     }
 
-    public void printListMakanan() {
+    public boolean printListMakanan() {
         System.out.println("Berikut adalah makanan yang ada pada inventory: ");
         int i = 1;
+        boolean adaMakanan = false;
         if (daftarItem.isEmpty()) {
-            System.out.println("Tidak ada makanan pada inventory !!");
+            System.out.println("Inventory Sim Kosong!!");
         } else {
             try {
                 for (String s : daftarItem.keySet()) {
                     if (findItemInContainer(s) instanceof Food || findItemInContainer(s) instanceof Ingredient) {
                         System.out.println(i + ". " + s + "(" + daftarItem.get(s) + ")");
                         i++;
+                        adaMakanan = true;
                     }
+                }
+                if (!adaMakanan) {
+                    System.out.println("Tidak ada makanan pada inventory!!");
                 }
             } catch (ItemNotFoundException e) {
                 System.out.println(e.getMessage());
             }
         }
+        return adaMakanan;
     }
 
     public T findItemInContainer(String itemName) throws ItemNotFoundException {
