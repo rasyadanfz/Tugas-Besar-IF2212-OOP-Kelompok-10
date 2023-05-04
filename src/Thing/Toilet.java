@@ -2,6 +2,7 @@ package src.Thing;
 
 import src.Action;
 import src.Sim;
+import src.Exceptions.DurationNotValidException;
 
 public class Toilet extends ActiveItems {
     public Toilet(String kodeItem) {
@@ -13,11 +14,19 @@ public class Toilet extends ActiveItems {
     }
 
     public void buangAir(Sim sim, int duration) {
-        Action actionBuangAir = new Action("pee", duration, this);
-        sim.addAction(actionBuangAir);
-        sim.setStatus("active");
-        sim.setInActiveAction(true);
-        effect(sim, actionBuangAir);
+        try {
+            if (duration % 10 == 0) {
+                Action actionBuangAir = new Action("pee", duration, this);
+                sim.addAction(actionBuangAir);
+                sim.setStatus("active");
+                sim.setInActiveAction(true);
+                effect(sim, actionBuangAir);
+            } else {
+                throw new DurationNotValidException(10);
+            }
+        } catch (DurationNotValidException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void effect(Sim sim, Action action) {
