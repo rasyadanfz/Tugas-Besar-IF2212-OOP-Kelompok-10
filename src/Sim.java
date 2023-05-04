@@ -384,17 +384,17 @@ public class Sim {
     }
 
     public void olahraga(int duration) {
+        System.out.println("Sim sedang melakukan olahraga..");
         try {
             int counter = 0;
             while (counter != duration) {
                 counter++;
                 Thread.sleep(1000);
+                world.getTimer().increaseTime();
                 if (counter % 20 == 0) {                    
                     changeKesehatan(+5);
                     changeMood(+10);
                     changeKekenyangan(-5);
-                } else {
-                    throw new DurationNotValidException(20);
                 }
             }
         } catch (Exception e) {
@@ -403,6 +403,7 @@ public class Sim {
     }
 
     public void kerja(int duration) {
+        System.out.println("Sim sedang melakukan kerja..");
         workTime += duration;
 
         if (workTime % 240 == 0) {  // Dapat gaji kalau sudah bekerja selama 4 menit
@@ -415,11 +416,10 @@ public class Sim {
             while (counter != duration) {
                 counter++;
                 Thread.sleep(1000);
+                world.getTimer().increaseTime();
                 if (counter % 30 == 0) {
                     changeMood(-10);
                     changeKekenyangan(-10);
-                } else {
-                    throw new DurationNotValidException(30);
                 }
             }
         } catch (Exception e) {
@@ -732,8 +732,8 @@ public class Sim {
             if (input.equals("Work")) {
                 System.out.print("Masukkan durasi bekerja: ");
                 int durasi = Integer.parseInt(actionScanner.nextLine());
-                while (durasi == 0 && durasi % 120 != 0) {
-                    System.out.println("Durasi kerja tidak valid! Harap lakukan input ulang");
+                while (durasi == 0 || durasi % 120 != 0) {
+                    System.out.println("Durasi kerja tidak valid! Harap lakukan input ulang dengan kelipatan 120");
                     System.out.print("Masukkan durasi bekerja: ");
                     durasi = Integer.parseInt(actionScanner.nextLine());
                 }
@@ -741,8 +741,8 @@ public class Sim {
             } else if (input.equals("Olahraga")) {
                 System.out.print("Masukkan durasi olahraga: ");
                 int durasi = Integer.parseInt(actionScanner.nextLine());
-                while (durasi == 0 && durasi % 20 != 0) {
-                    System.out.println("Durasi olahraga tidak valid! Harap lakukan input ulang");
+                while (durasi == 0 || durasi % 20 != 0) {
+                    System.out.println("Durasi olahraga tidak valid! Harap lakukan input ulang dengan kelipatan 20");
                     System.out.print("Masukkan durasi olahraga: ");
                     durasi = Integer.parseInt(actionScanner.nextLine());
                 }
@@ -758,7 +758,7 @@ public class Sim {
                         // int y1 = this.getCurrentHouse().getLokasi().getY();
                         // int x2 = destHouse.getLokasi().getX();
                         // int y2 = destHouse.getLokasi().getY();
-                        // visitTime = Math.sqrt((x2-x1)^2 + (y2-y1)^2);
+                        // visitTime += Math.sqrt((x2-x1)^2 + (y2-y1)^2);
                         this.visit(destHouse);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
