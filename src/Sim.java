@@ -133,7 +133,12 @@ public class Sim {
         a.decreaseDuration();
         world.getTimer().increaseTime();
         try {
-            Thread.sleep(1000);
+            // CHEAT
+            if (!GameManager.getGameManager().getCheat().getIsTimeSkipEnabled()) {
+                Thread.sleep(1000);
+            } else {
+                Thread.sleep(2);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -729,6 +734,7 @@ public class Sim {
             } else {
                 if (!Objects.isNull(objectNameNearSim)) {
                     String firstWord = getFirstWord(objectNameNearSim);
+                    input = input.toUpperCase();
                     if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());

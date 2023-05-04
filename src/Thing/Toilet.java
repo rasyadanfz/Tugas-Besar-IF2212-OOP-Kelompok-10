@@ -33,7 +33,7 @@ public class Toilet extends ActiveItems {
             System.out.print("\b\b\b");
             sim.decreaseActionDuration(action);
             if (action.getDurationLeft() == 0) {
-                System.out.print(000);
+                System.out.println(000);
             }
         }
         sim.changeMood(10);
