@@ -1,7 +1,9 @@
 package src.Thing;
 
 import java.util.*;
+
 import src.*;
+import src.Timer;
 
 public abstract class Thing extends Item implements Purchaseable {
     private String nama;
@@ -64,20 +66,21 @@ public abstract class Thing extends Item implements Purchaseable {
     public void buyItem() {
         Random rand = new Random();
         int int_random = rand.nextInt(4) + 1;
-        int waktuPengiriman = int_random * 30 * 1000;
-        Thread t = new Thread() {
-            public void run() {
-                boolean pengiriman = true;
-                int waktuMulai = Main.getCurrentTime();
-                Jam.ambilSisaWaktuKirim(waktuMulai, waktuPengiriman);
-                while (pengiriman) {
-                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
-                        pengiriman = false;
-                    }
-                }
+        // int waktuPengiriman = int_random * 30 * 1000;
+        // TODO: Hapus 1 line di bawah, cuma buat debug
+        int waktuPengiriman = Timer.getTimer().getTotalTime() + 10;
+        boolean pengiriman = true;
+        int waktuMulai = Timer.getTimer().getTotalTime();
+        GameManager.getGameManager().getActiveSim().setItemDelivery(
+                new Delivery(waktuPengiriman, waktuMulai + waktuPengiriman - Timer.getTimer().getTotalTime(), nama));
+        while (pengiriman) {
+            if (waktuMulai + waktuPengiriman <= Timer.getTimer().getTotalTime()) {
+                pengiriman = false;
             }
-        };
-        t.start();
+            GameManager.getGameManager().getActiveSim()
+                    .getItemDelivery()
+                    .setRemainingDuration(waktuMulai + waktuPengiriman - Timer.getTimer().getTotalTime());
+        }
     }
 
     public void rotateItem() {

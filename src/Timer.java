@@ -7,53 +7,35 @@ public class Timer {
 
     private Timer() {
         day = 1;
-        time = 720;
+        time = 0;
     }
 
-    public static Timer getTimer() {
+    public synchronized int getTotalTime() {
+        return ((day - 1) * 720) + time;
+    }
+
+    public static synchronized Timer getTimer() {
         return timer;
     }
 
-    public int getTime() {
+    public synchronized int getDay() {
+        return day;
+    }
+
+    public synchronized int getTime() {
         return time;
     }
 
-    // Reduce Time
-    public void reduceTime() {
-        time--;
-        if (time == 0) {
+    public synchronized void increaseTime() {
+        time++;
+        if (time == 720) {
             changeDay();
-            time = 720;
+            time = 0;
         }
     }
 
-    public void reduceTime(int subtractor, GameManager game) {
-        for (int i = 0; i < subtractor; i++) {
-            try {
-                if (game.getIsCheatEnabled()) {
-                    Thread.sleep(100);
-                } else {
-                    Thread.sleep(1000); // Tunggu 1 detik
-                }
-                // Kurangi setiap aksi yang ada di setiap sim dengan 1 detik
-                for (int j = 0; i < game.getSimList().size(); i++) {
-                    if (!game.getSimList().get(j).getActionList().isEmpty()) {
-                        for (int k = 0; k < game.getSimList().get(j).getActionList().size(); k++) {
-                            game.getSimList().get(j)
-                                    .decreaseActionDuration(game.getSimList().get(j).getActionList().get(k));
-                        }
-                    }
-                }
-                reduceTime();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void changeDay() {
+    public synchronized void changeDay() {
         day++;
-        time = 720;
     }
 
 }
