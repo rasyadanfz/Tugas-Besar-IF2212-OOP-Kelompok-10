@@ -832,16 +832,19 @@ public class Sim {
                     }
                     break;
                 case ("Kompor"):
+                    System.out.println("Sim bisa melakukan Cook. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        this.getInventory().printListIngredient();
-                        Kompor kompor = (Kompor) object;
-                        if (kompor.checkBahanMasak(this.getInventory())) {
-                            System.out.println("Masukkan nama makanan yang ingin dimasak: ");
-                            String namaMakanan = actionScanner.nextLine();
-                            kompor.Cooking(this, namaMakanan);
+                        if (this.getInventory().printListIngredient()) {
+                            Kompor kompor = (Kompor) object;
+                            if (kompor.checkBahanMasak(this.getInventory())) {
+                                System.out.println("Masukkan nama makanan yang ingin dimasak: ");
+                                String namaMakanan = actionScanner.nextLine();
+                                kompor.Cooking(this, namaMakanan);
+                            }
                         }
+                        ;
                     }
                     break;
                 case ("Lukisan"):
