@@ -391,7 +391,7 @@ public class Sim {
                 counter++;
                 Thread.sleep(1000);
                 world.getTimer().increaseTime();
-                if (counter % 20 == 0) {                    
+                if (counter % 20 == 0) {
                     changeKesehatan(+5);
                     changeMood(+10);
                     changeKekenyangan(-5);
@@ -406,8 +406,8 @@ public class Sim {
         System.out.println("Sim sedang melakukan kerja..");
         workTime += duration;
 
-        if (workTime % 240 == 0) {  // Dapat gaji kalau sudah bekerja selama 4 menit
-            workTime = 0;           // Counternya reset
+        if (workTime % 240 == 0) { // Dapat gaji kalau sudah bekerja selama 4 menit
+            workTime = 0; // Counternya reset
             uang += pekerjaan.getGaji();
         }
 
@@ -838,7 +838,7 @@ public class Sim {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        System.out.println("Durasi harus lebih dari 180 detik dan kelipatan 40");
+                        System.out.println("Durasi harus lebih dari 180 detik dan kelipatan 240");
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
                         if (duration >= 180) {
