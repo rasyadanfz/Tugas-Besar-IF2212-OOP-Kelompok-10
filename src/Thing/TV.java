@@ -44,18 +44,19 @@ public class TV extends ActiveItems {
         }
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
-            if (action.getDurationLeft() < 10) {
-                System.out.print("00" + action.getDurationLeft());
-            } else if (action.getDurationLeft() < 100) {
-                System.out.print("0" + action.getDurationLeft());
+            int printDuration = action.getDurationLeft() - 1;
+            if (printDuration < 10) {
+                System.out.print("00" + printDuration);
+            } else if (printDuration < 100) {
+                System.out.print("0" + printDuration);
             } else {
-                System.out.print(action.getDurationLeft());
+                System.out.print(printDuration);
             }
-            System.out.print("\b\b\b");
+            if (printDuration != 0) {
+                System.out.print("\b\b\b");
+            }
             sim.decreaseActionDuration(action);
-            if (action.getDurationLeft() == 0) {
-                System.out.print(000);
-            }
         }
+        System.out.println();
     }
 }
