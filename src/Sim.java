@@ -110,8 +110,8 @@ public class Sim {
         justChangedJob = changedJob;
     }
 
-    public String getPekerjaan() {
-        return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
+    public Job getPekerjaan() {
+        return pekerjaan;
     }
 
     public ArrayList<Action> getActionList() {
@@ -186,18 +186,33 @@ public class Sim {
     }
 
     public void showSimInfo() {
-        System.out.printf("Nama : %s\n", capitalizeFirstLetter(getNamaLengkap()));
-        System.out.printf("Status : %s\n", capitalizeFirstLetter(getStatus()));
-        System.out.printf("Pekerjaan : %s\n", getPekerjaan());
-        System.out.println("Kesejahteraan Sim :");
-        System.out.printf("    Uang : %d\n", getUang());
-        System.out.printf("    Kekenyangan : %d\n", getKekenyangan());
-        System.out.printf("    Kesehatan : %d\n", getKesehatan());
-        System.out.printf("    Mood : %d\n", getMood());
+        System.out.printf("%-60s\n", "+----------------------------------------------------------+");
+        System.out.printf("| %-20s %s %-21s |\n", " ", "Informasi Sim", " ");
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Nama", capitalizeFirstLetter(getNamaLengkap()));
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Status", capitalizeFirstLetter(getStatus()));
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Pekerjaan", getPekerjaan().getNamaPekerjaan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Gaji Pekerjaan", getPekerjaan().getGaji());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Uang", getUang());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Kekenyangan", getKekenyangan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Kesehatan", getKesehatan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Mood", getMood());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Current House", getCurrentHouse().getKodeRumah());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Current Room", getCurrentRoom().getNamaRuangan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Current Position", getCurrentPos().toString());
+        System.out.printf("%-60s\n\n", "-----------------------+------------------------------------");
         seeInventory();
-        System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
-        System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
-        System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
+
     }
 
     public void viewCurrentLocation() {
@@ -399,7 +414,6 @@ public class Sim {
     }
 
     public void seeInventory() {
-        System.out.println("Inventory Sim: ");
         inventory.printItems();
     }
 
@@ -552,6 +566,67 @@ public class Sim {
             newThread.start();
         }
 
+    }
+
+    public void buyIngredient() {
+        System.out.println("Daftar bahan makanan yang bisa dibeli: ");
+        System.out.println("1. Nasi");
+        System.out.println("2. Kentang");
+        System.out.println("3. Ayam");
+        System.out.println("4. Sapi");
+        System.out.println("5. Wortel");
+        System.out.println("6. Bayam");
+        System.out.println("7. Kacang");
+        System.out.println("8. Susu");
+        System.out.printf("Pilihan: ");
+        String choice = InputScanner.getInputScanner().getScanner().nextLine();
+        Ingredient toBuy = null;
+        switch (choice.toLowerCase()) {
+            case ("nasi"):
+                toBuy = new Ingredient("nasi");
+                break;
+            case ("kentang"):
+                toBuy = new Ingredient("kentang");
+                break;
+            case ("ayam"):
+                toBuy = new Ingredient("ayam");
+                break;
+            case ("sapi"):
+                toBuy = new Ingredient("sapi");
+                break;
+            case ("wortel"):
+                toBuy = new Ingredient("wortel");
+                break;
+            case ("bayam"):
+                toBuy = new Ingredient("bayam");
+                break;
+            case ("kacang"):
+                toBuy = new Ingredient("kacang");
+                break;
+            case ("susu"):
+                toBuy = new Ingredient("susu");
+                break;
+        }
+        if (toBuy == null) {
+            System.out.println("Bahan makanan " + choice + "tidak ada");
+        } else {
+            if (!Objects.isNull(toBuy)) {
+                final Ingredient item = toBuy;
+                Thread newThread = new Thread() {
+                    public void run() {
+                        if (getUang() >= item.getPrice()) {
+                            setUang(getUang() - item.getPrice());
+                            item.buyItem();
+                            getInventory().addItem(item);
+                        } else {
+                            System.out.println(new MoneyNotEnoughException().getMessage());
+                        }
+                    }
+
+                };
+                newThread.start();
+            }
+        }
     }
 
     public void editRoom() {
@@ -977,7 +1052,6 @@ public class Sim {
                                 kompor.Cooking(this, namaMakanan);
                             }
                         }
-                        ;
                     }
                     break;
                 case ("Lukisan"):
