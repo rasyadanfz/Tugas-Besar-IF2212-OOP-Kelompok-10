@@ -19,6 +19,9 @@ public class Kompor extends ActiveItems implements Cook {
         sim.setStatus("active");
         sim.getInventory().addItem(food);
         effect(sim, actionCook);
+        sim.incNotSleepYet(duration);
+        if (sim.getHaveEat()) sim.incNotPeeYet(duration);
+        sim.getNegativeEffect();
     }
 
     public void effect(Sim sim, Action action) {
