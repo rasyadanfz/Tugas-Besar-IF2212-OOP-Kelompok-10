@@ -62,9 +62,9 @@ public class Ingredient extends Item implements Purchaseable, Eatable {
                 int waktuMulai = Main.getCurrentTime();
                 // Jam.ambilSisaWaktuKirim(waktuMulai, waktuPengiriman);
                 while (pengiriman) {
-                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
+                    //if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
                         pengiriman = false;
-                    }
+                    //}
                 }
             }
         };
