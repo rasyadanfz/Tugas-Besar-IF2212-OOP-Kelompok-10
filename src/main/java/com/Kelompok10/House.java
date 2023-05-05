@@ -120,22 +120,22 @@ public class House {
         // Cek dalam empat arah
         if (arah.toLowerCase().equals("atas")) {
             // Jika ruangan tersebut mentok di atas
-            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y + 1).equals("---"))) {
+            if ((y != 9) && (ruang.getHouse().getPetaRumah().getItem(x, y + 1).equals("----"))) {
                 avail = true;
             }
         } else if (arah.toLowerCase().equals("bawah")) {
             // Jika ruangan tersebut mentok di bawah
-            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y - 1).equals("---"))) {
+            if ((y != 1) && (ruang.getHouse().getPetaRumah().getItem(x, y - 1).equals("----"))) {
                 avail = true;
             }
         } else if (arah.toLowerCase().equals("kanan")) {
             // Jika ruangan tersebut mentok di kanan
-            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x + 1, y).equals("---"))) {
+            if ((x != 9) && (ruang.getHouse().getPetaRumah().getItem(x + 1, y).equals("----"))) {
                 avail = true;
             }
         } else if (arah.toLowerCase().equals("kiri")) {
             // Jika ruangan tersebut mentok di kiri
-            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x - 1, y).equals("---"))) {
+            if ((x != 1) && (ruang.getHouse().getPetaRumah().getItem(x - 1, y).equals("----"))) {
                 avail = true;
             }
         } else {
@@ -147,6 +147,25 @@ public class House {
         }
 
         return avail;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        House other = (House) obj;
+        if (kodeRumah != other.kodeRumah) {
+            return false;
+        }
+        return true;
     }
 
     // public static void main(String[] args) {
