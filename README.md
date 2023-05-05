@@ -15,6 +15,7 @@ Setelah berhasil melakukan upgrade terhadap robot game console yang dimilikinya,
 
 ## **Requirements**
 - [Java Development Kit](https://www.oracle.com/id/java/technologies/downloads/)
+- [Apache Maven Project (optional)](https://maven.apache.org/download.cgi)
  
 ## **Cara compile dan menjalankan program**
 1. Clone repository ini terlebih dahulu
@@ -22,20 +23,14 @@ Setelah berhasil melakukan upgrade terhadap robot game console yang dimilikinya,
 git clone https://github.com/rasyadanfz/Tugas-Besar-IF2212-OOP-Kelompok-10.git
 ```
 
-2. Ubah directory ke dalam src
+2. Apabila kalian sudah menginstalasi maven, kalian dapat menjalankan perintah berikut untuk memastikan bahwa program sudah up-to-date
 ```sh
-cd src
+mvn clean package
 ```
 
-3. Jalankan perintah berikut
-```sh
-javac *.java ./Thing/*.java ./Exceptions/*.java
-```
+3. Buka folder dari program di File Explorer
+4. Jalankan run.bat dan program akan langsung terbuka di terminal
 
-4. Apabila sudah berhasil, jalankan perintah berikut
-```sh
-java Main
-```
 ## **Tutorial Bermain**
 
 ## **Authors** 
