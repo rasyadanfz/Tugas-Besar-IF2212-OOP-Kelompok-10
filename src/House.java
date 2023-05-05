@@ -149,6 +149,25 @@ public class House {
         return avail;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        House other = (House) obj;
+        if (kodeRumah != other.kodeRumah) {
+            return false;
+        }
+        return true;
+    }
+
     // public static void main(String[] args) {
     // World world = World.getWorld();
     // try {
