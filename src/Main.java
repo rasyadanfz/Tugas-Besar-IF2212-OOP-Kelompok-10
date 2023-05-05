@@ -149,8 +149,6 @@ public class Main {
             } else if (input.equals("HELP")) {
                 game.help();
             } else if (input.equals("EXIT")) {
-                System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
-                input = inputScanner.nextLine();
                 game.exit();
             } else {
                 System.out.println("Silakan gunakan perintah START, HELP, atau EXIT!");
@@ -178,8 +176,6 @@ public class Main {
                 if (input.equals("HELP")) {
                     game.help();
                 } else if (input.equals("EXIT")) {
-                    System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
-                    input = inputScanner.nextLine();
                     game.exit();
                 } else if (input.equals("VIEW SIM INFO")) {
                     game.getActiveSim().showSimInfo();

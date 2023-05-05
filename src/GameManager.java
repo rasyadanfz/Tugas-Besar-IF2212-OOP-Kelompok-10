@@ -117,6 +117,7 @@ public class GameManager {
         System.out.println("\033[1;34m3. COMMAND LIST\n");
     }
 
+    
     public void gameDescription() {
         System.out.println(
                 "\033[1;91m===================================================================================");

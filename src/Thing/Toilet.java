@@ -2,6 +2,7 @@ package src.Thing;
 
 import src.Action;
 import src.Sim;
+import src.Exceptions.DurationNotValidException;
 
 public class Toilet extends ActiveItems {
     public Toilet(String kodeItem) {
@@ -13,29 +14,38 @@ public class Toilet extends ActiveItems {
     }
 
     public void buangAir(Sim sim, int duration) {
-        Action actionBuangAir = new Action("pee", duration, this);
-        sim.addAction(actionBuangAir);
-        sim.setStatus("active");
-        sim.setInActiveAction(true);
-        effect(sim, actionBuangAir);
+        try {
+            if (duration % 10 == 0) {
+                Action actionBuangAir = new Action("pee", duration, this);
+                sim.addAction(actionBuangAir);
+                sim.setStatus("active");
+                sim.setInActiveAction(true);
+                effect(sim, actionBuangAir);
+            } else {
+                throw new DurationNotValidException(10);
+            }
+        } catch (DurationNotValidException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void effect(Sim sim, Action action) {
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
-            if (action.getDurationLeft() < 10) {
-                System.out.print("00" + action.getDurationLeft());
-            } else if (action.getDurationLeft() < 100) {
-                System.out.print("0" + action.getDurationLeft());
+            int printDuration = action.getDurationLeft() - 1;
+            if (printDuration < 10) {
+                System.out.print("00" + printDuration);
+            } else if (printDuration < 100) {
+                System.out.print("0" + printDuration);
             } else {
-                System.out.print(action.getDurationLeft());
+                System.out.print(printDuration);
             }
-            System.out.print("\b\b\b");
+            if (printDuration != 0) {
+                System.out.print("\b\b\b");
+            }
             sim.decreaseActionDuration(action);
-            if (action.getDurationLeft() == 0) {
-                System.out.println(000);
-            }
         }
+        System.out.println();
         sim.changeMood(10);
         sim.changeKekenyangan(-20);
     }

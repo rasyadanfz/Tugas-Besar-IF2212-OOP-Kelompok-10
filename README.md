@@ -5,7 +5,7 @@
 ## **Daftar Isi**
 * [Deskripsi Persoalan](#deskripsi-persoalan)
 * [Requirements](#requirements)
-* [Cara melakukan compile](#cara-melakukan-compile)
+* [Cara compile dan menjalankan program](#cara-compile-dan-menjalankan-program)
 * [Tutorial Bermain](#tutorial-bermain)
 * [Authors](#authors)
 
@@ -16,8 +16,26 @@ Setelah berhasil melakukan upgrade terhadap robot game console yang dimilikinya,
 ## **Requirements**
 - [Java Development Kit](https://www.oracle.com/id/java/technologies/downloads/)
  
-## **Cara melakukan compile**
+## **Cara compile dan menjalankan program**
+1. Clone repository ini terlebih dahulu
+```sh
+git clone https://github.com/rasyadanfz/Tugas-Besar-IF2212-OOP-Kelompok-10.git
+```
 
+2. Ubah directory ke dalam src
+```sh
+cd src
+```
+
+3. Jalankan perintah berikut
+```sh
+javac *.java ./Thing/*.java ./Exceptions/*.java
+```
+
+4. Apabila sudah berhasil, jalankan perintah berikut
+```sh
+java Main
+```
 ## **Tutorial Bermain**
 
 ## **Authors** 
