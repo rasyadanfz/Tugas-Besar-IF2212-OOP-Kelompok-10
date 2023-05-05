@@ -395,7 +395,7 @@ public class Sim {
     }
 
     public void visit(House destHouse) throws Exception {
-        if (destHouse == currentHouse) {
+        if (destHouse.equals(currentHouse)) {
             throw new Exception("Kamu sudah berada di rumah ini");
         } else {
             currentHouse = destHouse;
