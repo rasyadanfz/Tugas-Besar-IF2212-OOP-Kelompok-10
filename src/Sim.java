@@ -437,6 +437,7 @@ public class Sim {
         this.addAction(olahragaAction);
         try {
             int counter = 0;
+            System.out.print("Sisa durasi: ");
             while (counter != duration) {
                 counter++;
                 decreaseActionDuration(olahragaAction);
@@ -444,6 +445,18 @@ public class Sim {
                     changeKesehatan(+5);
                     changeMood(+10);
                     changeKekenyangan(-5);
+                }
+                // menampilkan durasi
+                int printDuration = duration - counter;
+                if (printDuration < 10) {
+                    System.out.print("00" + printDuration);
+                } else if (printDuration < 100) {
+                    System.out.print("0" + printDuration);
+                } else {
+                    System.out.print(printDuration);
+                }
+                if (printDuration != 0) {
+                    System.out.print("\b\b\b");
                 }
             }
         } catch (Exception e) {
@@ -469,6 +482,27 @@ public class Sim {
             if (counter % 30 == 0) {
                 changeMood(-10);
                 changeKekenyangan(-10);
+            }
+            System.out.print("Sisa durasi: ");
+            while (counter != duration) {
+                counter++;
+                decreaseActionDuration(kerjaAction);
+                if (counter % 30 == 0) {
+                    changeMood(-10);
+                    changeKekenyangan(-10);
+                }
+                // menampilkan durasi
+                int printDuration = duration - counter;
+                if (printDuration < 10) {
+                    System.out.print("00" + printDuration);
+                } else if (printDuration < 100) {
+                    System.out.print("0" + printDuration);
+                } else {
+                    System.out.print(printDuration);
+                }
+                if (printDuration != 0) {
+                    System.out.print("\b\b\b");
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
