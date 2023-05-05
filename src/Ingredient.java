@@ -13,27 +13,35 @@ public class Ingredient extends Item implements Purchaseable, Eatable {
         if (nama.toLowerCase().equals("nasi")) {
             price = 5;
             kekenyangan = 5;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("kentang")) {
             price = 3;
             kekenyangan = 4;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("ayam")) {
             price = 10;
             kekenyangan = 8;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("sapi")) {
             price = 12;
             kekenyangan = 15;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("wortel")) {
             price = 3;
             kekenyangan = 2;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("bayam")) {
             price = 3;
             kekenyangan = 2;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("kacang")) {
             price = 2;
             kekenyangan = 2;
+            this.nama = nama;
         } else if (nama.toLowerCase().equals("susu")) {
             price = 2;
             kekenyangan = 1;
+            this.nama = nama;
         }
     }
 
@@ -55,20 +63,21 @@ public class Ingredient extends Item implements Purchaseable, Eatable {
     public void buyItem() {
         Random rand = new Random();
         int int_random = rand.nextInt(4) + 1;
-        int waktuPengiriman = int_random * 30 * 1000;
-        Thread t = new Thread() {
-            public void run() {
-                boolean pengiriman = true;
-                int waktuMulai = Main.getCurrentTime();
-                // Jam.ambilSisaWaktuKirim(waktuMulai, waktuPengiriman);
-                while (pengiriman) {
-                    if (waktuMulai + waktuPengiriman >= Main.getCurrentTime()) {
-                        pengiriman = false;
-                    }
-                }
+        // int waktuPengiriman = int_random * 30 * 1000;
+        // TODO: Hapus 1 line di bawah, cuma buat debug
+        int waktuPengiriman = Timer.getTimer().getTotalTime() + 10;
+        boolean pengiriman = true;
+        int waktuMulai = Timer.getTimer().getTotalTime();
+        GameManager.getGameManager().getActiveSim().setItemDelivery(
+                new Delivery(waktuPengiriman, waktuMulai + waktuPengiriman - Timer.getTimer().getTotalTime(), nama));
+        while (pengiriman) {
+            if (waktuMulai + waktuPengiriman <= Timer.getTimer().getTotalTime()) {
+                pengiriman = false;
             }
-        };
-        t.start();
+            GameManager.getGameManager().getActiveSim()
+                    .getItemDelivery()
+                    .setRemainingDuration(waktuMulai + waktuPengiriman - Timer.getTimer().getTotalTime());
+        }
     }
 
     public void eat(Sim sim) {

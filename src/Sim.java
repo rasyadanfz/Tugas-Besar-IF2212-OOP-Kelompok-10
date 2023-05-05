@@ -46,7 +46,7 @@ public class Sim {
         mood = 80;
         getJob(); // Set pekerjaan Sim secara random
         inventory = new Inventory<>();
-        justChangedJob = false;
+        justChangedJob = true;
         status = "idle";
         actionList = new ArrayList<Action>();
         sisaWaktuUpgradeRumah = 0;
@@ -106,8 +106,12 @@ public class Sim {
         return justChangedJob;
     }
 
-    public String getPekerjaan() {
-        return String.format(pekerjaan.getNamaPekerjaan() + " dengan gaji " + pekerjaan.getGaji());
+    public void setJustChangedJob(boolean changedJob) {
+        justChangedJob = changedJob;
+    }
+
+    public Job getPekerjaan() {
+        return pekerjaan;
     }
 
     public ArrayList<Action> getActionList() {
@@ -146,25 +150,30 @@ public class Sim {
         return haveEat;
     }
 
-    public void decreaseActionDuration(Action a) {
-        a.decreaseDuration();
-        world.getTimer().increaseTime();
-        try {
-            // CHEAT
-            if (!GameManager.getGameManager().getCheat().getIsTimeSkipEnabled()) {
-                Thread.sleep(1000);
-            } else {
-                Thread.sleep(2);
+    public void decreaseActionDuration(Action a) throws Exception {
+        if (a.getActionObject() != null
+                || (a.getActionName().equals("olahraga") || a.getActionName().equals("kerja"))) {
+            a.decreaseDuration();
+            world.getTimer().increaseTime();
+            try {
+                // CHEAT
+                if (!GameManager.getGameManager().getCheat().getIsTimeSkipEnabled()) {
+                    Thread.sleep(1000);
+                } else {
+                    Thread.sleep(2);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        // Hapus aksi jika durasinya 0
-        if (a.getDurationLeft() == 0) {
-            // a.getActionObject().effect(this, a.getOriginalDuration());
-            actionList.remove(a);
-            setInActiveAction(false);
+            // Hapus aksi jika durasinya 0
+            if (a.getDurationLeft() == 0) {
+                // a.getActionObject().effect(this, a.getOriginalDuration());
+                actionList.remove(a);
+                setInActiveAction(false);
+            }
+        } else {
+            throw new Exception("Aksi terhenti!");
         }
     }
 
@@ -177,19 +186,33 @@ public class Sim {
     }
 
     public void showSimInfo() {
-        System.out.printf("Nama : %s\n", getNamaLengkap());
-        System.out.printf("Status : %s\n", getStatus());
-        System.out.printf("Pekerjaan : %s\n", getPekerjaan());
-        System.out.println("Kesejahteraan Sim :");
-        System.out.printf("Uang : %d\n", getUang());
-        System.out.printf("Kekenyangan : %d\n", getKekenyangan());
-        System.out.printf("Kesehatan : %d\n", getKesehatan());
-        System.out.printf("Mood : %d\n", getMood());
-        System.out.println("Inventory Sim : ");
+        System.out.printf("%-60s\n", "+----------------------------------------------------------+");
+        System.out.printf("| %-20s %s %-21s |\n", " ", "Informasi Sim", " ");
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Nama", capitalizeFirstLetter(getNamaLengkap()));
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Status", capitalizeFirstLetter(getStatus()));
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Pekerjaan", getPekerjaan().getNamaPekerjaan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Gaji Pekerjaan", getPekerjaan().getGaji());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Uang", getUang());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Kekenyangan", getKekenyangan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Kesehatan", getKesehatan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Mood", getMood());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Current House", getCurrentHouse().getKodeRumah());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Current Room", getCurrentRoom().getNamaRuangan());
+        System.out.printf("%-60s\n", "+----------------------+-----------------------------------+");
+        System.out.printf("| %-20s | %-34s|\n", "Current Position", getCurrentPos().toString());
+        System.out.printf("%-60s\n\n", "-----------------------+------------------------------------");
         seeInventory();
-        System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
-        System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
-        System.out.printf("Koordinat : %s\n", getCurrentPos().toString());
+
     }
 
     public void viewCurrentLocation() {
@@ -410,18 +433,21 @@ public class Sim {
 
     public void olahraga(int duration) {
         System.out.println("Sim sedang melakukan olahraga..");
+        Action olahragaAction = new Action("olahraga", duration, null);
+        this.addAction(olahragaAction);
         try {
             System.out.print("Sisa durasi: ");
             int counter = 0;
+            System.out.print("Sisa durasi: ");
             while (counter != duration) {
                 counter++;
-                Thread.sleep(1000);
-                world.getTimer().increaseTime();
+                decreaseActionDuration(olahragaAction);
                 if (counter % 20 == 0) {
                     changeKesehatan(+5);
                     changeMood(+10);
                     changeKekenyangan(-5);
                 }
+                // menampilkan durasi
                 int printDuration = duration - counter;
                 if (printDuration < 10) {
                     System.out.print("00" + printDuration);
@@ -442,6 +468,8 @@ public class Sim {
 
     public void kerja(int duration) {
         System.out.println("Sim sedang melakukan kerja..");
+        Action kerjaAction = new Action("kerja", duration, null);
+        this.addAction(kerjaAction);
         workTime += duration;
 
         if (workTime % 240 == 0) { // Dapat gaji kalau sudah bekerja selama 4 menit
@@ -451,11 +479,16 @@ public class Sim {
 
         try {
             int counter = 0;
+            counter++;
+            decreaseActionDuration(kerjaAction);
+            if (counter % 30 == 0) {
+                changeMood(-10);
+                changeKekenyangan(-10);
+            }
             System.out.print("Sisa durasi: ");
             while (counter != duration) {
                 counter++;
-                Thread.sleep(1000);
-                world.getTimer().increaseTime();
+                decreaseActionDuration(kerjaAction);
                 if (counter % 30 == 0) {
                     changeMood(-10);
                     changeKekenyangan(-10);
@@ -572,6 +605,67 @@ public class Sim {
 
     }
 
+    public void buyIngredient() {
+        System.out.println("Daftar bahan makanan yang bisa dibeli: ");
+        System.out.println("1. Nasi");
+        System.out.println("2. Kentang");
+        System.out.println("3. Ayam");
+        System.out.println("4. Sapi");
+        System.out.println("5. Wortel");
+        System.out.println("6. Bayam");
+        System.out.println("7. Kacang");
+        System.out.println("8. Susu");
+        System.out.printf("Pilihan: ");
+        String choice = InputScanner.getInputScanner().getScanner().nextLine();
+        Ingredient toBuy = null;
+        switch (choice.toLowerCase()) {
+            case ("nasi"):
+                toBuy = new Ingredient("nasi");
+                break;
+            case ("kentang"):
+                toBuy = new Ingredient("kentang");
+                break;
+            case ("ayam"):
+                toBuy = new Ingredient("ayam");
+                break;
+            case ("sapi"):
+                toBuy = new Ingredient("sapi");
+                break;
+            case ("wortel"):
+                toBuy = new Ingredient("wortel");
+                break;
+            case ("bayam"):
+                toBuy = new Ingredient("bayam");
+                break;
+            case ("kacang"):
+                toBuy = new Ingredient("kacang");
+                break;
+            case ("susu"):
+                toBuy = new Ingredient("susu");
+                break;
+        }
+        if (toBuy == null) {
+            System.out.println("Bahan makanan " + choice + "tidak ada");
+        } else {
+            if (!Objects.isNull(toBuy)) {
+                final Ingredient item = toBuy;
+                Thread newThread = new Thread() {
+                    public void run() {
+                        if (getUang() >= item.getPrice()) {
+                            setUang(getUang() - item.getPrice());
+                            item.buyItem();
+                            getInventory().addItem(item);
+                        } else {
+                            System.out.println(new MoneyNotEnoughException().getMessage());
+                        }
+                    }
+
+                };
+                newThread.start();
+            }
+        }
+    }
+
     public void editRoom() {
         // Sim tidak sedang di rumah
         if (Objects.isNull(getCurrentHouse())) {
@@ -679,20 +773,32 @@ public class Sim {
                 Thread t = new Thread() {
                     public void run() {
                         try {
+                            boolean isSimAlive = true;
+                            boolean done = false;
                             boolean upgrade = true;
                             int waktuUpgrade = 1080; // 18 menit
                             int waktuMulai = Timer.getTimer().getTotalTime();
                             GameManager.getGameManager().getActiveSim().setSisaWaktuUpgrade(waktuUpgrade);
                             while (upgrade) {
-                                if (waktuMulai + waktuUpgrade <= Timer.getTimer().getTotalTime()) {
+                                if (!isSimAlive) {
                                     upgrade = false;
                                 } else {
-                                    GameManager.getGameManager().getActiveSim()
-                                            .setSisaWaktuUpgrade(
-                                                    waktuMulai + waktuUpgrade - Timer.getTimer().getTotalTime());
+                                    if (waktuMulai + waktuUpgrade <= Timer.getTimer().getTotalTime()) {
+                                        upgrade = false;
+                                        done = true;
+                                    } else {
+                                        if (GameManager.getGameManager().getActiveSim() != null) {
+                                            GameManager.getGameManager().getActiveSim()
+                                                    .setSisaWaktuUpgrade(
+                                                            waktuMulai + waktuUpgrade
+                                                                    - Timer.getTimer().getTotalTime());
+                                        }
+                                    }
                                 }
                             }
-                            currentHouse.addNewRoom(oldRoom, newRoom, arah);
+                            if (done) {
+                                currentHouse.addNewRoom(oldRoom, newRoom, arah);
+                            }
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -780,7 +886,7 @@ public class Sim {
                 }
             }
             System.out.println("Masukkan aksi yang ingin dilakukan:");
-            input = actionScanner.nextLine();
+            input = capitalizeFirstLetter(actionScanner.nextLine());
             if (input.equals("Work")) {
                 System.out.print("Masukkan durasi bekerja: ");
                 int durasi = Integer.parseInt(actionScanner.nextLine());
@@ -808,8 +914,14 @@ public class Sim {
                     notPeeYet += durasi;
                 getNegativeEffect();
             } else if (input.equals("Visit")) {
-                System.out.println("Masukkan rumah yang ingin dikunjungi: ");
-                String destHouseCode = actionScanner.nextLine();
+                System.out.println("Masukkan nama sim yang rumahnya ingin dikunjungi: ");
+                GameManager.getGameManager().printSimList();
+                String namaSim = actionScanner.nextLine();
+                while (GameManager.getGameManager().getSim(namaSim) == null) {
+                    System.out.println("Masukkan nama sim sesuai nama yang ada pada daftar: ");
+                    namaSim = actionScanner.nextLine();
+                }
+                String destHouseCode = GameManager.getGameManager().getSim(namaSim).getOwnedHouse().getKodeRumah();
                 House destHouse = world.getHouse(destHouseCode);
 
                 if (destHouse != null) {
@@ -818,7 +930,9 @@ public class Sim {
                         int y1 = this.getCurrentHouse().getLokasi().getY();
                         int x2 = destHouse.getLokasi().getX();
                         int y2 = destHouse.getLokasi().getY();
-                        double durasiPergi = Math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2);
+                        double durasiPergi = Math
+                                .sqrt(Math.pow((x2 * 1.0) - (x1 * 1.0), 2) + Math.pow((y2 * 1.0) - (y1 * 1.0), 2));
+
                         visitTime += durasiPergi;
                         if (visitTime >= 30) {
                             visitTime -= 30;
@@ -839,7 +953,6 @@ public class Sim {
             } else {
                 if (!Objects.isNull(objectNameNearSim)) {
                     String firstWord = getFirstWord(objectNameNearSim);
-                    input = input.toUpperCase();
                     if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
@@ -977,7 +1090,6 @@ public class Sim {
                                 kompor.Cooking(this, namaMakanan);
                             }
                         }
-                        ;
                     }
                     break;
                 case ("Lukisan"):

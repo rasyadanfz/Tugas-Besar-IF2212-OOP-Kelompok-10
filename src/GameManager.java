@@ -15,6 +15,7 @@ public class GameManager {
     private Scanner scanner = InputScanner.getInputScanner().getScanner();
     private static GameManager gameManager = new GameManager();
     private Cheat cheats;
+    private boolean haveCreatedNewSim;
 
     private GameManager() {
         world = World.getWorld();
@@ -22,6 +23,7 @@ public class GameManager {
         worldTimer = world.getTimer();
         houseCount = 0;
         cheats = new Cheat();
+        haveCreatedNewSim = false;
     }
 
     public static GameManager getGameManager() {
@@ -30,6 +32,10 @@ public class GameManager {
 
     public World getWorld() {
         return world;
+    }
+
+    public boolean getHaveCreatedNewSim() {
+        return haveCreatedNewSim;
     }
 
     public ArrayList<Sim> getSimList() {
@@ -46,7 +52,7 @@ public class GameManager {
         Sim targetSim = null;
         while (!found && simIterator.hasNext()) {
             targetSim = simIterator.next();
-            if (targetSim.getNamaLengkap().equals(namaSim)) {
+            if (targetSim.getNamaLengkap().toLowerCase().equals(namaSim.toLowerCase())) {
                 found = true;
             } else {
                 targetSim = null;
@@ -68,6 +74,7 @@ public class GameManager {
         System.out.println("Daftar Sim dalam Game: ");
         for (Sim s : simList) {
             System.out.println(i + ". " + s.getNamaLengkap());
+            i++;
         }
     }
 
@@ -76,22 +83,48 @@ public class GameManager {
         activeSim = sim;
     }
 
-    public void addSim(String sim) {
-        Sim newSim = new Sim(sim);
-        this.simList.add(newSim);
-        setActiveSim(newSim);
+    public void addSim(String simName) {
+        if (!haveCreatedNewSim) {
+            Sim newSim = new Sim(simName);
+            try {
+                addNewHouse(newSim);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            // Generate Inventory
+            newSim.getInventory().addItem(new KasurSingle());
+            newSim.getInventory().addItem(new Toilet());
+            newSim.getInventory().addItem(new KomporGas());
+            newSim.getInventory().addItem(new MejaKursi());
+            newSim.getInventory().addItem(new Jam());
+            this.simList.add(newSim);
+            if (activeSim == null) {
+                setActiveSim(newSim);
+            } else {
+                haveCreatedNewSim = true;
+            }
+            System.out.printf("Sim %s berhasil dibuat!\n", simName);
+        } else {
+            System.out.println("Anda sudah membuat sim baru hari ini!");
+        }
     }
 
-    public void addNewHouse(Sim sim) {
+    public void addNewHouse(Sim sim) throws Exception {
         String kodeRumahBaru = "H" + (houseCount + 1);
+        if (!(houseCount < 64 * 64)) {
+            throw new Exception("World sudah penuh, gagal menambahkan Sim");
+        }
         while (Objects.isNull(world.getHouse(kodeRumahBaru))) {
             try {
                 world.addHouse(new Random().nextInt(64) + 1, new Random().nextInt(64) + 1, kodeRumahBaru);
             } catch (Exception e) {
-            } finally {
-                houseCount++;
             }
         }
+        houseCount++;
+        sim.setOwnedHouse(world.getHouse(kodeRumahBaru));
+        sim.changeCurrentHouse(world.getHouse(kodeRumahBaru));
+        sim.changeCurrentRoom(world.getHouse(kodeRumahBaru).getDaftarRuangan().get(0));
+        sim.changeCurrentPos(new Point(1, 1));
     }
 
     public void addNewHouse(Sim sim, int x, int y) {
@@ -100,9 +133,12 @@ public class GameManager {
             world.addHouse(x, y, kodeRumahBaru);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            houseCount++;
         }
+        houseCount++;
+        sim.setOwnedHouse(world.getHouse(kodeRumahBaru));
+        sim.changeCurrentHouse(world.getHouse(kodeRumahBaru));
+        sim.changeCurrentRoom(world.getHouse(kodeRumahBaru).getDaftarRuangan().get(0));
+        sim.changeCurrentPos(new Point(1, 1));
     }
 
     // Menu
@@ -131,7 +167,6 @@ public class GameManager {
         }
     }
 
-    
     public void gameDescription() {
         System.out.println(
                 "\033[1;91m===================================================================================");
@@ -248,7 +283,7 @@ public class GameManager {
     }
 
     public void setIsCheatEnabled(String passCode, boolean cheatStatus) {
-        if (passCode.equals("nyalaincheatsim123")) {
+        if (passCode.equals("ccc")) {
             isCheatEnabled = cheatStatus;
         } else {
             System.out.println("Passcode menyalakan cheat salah!");
@@ -280,7 +315,14 @@ public class GameManager {
             input = inputScanner.nextLine();
             currentSim = getSim(input);
         }
-        setActiveSim(currentSim);
+        if (activeSim != null
+                && currentSim.getNamaLengkap().toLowerCase().equals(activeSim.getNamaLengkap().toLowerCase())) {
+            System.out.println("Anda sedang memainkan Sim " + currentSim.getNamaLengkap());
+        } else {
+            setActiveSim(currentSim);
+            System.out.println("Sim berhasil diganti menjadi " + currentSim.getNamaLengkap());
+        }
+
     }
 
     public void listObject() {
@@ -293,6 +335,10 @@ public class GameManager {
         ArrayList<Sim> simsToDelete = new ArrayList<Sim>();
         while (simIterator.hasNext()) {
             currentSim = simIterator.next();
+            // Cek Kondisi SIm
+            if (currentSim.getKekenyangan() == 0 || currentSim.getKesehatan() == 0 || currentSim.getMood() == 0) {
+                currentSim.setIsAlive(false);
+            }
             if (!currentSim.getIsAlive()) {
                 simsToDelete.add(currentSim);
             }
@@ -304,14 +350,14 @@ public class GameManager {
             }
             // Hapus rumah sim yang dihapus
             world.getDaftarRumah().remove(s.getOwnedHouse());
+            if (s == activeSim) {
+                activeSim = null;
+            }
             simList.remove(s);
         }
-    }
 
-    public void removeSimHouse(Sim sim) {
-        House houseToRemove = sim.getOwnedHouse();
-        for (Sim s : houseToRemove.getSimInHouse()) {
-
+        if (simList.isEmpty()) {
+            activeSim = null;
         }
     }
 
