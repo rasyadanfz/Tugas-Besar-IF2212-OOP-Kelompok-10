@@ -47,22 +47,24 @@ public class Inventory<T extends Item> {
         itemContainer.add(item);
     }
 
-    // TODO : Implementasi getItem
     public T getItem(String item) throws ItemNotFoundException {
         T toGet = findItemInContainer(item);
         return toGet;
     }
 
     public void printItems() {
-        int i = 1;
+        System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
+        System.out.printf("| %-20s %s %-21s |\n", " ", "Inventory Sim", " ");
+        System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
         if (daftarItem.isEmpty()) {
-            System.out.println("Inventory Sim Kosong!!");
+            System.out.printf("| %-20s %s %-21s |\n", " ", "Inventory Sim Kosong!!", " ");
         } else {
             for (String s : daftarItem.keySet()) {
-                System.out.println("    " + i + ". " + s + "(" + daftarItem.get(s) + ")");
-                i++;
+                System.out.printf("| %-26s | %-28d|\n", s, daftarItem.get(s));
+                System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
             }
         }
+        System.out.println();
 
     }
 
