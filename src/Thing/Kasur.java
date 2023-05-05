@@ -15,14 +15,14 @@ public abstract class Kasur extends ActiveItems implements Sleep {
 
     public void Sleeping(Sim sim, int duration) {
         try {
-            if (duration % 40 == 0) {
+            if (duration % 240 == 0) {
                 Action actionSleep = new Action("sleeping", duration, this);
                 sim.addAction(actionSleep);
                 sim.setStatus("active");
                 sim.setInActiveAction(true);
                 effect(sim, actionSleep);
             } else {
-                throw new DurationNotValidException(40);
+                throw new DurationNotValidException(240);
             }
         } catch (DurationNotValidException e) {
             System.out.println(e.getMessage());
