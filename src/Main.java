@@ -74,20 +74,29 @@ public class Main {
             if (!game.getActiveSim().getInActiveAction()) {
                 // Cek Sim Mati
                 game.simsAliveCheck();
-                System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
-                input = inputScanner.nextLine();
-                gameCommands(input);
-                // try{
-                // if (osName.contains("Windows")){
-                // Runtime.getRuntime().exec("cls");
-                // }
-                // else{
-                // Runtime.getRuntime().exec("clear");
-                // }
-                // }
-                // catch(Exception e){
-                // e.printStackTrace();
-                // }
+                if (game.getActiveSim() == null && !game.getSimList().isEmpty()) {
+                    System.out.println("Silakan ganti sim karena sim seebelumnya mati!");
+                    game.changeSim(input, inputScanner);
+                }
+                if (game.getActiveSim() != null) {
+                    System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
+                    input = inputScanner.nextLine();
+                    gameCommands(input);
+                    // try{
+                    // if (osName.contains("Windows")){
+                    // Runtime.getRuntime().exec("cls");
+                    // }
+                    // else{
+                    // Runtime.getRuntime().exec("clear");
+                    // }
+                    // }
+                    // catch(Exception e){
+                    // e.printStackTrace();
+                    // }
+                } else {
+                    System.out.println("Seluruh sim mati!\nGame Over!!");
+                    isActive = false;
+                }
             }
         }
     }
@@ -154,7 +163,7 @@ public class Main {
                 System.out.println("Silakan gunakan perintah START, HELP, atau EXIT!");
                 System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
             }
-        } else if (input.equals("CHEAT")) {
+        } else if (input.equals("CH")) {
             if (!isCheatEnabled) {
                 System.out.printf("Passcode: ");
                 input = inputScanner.nextLine();
@@ -169,6 +178,9 @@ public class Main {
                     } else {
                         game.getCheat().setIsTimeSkipEnabled(false);
                     }
+                }
+                if (input.toUpperCase().equals("M")) {
+                    game.getActiveSim().setUang(9000);
                 }
             }
         } else {
@@ -198,10 +210,13 @@ public class Main {
                 } else if (input.equals("EDIT ROOM")) {
                     game.getActiveSim().editRoom();
                 } else if (input.equals("ADD SIM")) {
-                    System.out.print("Masukkan nama Sim baru : ");
-                    input = inputScanner.nextLine();
-                    game.addSim(input);
-                    System.out.printf("Sim %s berhasil dibuat!\n", input);
+                    if (!game.getHaveCreatedNewSim()) {
+                        System.out.print("Masukkan nama Sim baru : ");
+                        input = inputScanner.nextLine();
+                        game.addSim(input);
+                    } else {
+                        System.out.println("Anda sudah membuat sim baru hari ini!");
+                    }
                 } else if (input.equals("CHANGE SIM")) {
                     game.changeSim(input, inputScanner);
                 } else if (input.equals("LIST OBJECT")) {
