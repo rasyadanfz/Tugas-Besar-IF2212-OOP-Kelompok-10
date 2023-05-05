@@ -115,6 +115,20 @@ public class GameManager {
         System.out.println("\033[1;34m1. GAME DESCRIPTION\n");
         System.out.println("\033[1;34m2. HOW TO PLAY?\n");
         System.out.println("\033[1;34m3. COMMAND LIST\n");
+
+        Scanner input = scanner;
+        System.out.print("Masukkan pilihan yang ingin ditampilkan: ");
+        String command = input.nextLine();
+        command = command.toUpperCase();
+        if (command.equals("GAME DESCRIPTION")){
+            gameDescription();
+        } else if (command.equals("HOW TO PLAY")){
+            howToPlay();
+        } else if (command.equals("COMMAND LIST")){
+            commandList();
+        } else{
+            System.out.println("Perintah tidak dikenali. Silakan masukkan ulang perintah yang valid.");
+        }
     }
 
     
