@@ -59,7 +59,7 @@ public class Inventory<T extends Item> {
             System.out.println("Inventory Sim Kosong!!");
         } else {
             for (String s : daftarItem.keySet()) {
-                System.out.println(i + ". " + s + "(" + daftarItem.get(s) + ")");
+                System.out.println("    " + i + ". " + s + "(" + daftarItem.get(s) + ")");
                 i++;
             }
         }

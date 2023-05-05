@@ -5,6 +5,7 @@ import java.util.*;
 import src.Thing.*;
 
 public class Main {
+    private final static String osName = System.getProperty("os.name"); // Gausah Masukin Diagram
     private static World gameWorld;
     private static GameManager game;
     private static String input;
@@ -70,17 +71,23 @@ public class Main {
                 input = inputScanner.nextLine();
                 gameCommands(input);
             }
-            // TODO: Delete debug time kalo udah bener timenya
-            System.out.println("TIME : " + game.getWorldTimer().getTime());
-
             if (!game.getActiveSim().getInActiveAction()) {
                 // Cek Sim Mati
                 game.simsAliveCheck();
                 System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
                 input = inputScanner.nextLine();
                 gameCommands(input);
-            } else {
-                System.out.println("Aktif Sim: " + game.getActiveSim().getInActiveAction());
+                // try{
+                // if (osName.contains("Windows")){
+                // Runtime.getRuntime().exec("cls");
+                // }
+                // else{
+                // Runtime.getRuntime().exec("clear");
+                // }
+                // }
+                // catch(Exception e){
+                // e.printStackTrace();
+                // }
             }
         }
     }

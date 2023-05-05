@@ -41,7 +41,7 @@ public class Sim {
         mood = 80;
         getJob(); // Set pekerjaan Sim secara random
         inventory = new Inventory<>();
-        justChangedJob = false;
+        justChangedJob = true;
         status = "idle";
         actionList = new ArrayList<Action>();
         sisaWaktuUpgradeRumah = 0;
@@ -99,6 +99,10 @@ public class Sim {
 
     public boolean getJustChangedJob() {
         return justChangedJob;
+    }
+
+    public void setJustChangedJob(boolean changedJob) {
+        justChangedJob = changedJob;
     }
 
     public String getPekerjaan() {
@@ -160,15 +164,14 @@ public class Sim {
     }
 
     public void showSimInfo() {
-        System.out.printf("Nama : %s\n", getNamaLengkap());
-        System.out.printf("Status : %s\n", getStatus());
+        System.out.printf("Nama : %s\n", capitalizeFirstLetter(getNamaLengkap()));
+        System.out.printf("Status : %s\n", capitalizeFirstLetter(getStatus()));
         System.out.printf("Pekerjaan : %s\n", getPekerjaan());
         System.out.println("Kesejahteraan Sim :");
-        System.out.printf("Uang : %d\n", getUang());
-        System.out.printf("Kekenyangan : %d\n", getKekenyangan());
-        System.out.printf("Kesehatan : %d\n", getKesehatan());
-        System.out.printf("Mood : %d\n", getMood());
-        System.out.println("Inventory Sim : ");
+        System.out.printf("    Uang : %d\n", getUang());
+        System.out.printf("    Kekenyangan : %d\n", getKekenyangan());
+        System.out.printf("    Kesehatan : %d\n", getKesehatan());
+        System.out.printf("    Mood : %d\n", getMood());
         seeInventory();
         System.out.printf("Nomor Rumah saat ini : %s\n", getCurrentHouse().getKodeRumah());
         System.out.printf("Ruangan saat ini : %s\n", getCurrentRoom().getNamaRuangan());
@@ -734,7 +737,6 @@ public class Sim {
             } else {
                 if (!Objects.isNull(objectNameNearSim)) {
                     String firstWord = getFirstWord(objectNameNearSim);
-                    input = input.toUpperCase();
                     if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
