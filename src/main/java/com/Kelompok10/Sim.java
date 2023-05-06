@@ -1111,6 +1111,8 @@ public class Sim {
                                 durasi = Integer.parseInt(actionScanner.nextLine());
                             }
                             this.kerja(durasi);
+                        } catch (NumberFormatException e) {
+                            System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -1130,6 +1132,8 @@ public class Sim {
                             durasi = Integer.parseInt(actionScanner.nextLine());
                         }
                         this.olahraga(durasi);
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -1175,13 +1179,17 @@ public class Sim {
                         String firstWord = getFirstWord(objectNameNearSim);
                         if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
-                            int duration = Integer.parseInt(actionScanner.nextLine());
-                            while (duration < 180) {
-                                System.out.println("Durasi tidur tidak valid! Tidur minimal 3 menit (180 detik)");
-                                duration = Integer.parseInt(actionScanner.nextLine());
+                            try {
+                                int duration = Integer.parseInt(actionScanner.nextLine());
+                                while (duration < 180) {
+                                    System.out.println("Durasi tidur tidak valid! Tidur minimal 3 menit (180 detik)");
+                                    duration = Integer.parseInt(actionScanner.nextLine());
+                                }
+                                Kasur kasur = (Kasur) objectNearSim;
+                                kasur.Sleeping(this, duration);
+                            } catch (NumberFormatException e) {
+                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                             }
-                            Kasur kasur = (Kasur) objectNearSim;
-                            kasur.Sleeping(this, duration);
                         } else if (input.equals("Bercermin") && (firstWord.equals("Cermin"))) {
                             Cermin currentCermin = (Cermin) objectNearSim;
                             currentCermin.bercermin(this);
@@ -1191,8 +1199,12 @@ public class Sim {
                         } else if (input.equals("Pee") && firstWord.equals("Toilet")) {
                             Toilet toilet = (Toilet) objectNearSim;
                             System.out.print("Masukkan durasi (dalam detik): ");
-                            int durasiPee = Integer.parseInt(actionScanner.nextLine());
-                            toilet.buangAir(this, durasiPee);
+                            try {
+                                int durasiPee = Integer.parseInt(actionScanner.nextLine());
+                                toilet.buangAir(this, durasiPee);
+                            } catch (NumberFormatException e) {
+                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
+                            }
                         } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
                             this.getInventory().printListIngredient();
                             Kompor kompor = (Kompor) objectNearSim;
@@ -1203,9 +1215,13 @@ public class Sim {
                             }
                         } else if (input.equals("Lihat Lukisan") && (firstWord.equals("Lukisan"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
-                            int duration = Integer.parseInt(actionScanner.nextLine());
-                            Lukisan lukisan = (Lukisan) objectNearSim;
-                            lukisan.lihatLukisan(this, duration);
+                            try {
+                                int duration = Integer.parseInt(actionScanner.nextLine());
+                                Lukisan lukisan = (Lukisan) objectNearSim;
+                                lukisan.lihatLukisan(this, duration);
+                            } catch (NumberFormatException e) {
+                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
+                            }
                         } else if (input.equals("Makan") && (firstWord.equals("Meja"))) {
                             try {
                                 this.getInventory().printListMakanan();
@@ -1227,9 +1243,13 @@ public class Sim {
                             shower.mandi(this);
                         } else if (input.equals("Nonton TV") && (firstWord.equals("TV"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
-                            int duration = Integer.parseInt(actionScanner.nextLine());
-                            TV tv = (TV) objectNearSim;
-                            tv.nontonTV(this, duration);
+                            try {
+                                int duration = Integer.parseInt(actionScanner.nextLine());
+                                TV tv = (TV) objectNearSim;
+                                tv.nontonTV(this, duration);
+                            } catch (NumberFormatException e) {
+                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
+                            }
                         } else if (input.equals("Cuci Tangan") && (firstWord.equals("Wastafel"))) {
                             Wastafel wastafel = (Wastafel) objectNearSim;
                             wastafel.cuciTangan(this);
