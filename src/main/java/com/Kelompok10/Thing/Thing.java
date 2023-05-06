@@ -5,7 +5,7 @@ import java.util.*;
 import com.Kelompok10.*;
 import com.Kelompok10.Timer;
 
-public abstract class Thing extends Item implements Purchaseable {
+public class Thing extends Item implements Purchaseable {
     private String nama;
     private String kode;
     private int panjang;

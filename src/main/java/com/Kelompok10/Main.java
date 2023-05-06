@@ -60,7 +60,7 @@ public class Main {
                 "\033[1;92m================================================================================================\n\n");
 
         System.out.println("\033[1;93mWelcome to Sim-Plicity!\n\n");
-        System.out.println("\033[1;94m1. START GAME");
+        System.out.println("\033[1;94m1. START");
         System.out.println("\033[1;94m2. HELP");
         System.out.println("\033[1;94m3. EXIT\n\n");
 

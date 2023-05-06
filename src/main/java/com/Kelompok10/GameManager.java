@@ -260,7 +260,7 @@ public class GameManager {
         System.out.println("\033[1;96m█▄▄ █▄█ █░▀░█ █░▀░█ █▀█ █░▀█ █▄▀   █▄▄ █ ▄█ ░█░\n");
 
         System.out.println("\033[1;36mBerikut adalah daftar command yang dapat digunakan : \n");
-        System.out.println("\033[1;36m1. START GAME");
+        System.out.println("\033[1;36m1. START");
         System.out.println("\033[1;36m2. HELP");
         System.out.println("\033[1;36m3. EXIT");
         System.out.println("\033[1;36m4. VIEW SIM INFO");
