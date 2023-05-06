@@ -4,6 +4,7 @@ import com.Kelompok10.Exceptions.CantChangeJobException;
 import com.Kelompok10.Exceptions.DurationNotValidException;
 import com.Kelompok10.Exceptions.ItemNotFoundException;
 import com.Kelompok10.Exceptions.MoneyNotEnoughException;
+import com.Kelompok10.Exceptions.RoomIsEmptyException;
 import com.Kelompok10.Exceptions.SimIsDeadException;
 import com.Kelompok10.Thing.*;
 
@@ -157,6 +158,14 @@ public class Sim {
         return haveEat;
     }
 
+    public int getNotSleepYet() {
+        return notSleepYet;
+    }
+
+    public int getNotPeeYet() {
+        return notPeeYet;
+    }
+
     public boolean checkKondisiSimMati() {
         if (getKekenyangan() == 0 || getKesehatan() == 0 || getMood() == 0) {
             return true;
@@ -165,14 +174,31 @@ public class Sim {
         }
     }
 
+    public void setNotSleepYet(int val) {
+        notSleepYet = val;
+    }
+
+    public void setNotPeeYet(int newVal) {
+        notPeeYet = newVal;
+    }
+
+    public void setVisitTime(double newVal) {
+        visitTime = newVal;
+    }
+
     public void setTotalWorkTimeOnCurrentJob(int newValue) {
         totalWorkTimeOnCurrentJob = newValue;
+    }
+
+    public void setHaveEat(boolean newVal) {
+        haveEat = newVal;
     }
 
     public void decreaseActionDuration(Action a) {
         if (a.getActionObject() != null) {
             a.decreaseDuration();
             world.getTimer().increaseTime();
+
             try {
                 // CHEAT
                 if (!GameManager.getGameManager().getCheat().getIsTimeSkipEnabled()) {
@@ -191,6 +217,32 @@ public class Sim {
                 setInActiveAction(false);
                 setStatus("idle");
             }
+        }
+    }
+
+    public void decreaseNonItemActionDuration(Action a) {
+        if (a.getDurationLeft() > 0) {
+            a.decreaseDuration();
+            world.getTimer().increaseTime();
+
+            try {
+                // CHEAT
+                if (!GameManager.getGameManager().getCheat().getIsTimeSkipEnabled()) {
+                    Thread.sleep(1000);
+                } else {
+                    Thread.sleep(2);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        // Hapus aksi jika durasinya 0
+        else if (a.getDurationLeft() == 0) {
+            // a.getActionObject().effect(this, a.getOriginalDuration());
+            actionList.remove(a);
+            setInActiveAction(false);
+            setStatus("idle");
         }
     }
 
@@ -452,87 +504,98 @@ public class Sim {
         uang = newValue;
     }
 
-    public void olahraga(int duration) {
+    public void olahraga(int duration) throws SimIsDeadException {
         System.out.println("Sim sedang melakukan olahraga..");
         Action olahragaAction = new Action("olahraga", duration, null);
-        this.addAction(olahragaAction);
-        try {
-            System.out.print("Sisa durasi: ");
-            int counter = 0;
-            System.out.print("Sisa durasi: ");
-            while (counter != duration) {
-                counter++;
-                decreaseActionDuration(olahragaAction);
-                if (counter % 20 == 0) {
-                    changeKesehatan(+5);
-                    changeMood(+10);
-                    changeKekenyangan(-5);
-                }
-                // menampilkan durasi
-                int printDuration = duration - counter;
-                if (printDuration < 10) {
-                    System.out.print("00" + printDuration);
-                } else if (printDuration < 100) {
-                    System.out.print("0" + printDuration);
-                } else {
-                    System.out.print(printDuration);
-                }
-                if (printDuration != 0) {
-                    System.out.print("\b\b\b");
-                }
+        boolean keepRunning = true;
+        addAction(olahragaAction);
+        setStatus("active");
+        setInActiveAction(true);
+        System.out.print("Sisa durasi: ");
+        int timeCounter = 0;
+        while (olahragaAction.getDurationLeft() > 0 && keepRunning) {
+            // menampilkan durasi
+            int printDuration = olahragaAction.getDurationLeft() - 1;
+            if (printDuration < 10) {
+                System.out.print("00" + printDuration);
+            } else if (printDuration < 100) {
+                System.out.print("0" + printDuration);
+            } else {
+                System.out.print(printDuration);
             }
-            System.out.println();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            if (printDuration != 0) {
+                System.out.print("\b\b\b");
+            }
+            timeCounter++;
+            decreaseNonItemActionDuration(olahragaAction);
+            if (timeCounter == 20) {
+                changeKesehatan(+5);
+                changeMood(+10);
+                changeKekenyangan(-5);
+                timeCounter = 0;
+
+            }
+
+            if (checkKondisiSimMati()) {
+                keepRunning = false;
+                throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati karena kelaparan saat olahraga! :(");
+            }
         }
+        setStatus("idle");
+        setInActiveAction(false);
+        if (checkKondisiSimMati()) {
+            keepRunning = false;
+            throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati karena kelaparan saat olahraga! :(");
+        }
+        System.out.println();
     }
 
-    public void kerja(int duration) {
+    public void kerja(int duration) throws SimIsDeadException {
         System.out.println("Sim sedang melakukan kerja..");
         Action kerjaAction = new Action("kerja", duration, null);
         addAction(kerjaAction);
         setStatus("active");
         setInActiveAction(true);
-
-        try {
-            int counter = 0;
-            boolean keepRunning = true;
-            System.out.print("Sisa durasi: ");
-            while (kerjaAction.getDurationLeft() > 0 && keepRunning) {
-                if (checkKondisiSimMati()) {
-                    keepRunning = false;
-                    throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati ketika bekerja! :(");
-                } else {
-                    counter++;
-                    decreaseActionDuration(kerjaAction);
-                    workTime++;
-                    if (counter % 30 == 0) {
-                        changeMood(-10);
-                        changeKekenyangan(-10);
-                    }
-                    if (workTime % 240 == 0) { // Dapat gaji kalau sudah bekerja selama 4 menit
-                        workTime = 0; // Counternya reset
-                        uang += pekerjaan.getGaji();
-                    }
-                    setTotalWorkTimeOnCurrentJob(getTotalWorkTimeOnCurrentJob() + 1);
-                }
-                // menampilkan durasi
-                int printDuration = duration - counter;
-                if (printDuration < 10) {
-                    System.out.print("00" + printDuration);
-                } else if (printDuration < 100) {
-                    System.out.print("0" + printDuration);
-                } else {
-                    System.out.print(printDuration);
-                }
-                if (printDuration != 0) {
-                    System.out.print("\b\b\b");
-                }
+        int counter = 0;
+        boolean keepRunning = true;
+        System.out.print("Sisa durasi: ");
+        while (kerjaAction.getDurationLeft() > 0 && keepRunning) {
+            // menampilkan durasi
+            int printDuration = kerjaAction.getDurationLeft() - 1;
+            if (printDuration < 10) {
+                System.out.print("00" + printDuration);
+            } else if (printDuration < 100) {
+                System.out.print("0" + printDuration);
+            } else {
+                System.out.print(printDuration);
             }
-            System.out.println();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            if (printDuration != 0) {
+                System.out.print("\b\b\b");
+            }
+            if (checkKondisiSimMati()) {
+                keepRunning = false;
+                throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati ketika bekerja! :(");
+            } else {
+                counter++;
+                decreaseNonItemActionDuration(kerjaAction);
+                workTime++;
+                if (counter % 30 == 0) {
+                    changeMood(-10);
+                    changeKekenyangan(-10);
+                }
+                if (workTime % 240 == 0) { // Dapat gaji kalau sudah bekerja selama 4 menit
+                    workTime = 0; // Counternya reset
+                    uang += pekerjaan.getGaji();
+                }
+                setTotalWorkTimeOnCurrentJob(getTotalWorkTimeOnCurrentJob() + 1);
+            }
         }
+        setStatus("idle");
+        setInActiveAction(false);
+        if (checkKondisiSimMati()) {
+            throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati ketika bekerja! :(");
+        }
+        System.out.println();
     }
 
     public void buyFurniture() {
@@ -650,28 +713,28 @@ public class Sim {
             Ingredient toBuy = null;
             switch (choice.toLowerCase()) {
                 case ("nasi"):
-                    toBuy = new Ingredient("nasi");
+                    toBuy = new Ingredient("Nasi");
                     break;
                 case ("kentang"):
-                    toBuy = new Ingredient("kentang");
+                    toBuy = new Ingredient("Kentang");
                     break;
                 case ("ayam"):
-                    toBuy = new Ingredient("ayam");
+                    toBuy = new Ingredient("Ayam");
                     break;
                 case ("sapi"):
-                    toBuy = new Ingredient("sapi");
+                    toBuy = new Ingredient("Sapi");
                     break;
                 case ("wortel"):
-                    toBuy = new Ingredient("wortel");
+                    toBuy = new Ingredient("Wortel");
                     break;
                 case ("bayam"):
-                    toBuy = new Ingredient("bayam");
+                    toBuy = new Ingredient("Bayam");
                     break;
                 case ("kacang"):
-                    toBuy = new Ingredient("kacang");
+                    toBuy = new Ingredient("Kacang");
                     break;
                 case ("susu"):
-                    toBuy = new Ingredient("susu");
+                    toBuy = new Ingredient("Susu");
                     break;
             }
             if (toBuy == null) {
@@ -706,26 +769,39 @@ public class Sim {
         else if (Objects.isNull(getCurrentRoom())) {
             System.out.println("Sim tidak dalam suatu ruangan!");
         } else {
-            // TODO : Insert Method Edit Ruangan Here
+            System.out.println("Peta Ruangan: ");
+            getCurrentRoom().printPetaRuangan();
+            try {
+                getCurrentRoom().printPlacedObject();
+            } catch (RoomIsEmptyException riee) {
+                System.out.println(riee.getMessage());
+            }
             Scanner scanner = InputScanner.getInputScanner().getScanner();
-            System.out.printf("Opsi Edit:\n1.Beli barang baru\n2.Pindah barang\n");
-            String input = scanner.nextLine().toUpperCase();
-            if (input.equals("BELI BARANG BARU")) {
-                System.out.println("Pilih barang yang mau dibeli :");
-                System.out.println("1. Furnitur");
-                System.out.println("2. Bahan Makanan");
-                input = scanner.nextLine().toUpperCase();
-                if (input.equals("Furnitur")) {
+            System.out.printf("Masukkan posisi x barang yang akan dipindahkan: ");
+            int originalPosX = Integer.parseInt(scanner.nextLine());
+            System.out.printf("Masukkan posisi y barang yang akan dipindahkan: ");
+            int originalPosY = Integer.parseInt(scanner.nextLine());
+            System.out.printf("Masukkan posisi x lokasi pemindahan barang: ");
+            int posX = Integer.parseInt(scanner.nextLine());
+            System.out.printf("Masukkan posisi y lokasi pemindahan barang: ");
+            int posY = Integer.parseInt(scanner.nextLine());
 
-                } else if (input.equals("Bahan Makanan")) {
-
-                } else {
-
+            Point itemPosition = new Point(originalPosX, originalPosY);
+            Point targetPosition = new Point(posX, posY);
+            Thing thingToMove = currentRoom.findItemInContainer(itemPosition);
+            try {
+                currentRoom.removeItem(originalPosX, originalPosY);
+                currentRoom.placeItem(thingToMove, posX, posY);
+                System.out.printf(
+                        "Barang %s dengan kode %s berhasil dipindahkan ke " + targetPosition.toString() + " \n",
+                        thingToMove.getNama(), thingToMove.getKode());
+            } catch (Exception e) {
+                System.out.println("Barang tidak bisa dipindah ke lokasi " + targetPosition.toString());
+                try {
+                    currentRoom.placeItem(thingToMove, originalPosX, originalPosY);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } else if (input.equals("PINDAH BARANG")) {
-
-            } else {
-                System.out.println("Perintah tidak dikenali! Aksi edit room dibatalkan!");
             }
         }
     }
@@ -952,161 +1028,175 @@ public class Sim {
             }
             System.out.println("Masukkan aksi yang ingin dilakukan:");
             input = capitalizeFirstLetter(actionScanner.nextLine());
-            if (input.equals("Work")) {
-                if (!justChangedJob) {
-                    System.out.print("Masukkan durasi bekerja: ");
-                    int durasi = Integer.parseInt(actionScanner.nextLine());
-                    while (durasi == 0 || durasi % 120 != 0) {
-                        System.out.println("Durasi kerja tidak valid! Harap lakukan input ulang dengan kelipatan 120");
+            switch (input) {
+                case ("Work"):
+                    if (!justChangedJob) {
                         System.out.print("Masukkan durasi bekerja: ");
+                        int durasi = Integer.parseInt(actionScanner.nextLine());
+                        while (durasi == 0 || durasi % 120 != 0) {
+                            System.out.println(
+                                    "Durasi kerja tidak valid! Harap lakukan input ulang dengan kelipatan 120");
+                            System.out.print("Masukkan durasi bekerja: ");
+                            durasi = Integer.parseInt(actionScanner.nextLine());
+                        }
+                        try {
+                            this.kerja(durasi);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                        notSleepYet += durasi;
+                        if (haveEat)
+                            notPeeYet += durasi;
+                        getNegativeEffect();
+                    } else {
+                        System.out.println("Sim belum bisa bekerja hari ini!");
+                    }
+                    break;
+                case ("Olahraga"):
+                    System.out.print("Masukkan durasi olahraga: ");
+                    int durasi = Integer.parseInt(actionScanner.nextLine());
+                    while (durasi == 0 || durasi % 20 != 0) {
+                        System.out
+                                .println("Durasi olahraga tidak valid! Harap lakukan input ulang dengan kelipatan 20");
+                        System.out.print("Masukkan durasi olahraga: ");
                         durasi = Integer.parseInt(actionScanner.nextLine());
                     }
-                    this.kerja(durasi);
+                    try {
+                        this.olahraga(durasi);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     notSleepYet += durasi;
                     if (haveEat)
                         notPeeYet += durasi;
                     getNegativeEffect();
-                } else {
-                    System.out.println("Sim belum bisa bekerja hari ini!");
-                }
-            } else if (input.equals("Olahraga")) {
-                System.out.print("Masukkan durasi olahraga: ");
-                int durasi = Integer.parseInt(actionScanner.nextLine());
-                while (durasi == 0 || durasi % 20 != 0) {
-                    System.out.println("Durasi olahraga tidak valid! Harap lakukan input ulang dengan kelipatan 20");
-                    System.out.print("Masukkan durasi olahraga: ");
-                    durasi = Integer.parseInt(actionScanner.nextLine());
-                }
-                this.olahraga(durasi);
-                notSleepYet += durasi;
-                if (haveEat)
-                    notPeeYet += durasi;
-                getNegativeEffect();
-            } else if (input.equals("Visit")) {
-                System.out.println("Masukkan nama sim yang rumahnya ingin dikunjungi: ");
-                GameManager.getGameManager().printSimList();
-                String namaSim = actionScanner.nextLine();
-                while (GameManager.getGameManager().getSim(namaSim) == null) {
-                    System.out.println("Masukkan nama sim sesuai nama yang ada pada daftar: ");
-                    namaSim = actionScanner.nextLine();
-                }
-                String destHouseCode = GameManager.getGameManager().getSim(namaSim).getOwnedHouse().getKodeRumah();
-                House destHouse = world.getHouse(destHouseCode);
-
-                if (destHouse != null) {
-                    try {
-                        int x1 = this.getCurrentHouse().getLokasi().getX();
-                        int y1 = this.getCurrentHouse().getLokasi().getY();
-                        int x2 = destHouse.getLokasi().getX();
-                        int y2 = destHouse.getLokasi().getY();
-                        double durasiPergi = Math
-                                .sqrt(Math.pow((x2 * 1.0) - (x1 * 1.0), 2) + Math.pow((y2 * 1.0) - (y1 * 1.0), 2));
-
-                        visitTime += durasiPergi;
-                        if (visitTime >= 30) {
-                            visitTime -= 30;
-                            changeMood(10);
-                            changeKekenyangan(-10);
-                        }
-                        this.visit(destHouse);
-                        notSleepYet += durasiPergi;
-                        if (haveEat)
-                            notPeeYet += durasiPergi;
-                        getNegativeEffect();
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                    break;
+                case ("Visit"):
+                    System.out.println("Masukkan nama sim yang rumahnya ingin dikunjungi: ");
+                    GameManager.getGameManager().printSimList();
+                    String namaSim = actionScanner.nextLine();
+                    while (GameManager.getGameManager().getSim(namaSim) == null) {
+                        System.out.println("Masukkan nama sim sesuai nama yang ada pada daftar: ");
+                        namaSim = actionScanner.nextLine();
                     }
-                } else {
-                    System.out.println("Rumah dengan kode " + destHouseCode + " tidak ditemukan!");
-                }
-            } else {
-                if (!Objects.isNull(objectNameNearSim)) {
-                    String firstWord = getFirstWord(objectNameNearSim);
-                    if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
-                        System.out.println("Masukkan durasi (dalam detik):");
-                        int duration = Integer.parseInt(actionScanner.nextLine());
-                        while (duration < 180) {
-                            System.out.println("Durasi tidur tidak valid! Tidur minimal 3 menit (180 detik)");
-                            duration = Integer.parseInt(actionScanner.nextLine());
-                        }
-                        Kasur kasur = (Kasur) objectNearSim;
-                        kasur.Sleeping(this, duration);
-                        notSleepYet = 0;
-                        if (haveEat)
-                            notPeeYet += duration;
-                        getNegativeEffect();
-                    } else if (input.equals("Bercermin") && (firstWord.equals("Cermin"))) {
-                        Cermin currentCermin = (Cermin) objectNearSim;
-                        currentCermin.bercermin(this);
-                    } else if (input.equals("Lihat Jam") && (firstWord.equals("Jam"))) {
-                        Jam jam = (Jam) objectNearSim;
-                        jam.lihatWaktu(this);
-                    } else if (input.equals("Pee") && firstWord.equals("Toilet")) {
-                        Toilet toilet = (Toilet) objectNearSim;
-                        System.out.print("Masukkan durasi (dalam detik): ");
-                        int durasiPee = Integer.parseInt(actionScanner.nextLine());
-                        toilet.buangAir(this, durasiPee);
-                        notSleepYet += durasiPee;
-                        if (haveEat)
-                            notPeeYet = 0;
-                        haveEat = false;
-                        getNegativeEffect();
-                    } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
-                        this.getInventory().printListIngredient();
-                        Kompor kompor = (Kompor) objectNearSim;
-                        if (kompor.checkBahanMasak(getInventory())) {
-                            System.out.println("Masukkan nama makanan yang ingin dimasak: ");
-                            String namaMakanan = actionScanner.nextLine();
-                            kompor.Cooking(this, namaMakanan);
-                        }
-                    } else if (input.equals("Lihat Lukisan") && (firstWord.equals("Lukisan"))) {
-                        System.out.println("Masukkan durasi (dalam detik):");
-                        int duration = Integer.parseInt(actionScanner.nextLine());
-                        Lukisan lukisan = (Lukisan) objectNearSim;
-                        lukisan.lihatLukisan(this, duration);
-                        notSleepYet += duration;
-                        if (haveEat)
-                            notPeeYet += duration;
-                        getNegativeEffect();
-                    } else if (input.equals("Makan") && (firstWord.equals("Meja"))) {
+                    String destHouseCode = GameManager.getGameManager().getSim(namaSim).getOwnedHouse().getKodeRumah();
+                    House destHouse = world.getHouse(destHouseCode);
+
+                    if (destHouse != null) {
                         try {
-                            this.getInventory().printListMakanan();
-                            System.out.println("Masukkan nama makanan yang ingin dimakan: ");
-                            String namaMakanan = actionScanner.nextLine();
-                            MejaKursi mejakursi = (MejaKursi) objectNearSim;
-                            // mejakursi.makan(this, (this.getInventory().getItem(namaMakanan)));
-                            notSleepYet += 30;
-                            if (!haveEat)
-                                haveEat = true;
+                            int x1 = this.getCurrentHouse().getLokasi().getX();
+                            int y1 = this.getCurrentHouse().getLokasi().getY();
+                            int x2 = destHouse.getLokasi().getX();
+                            int y2 = destHouse.getLokasi().getY();
+                            double durasiPergi = Math
+                                    .sqrt(Math.pow((x2 * 1.0) - (x1 * 1.0), 2) + Math.pow((y2 * 1.0) - (y1 * 1.0), 2));
+
+                            visitTime += durasiPergi;
+                            if (visitTime >= 30) {
+                                visitTime -= 30;
+                                changeMood(10);
+                                changeKekenyangan(-10);
+                            }
+                            this.visit(destHouse);
+                            notSleepYet += durasiPergi;
+                            if (haveEat)
+                                notPeeYet += durasiPergi;
                             getNegativeEffect();
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
-                    } else if (input.equals("Mandi") && (firstWord.equals("Shower"))) {
-                        Shower shower = (Shower) objectNearSim;
-                        shower.mandi(this);
-                        notSleepYet += 30;
-                        if (haveEat)
-                            notPeeYet += 30;
-                        getNegativeEffect();
-                    } else if (input.equals("Nonton TV") && (firstWord.equals("TV"))) {
-                        System.out.println("Masukkan durasi (dalam detik):");
-                        int duration = Integer.parseInt(actionScanner.nextLine());
-                        TV tv = (TV) objectNearSim;
-                        tv.nontonTV(this, duration);
-                        notSleepYet += duration;
-                        if (haveEat)
-                            notPeeYet += duration;
-                        getNegativeEffect();
-                    } else if (input.equals("Cuci Tangan") && (firstWord.equals("Wastafel"))) {
-                        Wastafel wastafel = (Wastafel) objectNearSim;
-                        wastafel.cuciTangan(this);
-                        notSleepYet += 5;
-                        if (haveEat)
-                            notPeeYet += 5;
-                        getNegativeEffect();
+                    } else {
+                        System.out.println("Rumah dengan kode " + destHouseCode + " tidak ditemukan!");
                     }
-                }
+                    break;
+                default:
+                    if (!Objects.isNull(objectNameNearSim)) {
+                        String firstWord = getFirstWord(objectNameNearSim);
+                        if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
+                            System.out.println("Masukkan durasi (dalam detik):");
+                            int duration = Integer.parseInt(actionScanner.nextLine());
+                            while (duration < 180) {
+                                System.out.println("Durasi tidur tidak valid! Tidur minimal 3 menit (180 detik)");
+                                duration = Integer.parseInt(actionScanner.nextLine());
+                            }
+                            Kasur kasur = (Kasur) objectNearSim;
+                            kasur.Sleeping(this, duration);
+                            notSleepYet = 0;
+                            if (haveEat)
+                                notPeeYet += duration;
+                            getNegativeEffect();
+                        } else if (input.equals("Bercermin") && (firstWord.equals("Cermin"))) {
+                            Cermin currentCermin = (Cermin) objectNearSim;
+                            currentCermin.bercermin(this);
+                        } else if (input.equals("Lihat Jam") && (firstWord.equals("Jam"))) {
+                            Jam jam = (Jam) objectNearSim;
+                            jam.lihatWaktu(this);
+                        } else if (input.equals("Pee") && firstWord.equals("Toilet")) {
+                            Toilet toilet = (Toilet) objectNearSim;
+                            System.out.print("Masukkan durasi (dalam detik): ");
+                            int durasiPee = Integer.parseInt(actionScanner.nextLine());
+                            toilet.buangAir(this, durasiPee);
+                            notSleepYet += durasiPee;
+                            if (haveEat)
+                                notPeeYet = 0;
+                            haveEat = false;
+                            getNegativeEffect();
+                        } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
+                            this.getInventory().printListIngredient();
+                            Kompor kompor = (Kompor) objectNearSim;
+                            if (kompor.checkBahanMasak(getInventory())) {
+                                System.out.println("Masukkan nama makanan yang ingin dimasak: ");
+                                String namaMakanan = actionScanner.nextLine();
+                                kompor.Cooking(this, namaMakanan);
+                            }
+                        } else if (input.equals("Lihat Lukisan") && (firstWord.equals("Lukisan"))) {
+                            System.out.println("Masukkan durasi (dalam detik):");
+                            int duration = Integer.parseInt(actionScanner.nextLine());
+                            Lukisan lukisan = (Lukisan) objectNearSim;
+                            lukisan.lihatLukisan(this, duration);
+                            notSleepYet += duration;
+                            if (haveEat)
+                                notPeeYet += duration;
+                            getNegativeEffect();
+                        } else if (input.equals("Makan") && (firstWord.equals("Meja"))) {
+                            try {
+                                this.getInventory().printListMakanan();
+                                System.out.println("Masukkan nama makanan yang ingin dimakan: ");
+                                String namaMakanan = actionScanner.nextLine();
+                                MejaKursi mejakursi = (MejaKursi) objectNearSim;
+                                // mejakursi.makan(this, (this.getInventory().getItem(namaMakanan)));
+                                notSleepYet += 30;
+                                if (!haveEat)
+                                    haveEat = true;
+                                getNegativeEffect();
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                            }
+                        } else if (input.equals("Mandi") && (firstWord.equals("Shower"))) {
+                            Shower shower = (Shower) objectNearSim;
+                            shower.mandi(this);
+                            notSleepYet += 30;
+                            if (haveEat)
+                                notPeeYet += 30;
+                            getNegativeEffect();
+                        } else if (input.equals("Nonton TV") && (firstWord.equals("TV"))) {
+                            System.out.println("Masukkan durasi (dalam detik):");
+                            int duration = Integer.parseInt(actionScanner.nextLine());
+                            TV tv = (TV) objectNearSim;
+                            tv.nontonTV(this, duration);
+                            notSleepYet += duration;
+                            if (haveEat)
+                                notPeeYet += duration;
+                            getNegativeEffect();
+                        } else if (input.equals("Cuci Tangan") && (firstWord.equals("Wastafel"))) {
+                            Wastafel wastafel = (Wastafel) objectNearSim;
+                            wastafel.cuciTangan(this);
+                            notSleepYet += 5;
+                            if (haveEat)
+                                notPeeYet += 5;
+                            getNegativeEffect();
+                        }
+                    }
             }
         } else {
             String firstWord = getFirstWord(objectNameNearSim);
