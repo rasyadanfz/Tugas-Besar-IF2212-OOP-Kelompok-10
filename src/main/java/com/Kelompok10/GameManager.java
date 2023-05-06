@@ -361,17 +361,23 @@ public class GameManager {
         }
     }
 
-    // public void updateEachSim(String actionName){
-    // for (Sim s: simList){
-    // if (s == activeSim){
-    // switch(actionName):
-    // case("sleeping"):
-    // s.setNotSleepYet(0);
-    // case("pee"):
-    // s.set
-    // }
-    // }
-    // }
+    public void updateEachSim(String actionName) {
+        for (Sim s : simList) {
+            if (s == activeSim) {
+                switch (actionName) {
+                    case ("sleeping"):
+                        s.setNotSleepYet(0);
+                        break;
+                    case ("pee"):
+                        s.setNotPeeYet(0);
+                        break;
+                    case ("makan"):
+                        s.setHaveEat(true);
+                        break;
+                }
+            }
+        }
+    }
 
     public class Cheat {
         private boolean isTimeSkipEnabled;
