@@ -36,7 +36,12 @@ public class MejaKursi extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            sim.decreaseActionDuration(action);
+            try {
+                sim.decreaseActionDuration(action);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                break;
+            }
         }
         System.out.println();
         sim.changeKekenyangan(food.getKekenyangan());

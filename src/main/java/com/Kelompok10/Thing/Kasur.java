@@ -31,7 +31,7 @@ public abstract class Kasur extends ActiveItems implements Sleep {
 
     public void effect(Sim sim, Action action) {
         int duration = action.getOriginalDuration();
-        int x = duration / 40;
+        int x = duration / 240;
         for (int i = 0; i < x; i++) {
             sim.changeMood(30);
             sim.changeKesehatan(20);
@@ -53,6 +53,7 @@ public abstract class Kasur extends ActiveItems implements Sleep {
                 sim.decreaseActionDuration(action);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                break;
             }
         }
         System.out.println();

@@ -20,7 +20,8 @@ public class Kompor extends ActiveItems implements Cook {
         sim.getInventory().addItem(food);
         effect(sim, actionCook);
         sim.incNotSleepYet(duration);
-        if (sim.getHaveEat()) sim.incNotPeeYet(duration);
+        if (sim.getHaveEat())
+            sim.incNotPeeYet(duration);
         sim.getNegativeEffect();
     }
 
@@ -38,7 +39,12 @@ public class Kompor extends ActiveItems implements Cook {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            sim.decreaseActionDuration(action);
+            try {
+                sim.decreaseActionDuration(action);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                break;
+            }
         }
         System.out.println();
         sim.changeMood(10);

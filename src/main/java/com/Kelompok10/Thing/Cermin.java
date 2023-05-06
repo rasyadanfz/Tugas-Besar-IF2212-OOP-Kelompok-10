@@ -37,6 +37,7 @@ public class Cermin extends ActiveItems {
                 sim.decreaseActionDuration(action);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                break;
             }
         }
         System.out.println();
