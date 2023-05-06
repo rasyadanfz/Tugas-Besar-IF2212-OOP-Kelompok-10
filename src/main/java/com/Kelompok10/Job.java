@@ -10,6 +10,31 @@ public class Job {
 
     }
 
+    public Job(String namaPekerjaan) {
+        switch (namaPekerjaan) {
+            case "Badut Sulap":
+                namaPekerjaan = "Badut Sulap";
+                gaji = 15;
+                break;
+            case "Koki":
+                namaPekerjaan = "Koki";
+                gaji = 30;
+                break;
+            case "Polisi":
+                namaPekerjaan = "Polisi";
+                gaji = 35;
+                break;
+            case "Programmer":
+                namaPekerjaan = "Programmer";
+                gaji = 45;
+                break;
+            case "Dokter":
+                namaPekerjaan = "Dokter";
+                gaji = 50;
+                break;
+        }
+    }
+
     public Job(String namaPekerjaan, int gaji) {
         this.namaPekerjaan = namaPekerjaan;
         this.gaji = gaji;

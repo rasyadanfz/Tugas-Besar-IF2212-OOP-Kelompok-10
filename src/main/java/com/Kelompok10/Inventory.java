@@ -63,7 +63,7 @@ public class Inventory<T extends Item> {
         System.out.printf("| %-20s %s %-21s |\n", " ", "Inventory Sim", " ");
         System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
         if (daftarItem.isEmpty()) {
-            System.out.printf("| %-20s %s %-21s |\n", " ", "Inventory Sim Kosong!!", " ");
+            System.out.printf("| %-16s %s %-16s |\n", " ", "Inventory Sim Kosong!!", " ");
         } else {
             for (String s : daftarItem.keySet()) {
                 System.out.printf("| %-26s | %-28d|\n", s, daftarItem.get(s));

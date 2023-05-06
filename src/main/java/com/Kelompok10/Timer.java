@@ -38,6 +38,7 @@ public class Timer {
         day++;
         for (Sim s : GameManager.getGameManager().getSimList()) {
             s.setJustChangedJob(false);
+            s.setNotSleepYet(0);
         }
     }
 

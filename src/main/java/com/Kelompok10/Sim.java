@@ -198,6 +198,7 @@ public class Sim {
         if (a.getActionObject() != null) {
             a.decreaseDuration();
             world.getTimer().increaseTime();
+            GameManager.getGameManager().updateEachSim(a.getActionName());
 
             try {
                 // CHEAT
@@ -224,6 +225,7 @@ public class Sim {
         if (a.getDurationLeft() > 0) {
             a.decreaseDuration();
             world.getTimer().increaseTime();
+            GameManager.getGameManager().updateEachSim(a.getActionName());
 
             try {
                 // CHEAT
@@ -453,38 +455,43 @@ public class Sim {
     }
 
     public void installBarang(String namaBarang, int x, int y, boolean rotate) throws ItemNotFoundException, Exception {
-        Thing thing = (Thing) inventory.getItem(capitalizeEachWord(namaBarang));
-        String itemName = getFirstWord(thing.getNama());
-        String kode = "P000";
-        if (itemName.equals("Kasur")) {
-            kode = new String("KS" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Cermin")) {
-            kode = new String("CR" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Jam")) {
-            kode = new String("JM" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Kompor")) {
-            kode = new String("KM" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Lukisan")) {
-            kode = new String("LK" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Meja")) {
-            kode = new String("MK" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Shower")) {
-            kode = new String("SH" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Toilet")) {
-            kode = new String("TO" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("TV")) {
-            kode = new String("TV" + currentRoom.getKodeJumlah(thing.getNama()));
-        } else if (itemName.equals("Wastafel")) {
-            kode = new String("WF" + currentRoom.getKodeJumlah(thing.getNama()));
+        if ((inventory.getItem(capitalizeEachWord(namaBarang)) instanceof Thing)) {
+            Thing thing = (Thing) inventory.getItem(capitalizeEachWord(namaBarang));
+            String itemName = getFirstWord(thing.getNama());
+            String kode = "P000";
+            if (itemName.equals("Kasur")) {
+                kode = new String("KS" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Cermin")) {
+                kode = new String("CR" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Jam")) {
+                kode = new String("JM" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Kompor")) {
+                kode = new String("KM" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Lukisan")) {
+                kode = new String("LK" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Meja")) {
+                kode = new String("MK" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Shower")) {
+                kode = new String("SH" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Toilet")) {
+                kode = new String("TO" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("TV")) {
+                kode = new String("TV" + currentRoom.getKodeJumlah(thing.getNama()));
+            } else if (itemName.equals("Wastafel")) {
+                kode = new String("WF" + currentRoom.getKodeJumlah(thing.getNama()));
+            }
+            thing.setKode(kode);
+            try {
+                currentRoom.placeItem(thing, x, y, rotate);
+                inventory.removeItem(thing.getNama());
+                inventory.getItemContainer().remove(thing);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Tidak bisa memasang barang yang bukan furnitur");
         }
-        thing.setKode(kode);
-        try {
-            currentRoom.placeItem(thing, x, y, rotate);
-            inventory.removeItem(thing.getNama());
-            inventory.getItemContainer().remove(thing);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void seeInventory() {
@@ -1004,9 +1011,22 @@ public class Sim {
             System.out.println("- Polisi dengan Gaji 35");
             System.out.println("- Programmer dengan Gaji 45");
             System.out.println("- Dokter dengan Gaji 50");
-            String pilihan = InputScanner.getInputScanner().getScanner().nextLine();
-
-            Job newJob = Job.findRandomJob(pekerjaan);
+            Job newJob = null;
+            String pilihan = capitalizeEachWord(InputScanner.getInputScanner().getScanner().nextLine());
+            while (newJob == null) {
+                if (!((pilihan.equals("Badut Sulap")) || pilihan.equals("Koki") || pilihan.equals("Polisi")
+                        || pilihan.equals("Programmer") || pilihan.equals("Dokter"))) {
+                    System.out.println("Pilih daftar pekerjaan yang diinginkan sesuai daftar: ");
+                    pilihan = InputScanner.getInputScanner().getScanner().nextLine();
+                } else {
+                    if (pilihan.equals(pekerjaan.getNamaPekerjaan())) {
+                        System.out.println("Sim sudah bekerja sebagai " + pekerjaan.getNamaPekerjaan());
+                        pilihan = InputScanner.getInputScanner().getScanner().nextLine();
+                    } else {
+                        newJob = new Job(pilihan);
+                    }
+                }
+            }
             if (getUang() >= newJob.getGaji()) {
                 setUang(getUang() - newJob.getGaji());
                 pekerjaan = newJob;
@@ -1077,7 +1097,7 @@ public class Sim {
                 }
             }
             System.out.println("Masukkan aksi yang ingin dilakukan:");
-            input = capitalizeFirstLetter(actionScanner.nextLine());
+            input = capitalizeEachWord(actionScanner.nextLine());
             switch (input) {
                 case ("Work"):
                     if (!justChangedJob) {
@@ -1091,15 +1111,8 @@ public class Sim {
                                 durasi = Integer.parseInt(actionScanner.nextLine());
                             }
                             this.kerja(durasi);
-
-                            notSleepYet += durasi;
-                            if (haveEat)
-                                notPeeYet += durasi;
-                            getNegativeEffect();
-                        } catch (NumberFormatException e) {
-                            System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.out.println(e.getMessage());
                         }
                     } else {
                         System.out.println("Sim belum bisa bekerja hari ini!");
@@ -1111,20 +1124,14 @@ public class Sim {
                         int durasi = Integer.parseInt(actionScanner.nextLine());
                         while (durasi == 0 || durasi % 20 != 0) {
                             System.out
-                                    .println("Durasi olahraga tidak valid! Harap lakukan input ulang dengan kelipatan 20");
+                                    .println(
+                                            "Durasi olahraga tidak valid! Harap lakukan input ulang dengan kelipatan 20");
                             System.out.print("Masukkan durasi olahraga: ");
                             durasi = Integer.parseInt(actionScanner.nextLine());
                         }
                         this.olahraga(durasi);
-                        
-                        notSleepYet += durasi;
-                        if (haveEat)
-                            notPeeYet += durasi;
-                        getNegativeEffect();
-                    } catch (NumberFormatException e) {
-                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     } catch (Exception e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case ("Visit"):
@@ -1155,10 +1162,6 @@ public class Sim {
                                         + "di " + destHouse.getLokasi().toString() + " dengan lama perjalanan : "
                                         + durasiRounded);
                                 this.visit(destHouse, durasiRounded);
-                                notSleepYet += durasiPergi;
-                                if (haveEat)
-                                    notPeeYet += durasiPergi;
-                                getNegativeEffect();
                             }
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
@@ -1172,21 +1175,13 @@ public class Sim {
                         String firstWord = getFirstWord(objectNameNearSim);
                         if (input.equals("Sleep") && (firstWord.equals("Kasur"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
-                            try {
-                                int duration = Integer.parseInt(actionScanner.nextLine());
-                                while (duration < 180) {
-                                    System.out.println("Durasi tidur tidak valid! Tidur minimal 3 menit (180 detik)");
-                                    duration = Integer.parseInt(actionScanner.nextLine());
-                                }
-                                Kasur kasur = (Kasur) objectNearSim;
-                                kasur.Sleeping(this, duration);
-                                notSleepYet = 0;
-                                if (haveEat)
-                                    notPeeYet += duration;
-                                getNegativeEffect();
-                            } catch (NumberFormatException e) {
-                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
+                            int duration = Integer.parseInt(actionScanner.nextLine());
+                            while (duration < 180) {
+                                System.out.println("Durasi tidur tidak valid! Tidur minimal 3 menit (180 detik)");
+                                duration = Integer.parseInt(actionScanner.nextLine());
                             }
+                            Kasur kasur = (Kasur) objectNearSim;
+                            kasur.Sleeping(this, duration);
                         } else if (input.equals("Bercermin") && (firstWord.equals("Cermin"))) {
                             Cermin currentCermin = (Cermin) objectNearSim;
                             currentCermin.bercermin(this);
@@ -1196,79 +1191,48 @@ public class Sim {
                         } else if (input.equals("Pee") && firstWord.equals("Toilet")) {
                             Toilet toilet = (Toilet) objectNearSim;
                             System.out.print("Masukkan durasi (dalam detik): ");
-                            try {
-                                int durasiPee = Integer.parseInt(actionScanner.nextLine());
-                                toilet.buangAir(this, durasiPee);
-                                notSleepYet += durasiPee;
-                                if (haveEat)
-                                    notPeeYet = 0;
-                                haveEat = false;
-                                getNegativeEffect();
-                            } catch (NumberFormatException e) {
-                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
-                            }
+                            int durasiPee = Integer.parseInt(actionScanner.nextLine());
+                            toilet.buangAir(this, durasiPee);
                         } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
                             this.getInventory().printListIngredient();
                             Kompor kompor = (Kompor) objectNearSim;
                             if (kompor.checkBahanMasak(getInventory())) {
                                 System.out.println("Masukkan nama makanan yang ingin dimasak: ");
-                                String namaMakanan = actionScanner.nextLine();
-                                kompor.Cooking(this, namaMakanan);
+                                String namaMakanan = capitalizeEachWord(actionScanner.nextLine());
+                                kompor.Cooking(this, (namaMakanan));
                             }
                         } else if (input.equals("Lihat Lukisan") && (firstWord.equals("Lukisan"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
-                            try {
-                                int duration = Integer.parseInt(actionScanner.nextLine());
-                                Lukisan lukisan = (Lukisan) objectNearSim;
-                                lukisan.lihatLukisan(this, duration);
-                                notSleepYet += duration;
-                                if (haveEat)
-                                    notPeeYet += duration;
-                                getNegativeEffect();
-                            } catch (NumberFormatException e) {
-                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
-                            }
+                            int duration = Integer.parseInt(actionScanner.nextLine());
+                            Lukisan lukisan = (Lukisan) objectNearSim;
+                            lukisan.lihatLukisan(this, duration);
                         } else if (input.equals("Makan") && (firstWord.equals("Meja"))) {
                             try {
                                 this.getInventory().printListMakanan();
                                 System.out.println("Masukkan nama makanan yang ingin dimakan: ");
-                                String namaMakanan = actionScanner.nextLine();
+                                String namaMakanan = capitalizeEachWord(actionScanner.nextLine());
+                                Item makanan = getInventory().getItem(namaMakanan);
+                                if (makanan instanceof Ingredient) {
+                                    makanan = (Ingredient) makanan;
+                                } else if (makanan instanceof Food) {
+                                    makanan = (Food) makanan;
+                                }
                                 MejaKursi mejakursi = (MejaKursi) objectNearSim;
-                                // mejakursi.makan(this, (this.getInventory().getItem(namaMakanan)));
-                                notSleepYet += 30;
-                                if (!haveEat)
-                                    haveEat = true;
-                                getNegativeEffect();
+                                mejakursi.makan(this, makanan);
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
                             }
                         } else if (input.equals("Mandi") && (firstWord.equals("Shower"))) {
                             Shower shower = (Shower) objectNearSim;
                             shower.mandi(this);
-                            notSleepYet += 30;
-                            if (haveEat)
-                                notPeeYet += 30;
-                            getNegativeEffect();
                         } else if (input.equals("Nonton TV") && (firstWord.equals("TV"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
-                            try {
-                                int duration = Integer.parseInt(actionScanner.nextLine());
-                                TV tv = (TV) objectNearSim;
-                                tv.nontonTV(this, duration);
-                                notSleepYet += duration;
-                                if (haveEat)
-                                    notPeeYet += duration;
-                                getNegativeEffect();
-                            } catch (NumberFormatException e) {
-                                System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
-                            }
+                            int duration = Integer.parseInt(actionScanner.nextLine());
+                            TV tv = (TV) objectNearSim;
+                            tv.nontonTV(this, duration);
                         } else if (input.equals("Cuci Tangan") && (firstWord.equals("Wastafel"))) {
                             Wastafel wastafel = (Wastafel) objectNearSim;
                             wastafel.cuciTangan(this);
-                            notSleepYet += 5;
-                            if (haveEat)
-                                notPeeYet += 5;
-                            getNegativeEffect();
                         }
                     }
             }
@@ -1373,15 +1337,19 @@ public class Sim {
                         answer = actionScanner.next();
                     }
                     if (answer.toUpperCase().equals("Y")) {
-                        // Do Action
                         try {
                             this.getInventory().printListMakanan();
                             System.out.println("Masukkan nama makanan yang ingin dimakan: ");
-                            String namaMakanan = actionScanner.nextLine();
-                            MejaKursi mejakursi = (MejaKursi) object;
-                            mejakursi.makan(this,
-                                    (Food) (this.getInventory().getItem(namaMakanan)));
-                        } catch (ItemNotFoundException e) {
+                            String namaMakanan = capitalizeEachWord(actionScanner.nextLine());
+                            Item makanan = getInventory().getItem(namaMakanan);
+                            if (makanan instanceof Ingredient) {
+                                makanan = (Ingredient) makanan;
+                            } else if (makanan instanceof Food) {
+                                makanan = (Food) makanan;
+                            }
+                            MejaKursi mejakursi = (MejaKursi) objectNearSim;
+                            mejakursi.makan(this, makanan);
+                        } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
                     }
@@ -1443,7 +1411,8 @@ public class Sim {
                     }
                     break;
                 case ("Wastafel"):
-                    System.out.println("Sim bisa melakukan Wash Hands. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    System.out
+                            .println("Sim bisa melakukan Wash Hands. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
                     while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
                         System.out.printf("Input tidak valid! (Y/N) : ");

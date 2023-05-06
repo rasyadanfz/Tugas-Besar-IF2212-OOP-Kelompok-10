@@ -6,7 +6,6 @@ import com.Kelompok10.Exceptions.*;
 import com.Kelompok10.Thing.*;
 
 public class Main {
-    private final static String osName = System.getProperty("os.name"); // Gausah Masukin Diagram
     private static World gameWorld;
     private static GameManager game;
     private static String input;
@@ -83,17 +82,6 @@ public class Main {
                     System.out.printf("\033[1;93mSilakan pilih aksi selanjutnya : \033[0;39m");
                     input = inputScanner.nextLine();
                     gameCommands(input);
-                    // try{
-                    // if (osName.contains("Windows")){
-                    // Runtime.getRuntime().exec("cls");
-                    // }
-                    // else{
-                    // Runtime.getRuntime().exec("clear");
-                    // }
-                    // }
-                    // catch(Exception e){
-                    // e.printStackTrace();
-                    // }
                 } else {
                     System.out.println("Seluruh sim mati!\nGame Over!!");
                     isActive = false;
@@ -116,18 +104,8 @@ public class Main {
         // Create New First Sim
         System.out.println("Masukkan nama lengkap sim baru: ");
         String newSimName = inputScanner.nextLine();
-        game.addSim(newSimName);
-
-        // Create Rumah
         try {
-            game.addNewHouse(game.getActiveSim(), 1, 1);
-            // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada
-            // posisi (1,1)
-            firstHouse = gameWorld.getHouse("H1");
-            game.getActiveSim().setOwnedHouse(firstHouse);
-            game.getActiveSim().changeCurrentHouse(firstHouse);
-            game.getActiveSim().changeCurrentRoom(firstHouse.getDaftarRuangan().get(0));
-            game.getActiveSim().changeCurrentPos(new Point(1, 1));
+            game.addSim(newSimName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -216,7 +194,12 @@ public class Main {
                             }
                         }
                         if (!avail) {
-                            game.addSim(input);
+                            try {
+                                game.addSim(input);
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Gagal membuat sim baru!");
+                            }
                         } else {
                             System.out.println("Gagal membuat Sim baru!");
                         }
@@ -245,7 +228,7 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                 } else if (input.equals("PASANG BARANG")) {
-                    game.getActiveSim().getInventory().printItems();
+                    game.getActiveSim().getInventory().printFurnitures();
                     System.out.println("Masukkan nama barang yang ingin dipasang");
                     String itemName = inputScanner.nextLine();
                     System.out.println("Peta ruangan saat ini: ");
@@ -271,7 +254,7 @@ public class Main {
                         try {
                             game.getActiveSim().installBarang(itemName, x, y, isRotate);
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.out.println(e.getMessage());
                         }
                     } catch (NumberFormatException e) {
                         System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
