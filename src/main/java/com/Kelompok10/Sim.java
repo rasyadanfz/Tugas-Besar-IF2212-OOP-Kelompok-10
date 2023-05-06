@@ -731,6 +731,7 @@ public class Sim {
 
                 };
                 newThread.start();
+                System.out.printf("Furnitur %s berhasil dibeli\n", item.getNama());
             }
         }
 
@@ -796,6 +797,7 @@ public class Sim {
 
                     };
                     newThread.start();
+                    System.out.printf("Bahan Makanan %s berhasil dibeli\n", item.getNama());
                 }
             }
         }

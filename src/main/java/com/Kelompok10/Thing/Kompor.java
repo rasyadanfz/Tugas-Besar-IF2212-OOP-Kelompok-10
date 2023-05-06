@@ -32,10 +32,6 @@ public class Kompor extends ActiveItems implements Cook {
             for (Ingredient ing : food.getBahanMakanan()) {
                 sim.getInventory().removeItem(ing.getNama());
             }
-            sim.incNotSleepYet(duration);
-            if (sim.getHaveEat())
-                sim.incNotPeeYet(duration);
-            sim.getNegativeEffect();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
