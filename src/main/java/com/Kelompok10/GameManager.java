@@ -272,8 +272,13 @@ public class GameManager {
         System.out.println("\033[1;36m10. ADD SIM");
         System.out.println("\033[1;36m11. CHANGE SIM");
         System.out.println("\033[1;36m12. LIST OBJECT");
-        System.out.println("\033[1;36m13. GO TO OBJECT");
-        System.out.println("\033[1;36m14. ACTION\n");
+        System.out.println("\033[1;36m13. PASANG BARANG");
+        System.out.println("\033[1;36m14. BELI BARANG");
+        System.out.println("\033[1;36m15. BELI INGREDIENTS");
+        System.out.println("\033[1;36m16. JUAL BARANG");
+        System.out.println("\033[1;36m17. AMBIL BARANG");
+        System.out.println("\033[1;36m18. GANTI PEKERJAAN");
+        System.out.println("\033[1;36m19. ACTION\n");
 
         System.out.println("\033[1;96m==============================================================");
     }
