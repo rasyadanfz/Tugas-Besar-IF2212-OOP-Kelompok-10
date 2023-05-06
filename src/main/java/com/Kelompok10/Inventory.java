@@ -3,6 +3,7 @@ package com.Kelompok10;
 import java.util.*;
 
 import com.Kelompok10.Exceptions.ItemNotFoundException;
+import com.Kelompok10.Thing.Thing;
 
 public class Inventory<T extends Item> {
     private HashMap<String, Integer> daftarItem;
@@ -32,6 +33,11 @@ public class Inventory<T extends Item> {
                 daftarItem.put(item, daftarItem.get(item) - 1);
             } else {
                 daftarItem.remove(item);
+            }
+            try {
+                itemContainer.remove(findItemInContainer(item));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         } else {
             System.out.println("Item " + item + " tidak ada di dalam inventory!");
@@ -66,6 +72,32 @@ public class Inventory<T extends Item> {
         }
         System.out.println();
 
+    }
+
+    public void printFurnitures() {
+        boolean adaFurnitur = false;
+        System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
+        System.out.printf("| %-20s %s %-21s |\n", " ", "Furniture Sim", " ");
+        System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
+        if (daftarItem.isEmpty()) {
+            System.out.printf("| %-20s %s %-21s |\n", " ", "Inventory Sim Kosong!!", " ");
+        } else {
+            try {
+                for (String s : daftarItem.keySet()) {
+                    if (findItemInContainer(s) instanceof Thing) {
+                        adaFurnitur = true;
+                        System.out.printf("| %-26s | %-28d|\n", s, daftarItem.get(s));
+                        System.out.printf("%-60s\n", "+----------------------------+-----------------------------+");
+                    }
+                }
+                if (!adaFurnitur) {
+                    System.out.println("Tidak ada furnitur dalam inventory!");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println();
     }
 
     public boolean printListIngredient() {

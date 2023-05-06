@@ -56,6 +56,7 @@ public abstract class Kasur extends ActiveItems implements Sleep {
                 break;
             }
         }
+        sim.setInActiveAction(false);
         System.out.println();
     }
 }

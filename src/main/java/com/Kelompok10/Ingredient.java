@@ -65,7 +65,7 @@ public class Ingredient extends Item implements Purchaseable, Eatable {
         int int_random = rand.nextInt(4) + 1;
         // int waktuPengiriman = int_random * 30 * 1000;
         // TODO: Hapus 1 line di bawah, cuma buat debug
-        int waktuPengiriman = Timer.getTimer().getTotalTime() + 10;
+        int waktuPengiriman = 10;
         boolean pengiriman = true;
         int waktuMulai = Timer.getTimer().getTotalTime();
         GameManager.getGameManager().getActiveSim().setItemDelivery(

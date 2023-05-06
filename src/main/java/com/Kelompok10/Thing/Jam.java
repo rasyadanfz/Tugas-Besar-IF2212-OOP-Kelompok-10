@@ -1,6 +1,5 @@
 package com.Kelompok10.Thing;
 
-import com.Kelompok10.Main;
 import com.Kelompok10.Sim;
 import com.Kelompok10.Timer;
 
@@ -25,8 +24,9 @@ public class Jam extends Thing {
     }
 
     public void lihatWaktu(Sim sim) {
-        System.out.println("DAY: " + Timer.getTimer().getDay());
-        System.out.println("TIME: " + Timer.getTimer().getTime());
+        System.out.println("Day: " + Timer.getTimer().getDay());
+        System.out.printf("Sisa Waktu: %d menit %d detik \n", Timer.getTimer().getMinutes(),
+                Timer.getTimer().getSeconds());
         setSisaWaktuKirim(sim);
         setSisaWaktuUpgrade(sim);
         if (sisaWaktuUpgrade > 0) {

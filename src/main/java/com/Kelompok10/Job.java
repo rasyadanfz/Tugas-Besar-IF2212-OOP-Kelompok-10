@@ -1,5 +1,7 @@
 package com.Kelompok10;
 
+import java.util.Random;
+
 public class Job {
     private String namaPekerjaan;
     private int gaji;
@@ -33,24 +35,24 @@ public class Job {
         String namaPekerjaan = new String();
         int gaji = 0;
 
-        switch(i) {
-            case 0 :
+        switch (i) {
+            case 0:
                 namaPekerjaan = "Badut Sulap";
                 gaji = 15;
                 break;
-            case 1 :
+            case 1:
                 namaPekerjaan = "Koki";
                 gaji = 30;
                 break;
-            case 2 :
+            case 2:
                 namaPekerjaan = "Polisi";
                 gaji = 35;
                 break;
-            case 3 :
+            case 3:
                 namaPekerjaan = "Programmer";
                 gaji = 45;
                 break;
-            case 4 :
+            case 4:
                 namaPekerjaan = "Dokter";
                 gaji = 50;
                 break;
@@ -58,11 +60,41 @@ public class Job {
 
         pekerjaan.setNama(namaPekerjaan);
         pekerjaan.setGaji(gaji);
-    
+
     }
 
-    //TODO : Implementasi Work Sesuai Konsep Timer
-    public void work(Sim sim){
-
+    public static Job findRandomJob(Job currentJob) {
+        Job newJob;
+        String namaPekerjaan = currentJob.getNamaPekerjaan();
+        int gaji = currentJob.getGaji();
+        Random random = new Random();
+        int i;
+        while (currentJob.getNamaPekerjaan().equals(namaPekerjaan)) {
+            i = random.nextInt(5);
+            switch (i) {
+                case 0:
+                    namaPekerjaan = "Badut Sulap";
+                    gaji = 15;
+                    break;
+                case 1:
+                    namaPekerjaan = "Koki";
+                    gaji = 30;
+                    break;
+                case 2:
+                    namaPekerjaan = "Polisi";
+                    gaji = 35;
+                    break;
+                case 3:
+                    namaPekerjaan = "Programmer";
+                    gaji = 45;
+                    break;
+                case 4:
+                    namaPekerjaan = "Dokter";
+                    gaji = 50;
+                    break;
+            }
+        }
+        newJob = new Job(namaPekerjaan, gaji);
+        return newJob;
     }
 }

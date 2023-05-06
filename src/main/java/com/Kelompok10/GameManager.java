@@ -156,13 +156,13 @@ public class GameManager {
         System.out.print("Masukkan pilihan yang ingin ditampilkan: ");
         String command = input.nextLine();
         command = command.toUpperCase();
-        if (command.equals("GAME DESCRIPTION")){
+        if (command.equals("GAME DESCRIPTION")) {
             gameDescription();
-        } else if (command.equals("HOW TO PLAY")){
+        } else if (command.equals("HOW TO PLAY")) {
             howToPlay();
-        } else if (command.equals("COMMAND LIST")){
+        } else if (command.equals("COMMAND LIST")) {
             commandList();
-        } else{
+        } else {
             System.out.println("Perintah tidak dikenali. Silakan masukkan ulang perintah yang valid.");
         }
     }
@@ -301,7 +301,6 @@ public class GameManager {
         } else {
             System.out.println("Kembali ke menu utama...");
         }
-        input.close();
     }
 
     public void changeSim(String input, Scanner inputScanner) {
@@ -325,7 +324,7 @@ public class GameManager {
 
     }
 
-    public void listObject() {
+    public void listObject() throws RoomIsEmptyException {
         getActiveSim().getCurrentRoom().printPlacedObject();
     }
 
@@ -358,16 +357,6 @@ public class GameManager {
 
         if (simList.isEmpty()) {
             activeSim = null;
-        }
-    }
-
-    // Helper Method
-    private String getFirstWord(String text) {
-        int index = text.indexOf(' ');
-        if (index > -1) {
-            return text.substring(0, index).trim();
-        } else {
-            return text;
         }
     }
 

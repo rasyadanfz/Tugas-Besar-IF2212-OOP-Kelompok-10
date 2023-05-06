@@ -21,6 +21,7 @@ public class House {
         Room ruang1 = new Room("R001", this, 5, 5);
         daftarRuangan.add(ruang1);
         petaRumah.changeItem(5, 5, ruang1.getNamaRuangan());
+        roomCount++;
     }
 
     public String getKodeRumah() {
@@ -81,7 +82,6 @@ public class House {
             if (checkSpace(referenceRoom, arah.toLowerCase())) {
                 // System.out.println(x);
                 // System.out.println(y);
-
                 switch (arah.toLowerCase()) {
                     case ("kiri"):
                         x -= 1;
@@ -101,12 +101,13 @@ public class House {
                 // System.out.println(y);
                 newRoom.setRoomPosition(x, y);
                 petaRumah.changeItem(x, y, newRoom.getNamaRuangan());
+                daftarRuangan.add(newRoom);
                 roomCount++;
             } else {
                 throw new Exception("Ruangan gagal ditambahkan! Terdapat ruangan lain pada space tersebut");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -167,54 +168,4 @@ public class House {
         }
         return true;
     }
-
-    // public static void main(String[] args) {
-    // World world = World.getWorld();
-    // try {
-    // world.addHouse(0, 0, "H01");
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // // world.getMap().printMatrix();
-    // House rumah1 = world.getDaftarRumah().get(0);
-
-    // System.out.println();
-    // rumah1.printPetaRumah();
-
-    // Room ruang1 = rumah1.getDaftarRuangan().get(0);
-    // // System.out.println(ruang1.getRoomPosition().getX());
-    // // System.out.println(ruang1.getRoomPosition().getY());
-    // // try {
-    // // System.out.println(rumah1.checkSpace(ruang1, "atas"));
-    // // } catch (Exception e) {
-    // // System.out.println(e);
-    // // }
-
-    // Room ruang2 = new Room("R02", rumah1);
-    // try {
-    // rumah1.addNewRoom(ruang1, ruang2, "atas");
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // // rumah1.printPetaRumah();
-
-    // // System.out.println("====== BATAS SUCI ======");
-    // Room ruang3 = new Room("R03", rumah1);
-    // Room ruang4 = new Room("R04", rumah1);
-    // Room ruang5 = new Room("R05", rumah1);
-    // Room ruang6 = new Room("R06", rumah1);
-    // System.out.println(rumah1.getPetaRumah().getItem(6, 5).equals("---"));
-
-    // try {
-    // rumah1.addNewRoom(ruang2, ruang3, "atas");
-    // rumah1.addNewRoom(ruang3, ruang4, "atas");
-    // rumah1.addNewRoom(ruang4, ruang5, "atas");
-    // System.out.println(ruang5.getRoomPosition().getX());
-    // System.out.println(ruang5.getRoomPosition().getY());
-    // rumah1.addNewRoom(ruang5, ruang6, "atas");
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // rumah1.printPetaRumah();
-    // }
 }

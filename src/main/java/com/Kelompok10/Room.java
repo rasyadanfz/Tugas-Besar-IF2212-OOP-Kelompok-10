@@ -1,6 +1,8 @@
 package com.Kelompok10;
 
 import java.util.*;
+
+import com.Kelompok10.Exceptions.RoomIsEmptyException;
 import com.Kelompok10.Thing.*;
 
 public class Room {
@@ -29,6 +31,7 @@ public class Room {
         this.namaRuangan = namaRuangan;
         this.rumah = rumah;
         placedObject = new HashMap<String, ArrayList<Point>>();
+        jumlahItem = new HashMap<String, Integer>();
         itemContainer = new ArrayList<Thing>();
         // Set default
         petaRuangan = new Matrix(6, 6);
@@ -73,8 +76,10 @@ public class Room {
 
     public int getJumlah(String itemName) {
         if (jumlahItem.containsKey(itemName)) {
+            System.out.println("MASUKK CEK KEY");
             return (jumlahItem.get(itemName));
         } else {
+            System.out.println("MASUKK 0");
             return 0;
         }
     }
@@ -82,8 +87,10 @@ public class Room {
     public String getKodeJumlah(String itemName) {
         String jumlah;
         if (getJumlah(itemName) > 10) {
+            System.out.println("MASUKK45");
             jumlah = Integer.toString(getJumlah(itemName) + 1);
         } else {
+            System.out.println("MASUK 0101");
             jumlah = "0" + (getJumlah(itemName) + 1);
         }
         return jumlah;
@@ -105,6 +112,15 @@ public class Room {
         }
     }
 
+    private Point findObjectPlacementInPlacedObject(Thing thing) {
+        for (Point p : placedObject.get(thing.getNama())) {
+            if (thing.getPosisi().equals(p)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public Thing findItemInContainer(Point itemPosition) {
         Thing item = null;
         Iterator<Thing> containerIterator = itemContainer.iterator();
@@ -123,20 +139,24 @@ public class Room {
         }
     }
 
-    public void printPlacedObject() {
-        System.out.println(
-                "Item yang terdapat pada " + getNamaRuangan() + " dalam rumah " + getHouse().getKodeRumah() + " :");
-        for (Map.Entry<String, ArrayList<Point>> entry : placedObject.entrySet()) {
-            if (entry.getValue().size() > 1) {
-                for (Point p : entry.getValue()) {
+    public void printPlacedObject() throws RoomIsEmptyException {
+        if (!placedObject.isEmpty()) {
+            System.out.println(
+                    "Item yang terdapat pada " + getNamaRuangan() + " dalam rumah " + getHouse().getKodeRumah() + " :");
+            for (Map.Entry<String, ArrayList<Point>> entry : placedObject.entrySet()) {
+                if (entry.getValue().size() > 1) {
+                    for (Point p : entry.getValue()) {
+                        System.out.print("- ");
+                        System.out.println(entry.getKey() + " <" + p.getX() + ", " + p.getY() + ">");
+                    }
+                } else if (entry.getValue().size() == 1) {
                     System.out.print("- ");
-                    System.out.println(entry.getKey() + " <" + p.getX() + ", " + p.getY() + ">");
+                    System.out.println(entry.getKey() + " <" + entry.getValue().get(0).getX() + ", "
+                            + entry.getValue().get(0).getY() + ">");
                 }
-            } else {
-                System.out.print("- ");
-                System.out.println(entry.getKey() + " <" + entry.getValue().get(0).getX() + ", "
-                        + entry.getValue().get(0).getY() + ">");
             }
+        } else {
+            throw new RoomIsEmptyException(getNamaRuangan());
         }
     }
 
@@ -181,6 +201,19 @@ public class Room {
             object.setPosisi(x, y);
             itemContainer.add(object);
             increaseJumlahItem(namaItem);
+        }
+    }
+
+    public void removeItem(int x, int y) {
+        Point itemPos = new Point(x, y);
+        Thing toRemove = findItemInContainer(itemPos);
+        placedObject.get(toRemove.getNama()).remove(findObjectPlacementInPlacedObject(toRemove));
+        reduceJumlahItem(toRemove.getNama());
+        itemContainer.remove(toRemove);
+        for (int i = x; i < x + toRemove.getPanjang(); i++) {
+            for (int j = y; j < y + toRemove.getLebar(); j++) {
+                petaRuangan.changeItem(i, j, "----");
+            }
         }
     }
 

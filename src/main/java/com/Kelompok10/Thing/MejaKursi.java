@@ -11,18 +11,17 @@ public class MejaKursi extends ActiveItems {
         super("Meja Dan Kursi", 3, 3, 50);
     }
 
-    public void makan(Sim sim, Food food) {
+    public <T extends Item & Eatable> void makan(Sim sim, T food) {
         Action actionMakan = new Action("eating", 30, this);
         sim.addAction(actionMakan);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, actionMakan);
+        effect(sim, actionMakan, food);
+        sim.getInventory().removeItem(food.getNama());
     }
 
-    public void effect(Sim sim, Action action) {
-    }
+    public <T extends Item & Eatable> void effect(Sim sim, Action action, T food) {
 
-    public void effect(Sim sim, Action action, Food food) {
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -44,7 +43,6 @@ public class MejaKursi extends ActiveItems {
             }
         }
         System.out.println();
-        sim.changeKekenyangan(food.getKekenyangan());
     }
 
 }
