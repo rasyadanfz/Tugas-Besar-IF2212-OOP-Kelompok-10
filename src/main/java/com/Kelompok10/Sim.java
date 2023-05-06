@@ -459,7 +459,6 @@ public class Sim {
         try {
             System.out.print("Sisa durasi: ");
             int counter = 0;
-            System.out.print("Sisa durasi: ");
             while (counter != duration) {
                 counter++;
                 decreaseActionDuration(olahragaAction);
@@ -518,16 +517,18 @@ public class Sim {
                 }
                 // menampilkan durasi
                 int printDuration = duration - counter;
-                if (printDuration < 10) {
-                    System.out.print("00" + printDuration);
-                } else if (printDuration < 100) {
-                    System.out.print("0" + printDuration);
-                } else {
-                    System.out.print(printDuration);
-                }
-                if (printDuration != 0) {
-                    System.out.print("\b\b\b");
-                }
+                System.out.println(printDuration);
+                System.out.println("Action duration left: " + kerjaAction.getDurationLeft());
+                // if (printDuration < 10) {
+                // System.out.print("00" + printDuration);
+                // } else if (printDuration < 100) {
+                // System.out.print("0" + printDuration);
+                // } else {
+                // System.out.print(printDuration);
+                // }
+                // if (printDuration != 0) {
+                // System.out.print("\b\b\b");
+                // }
             }
             System.out.println();
         } catch (Exception e) {

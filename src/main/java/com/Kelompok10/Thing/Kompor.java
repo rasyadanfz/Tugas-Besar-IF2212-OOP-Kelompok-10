@@ -1,6 +1,7 @@
 package com.Kelompok10.Thing;
 
 import com.Kelompok10.*;
+import com.Kelompok10.Exceptions.*;
 
 public class Kompor extends ActiveItems implements Cook {
     public Kompor(String nama, String kodeItem, int panjang, int lebar, int harga) {
@@ -18,14 +19,22 @@ public class Kompor extends ActiveItems implements Cook {
         sim.addAction(actionCook);
         sim.setStatus("active");
         sim.getInventory().addItem(food);
-        effect(sim, actionCook);
+        try {
+            effect(sim, actionCook);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            sim.setStatus("idle");
+            sim.setInActiveAction(false);
+            sim.removeAction(actionCook);
+        }
         sim.incNotSleepYet(duration);
         if (sim.getHaveEat())
             sim.incNotPeeYet(duration);
         sim.getNegativeEffect();
     }
 
-    public void effect(Sim sim, Action action) {
+    public void effect(Sim sim, Action action) throws HouseIsGoneException {
+        boolean keepRunning = false;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -39,11 +48,14 @@ public class Kompor extends ActiveItems implements Cook {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap() + " memasak hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();
