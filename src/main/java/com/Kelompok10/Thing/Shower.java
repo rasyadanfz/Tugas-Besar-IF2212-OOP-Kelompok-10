@@ -2,6 +2,7 @@ package com.Kelompok10.Thing;
 
 import com.Kelompok10.Action;
 import com.Kelompok10.Sim;
+import com.Kelompok10.Exceptions.HouseIsGoneException;
 
 public class Shower extends ActiveItems {
     public Shower(String kodeItem) {
@@ -19,10 +20,18 @@ public class Shower extends ActiveItems {
         sim.addAction(actionMandi);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, actionMandi);
+        try {
+            effect(sim, actionMandi);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            sim.setStatus("idle");
+            sim.setInActiveAction(false);
+            sim.removeAction(actionMandi);
+        }
     }
 
-    public void effect(Sim sim, Action action) {
+    public void effect(Sim sim, Action action) throws HouseIsGoneException {
+        boolean keepRunning = true;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -36,11 +45,14 @@ public class Shower extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap() + " mandi hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();

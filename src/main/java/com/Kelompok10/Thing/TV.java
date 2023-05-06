@@ -1,7 +1,7 @@
 package com.Kelompok10.Thing;
 
 import com.Kelompok10.Sim;
-import com.Kelompok10.Exceptions.DurationNotValidException;
+import com.Kelompok10.Exceptions.*;
 import com.Kelompok10.Action;
 
 public class TV extends ActiveItems {
@@ -26,7 +26,14 @@ public class TV extends ActiveItems {
                 sim.addAction(actionNontonTV);
                 sim.setStatus("active");
                 sim.setInActiveAction(true);
-                effect(sim, actionNontonTV);
+                try {
+                    effect(sim, actionNontonTV);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    sim.setStatus("idle");
+                    sim.setInActiveAction(false);
+                    sim.removeAction(actionNontonTV);
+                }
             } else {
                 throw new DurationNotValidException(30);
             }
@@ -35,13 +42,9 @@ public class TV extends ActiveItems {
         }
     }
 
-    public void effect(Sim sim, Action action) {
-        int duration = action.getOriginalDuration();
-        int x = duration / 30;
-        for (int i = 0; i < x; i++) {
-            sim.changeKesehatan(-10);
-            sim.changeMood(20);
-        }
+    public void effect(Sim sim, Action action) throws SimIsDeadException, HouseIsGoneException {
+        boolean keepRunning = true;
+        int counter = 0;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -55,11 +58,23 @@ public class TV extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (sim.checkKondisiSimMati()) {
+                keepRunning = false;
+                throw new SimIsDeadException(
+                        "Sim " + sim.getNamaLengkap() + " mati karena sakit saat nonton TV :(");
+            } else if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+                counter++;
+                if (counter % 30 == 0) {
+                    sim.changeKesehatan(-10);
+                    sim.changeMood(20);
+                }
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap() + " nonton TV hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();
