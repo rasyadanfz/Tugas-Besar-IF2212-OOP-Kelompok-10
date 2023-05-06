@@ -198,6 +198,7 @@ public class Sim {
         if (a.getActionObject() != null) {
             a.decreaseDuration();
             world.getTimer().increaseTime();
+            GameManager.getGameManager().updateEachSim(a.getActionName());
 
             try {
                 // CHEAT
@@ -996,14 +997,22 @@ public class Sim {
             System.out.println("- Polisi dengan Gaji 35");
             System.out.println("- Programmer dengan Gaji 45");
             System.out.println("- Dokter dengan Gaji 50");
-            String pilihan = InputScanner.getInputScanner().getScanner().nextLine();
-            if !((pilihan.equals("Badut Sulap")))
-            while(pilihan.equals(pekerjaan.getNamaPekerjaan())){
-                if (pilihan) {
-                    System.out.println("Sim sudah menjadi seorang " + pekerjaan.getNamaPekerjaan());
+            Job newJob = null;
+            String pilihan = capitalizeEachWord(InputScanner.getInputScanner().getScanner().nextLine());
+            while (newJob == null) {
+                if (!((pilihan.equals("Badut Sulap")) || pilihan.equals("Koki") || pilihan.equals("Polisi")
+                        || pilihan.equals("Programmer") || pilihan.equals("Dokter"))) {
+                    System.out.println("Pilih daftar pekerjaan yang diinginkan sesuai daftar: ");
+                    pilihan = InputScanner.getInputScanner().getScanner().nextLine();
+                } else {
+                    if (pilihan.equals(pekerjaan.getNamaPekerjaan())) {
+                        System.out.println("Sim sudah bekerja sebagai " + pekerjaan.getNamaPekerjaan());
+                        pilihan = InputScanner.getInputScanner().getScanner().nextLine();
+                    } else {
+                        newJob = new Job(pilihan);
+                    }
                 }
             }
-            Job newJob = Job.findRandomJob(pekerjaan);
             if (getUang() >= newJob.getGaji()) {
                 setUang(getUang() - newJob.getGaji());
                 pekerjaan = newJob;
@@ -1091,10 +1100,6 @@ public class Sim {
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
-                        notSleepYet += durasi;
-                        if (haveEat)
-                            notPeeYet += durasi;
-                        getNegativeEffect();
                     } else {
                         System.out.println("Sim belum bisa bekerja hari ini!");
                     }
@@ -1113,10 +1118,6 @@ public class Sim {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    notSleepYet += durasi;
-                    if (haveEat)
-                        notPeeYet += durasi;
-                    getNegativeEffect();
                     break;
                 case ("Visit"):
                     System.out.println("Masukkan nama sim yang rumahnya ingin dikunjungi: ");
@@ -1173,9 +1174,6 @@ public class Sim {
                             Kasur kasur = (Kasur) objectNearSim;
                             kasur.Sleeping(this, duration);
                             notSleepYet = 0;
-                            if (haveEat)
-                                notPeeYet += duration;
-                            getNegativeEffect();
                         } else if (input.equals("Bercermin") && (firstWord.equals("Cermin"))) {
                             Cermin currentCermin = (Cermin) objectNearSim;
                             currentCermin.bercermin(this);
@@ -1188,10 +1186,6 @@ public class Sim {
                             int durasiPee = Integer.parseInt(actionScanner.nextLine());
                             toilet.buangAir(this, durasiPee);
                             notSleepYet += durasiPee;
-                            if (haveEat)
-                                notPeeYet = 0;
-                            haveEat = false;
-                            getNegativeEffect();
                         } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
                             this.getInventory().printListIngredient();
                             Kompor kompor = (Kompor) objectNearSim;
@@ -1206,9 +1200,6 @@ public class Sim {
                             Lukisan lukisan = (Lukisan) objectNearSim;
                             lukisan.lihatLukisan(this, duration);
                             notSleepYet += duration;
-                            if (haveEat)
-                                notPeeYet += duration;
-                            getNegativeEffect();
                         } else if (input.equals("Makan") && (firstWord.equals("Meja"))) {
                             try {
                                 this.getInventory().printListMakanan();
@@ -1217,9 +1208,6 @@ public class Sim {
                                 MejaKursi mejakursi = (MejaKursi) objectNearSim;
                                 // mejakursi.makan(this, (this.getInventory().getItem(namaMakanan)));
                                 notSleepYet += 30;
-                                if (!haveEat)
-                                    haveEat = true;
-                                getNegativeEffect();
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
                             }
@@ -1227,25 +1215,16 @@ public class Sim {
                             Shower shower = (Shower) objectNearSim;
                             shower.mandi(this);
                             notSleepYet += 30;
-                            if (haveEat)
-                                notPeeYet += 30;
-                            getNegativeEffect();
                         } else if (input.equals("Nonton TV") && (firstWord.equals("TV"))) {
                             System.out.println("Masukkan durasi (dalam detik):");
                             int duration = Integer.parseInt(actionScanner.nextLine());
                             TV tv = (TV) objectNearSim;
                             tv.nontonTV(this, duration);
                             notSleepYet += duration;
-                            if (haveEat)
-                                notPeeYet += duration;
-                            getNegativeEffect();
                         } else if (input.equals("Cuci Tangan") && (firstWord.equals("Wastafel"))) {
                             Wastafel wastafel = (Wastafel) objectNearSim;
                             wastafel.cuciTangan(this);
                             notSleepYet += 5;
-                            if (haveEat)
-                                notPeeYet += 5;
-                            getNegativeEffect();
                         }
                     }
             }

@@ -83,13 +83,30 @@ public class GameManager {
         activeSim = sim;
     }
 
-    public void addSim(String simName) {
+    public void addSim(String simName) throws Exception {
         if (!haveCreatedNewSim) {
             Sim newSim = new Sim(simName);
-            try {
-                addNewHouse(newSim);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            if (activeSim == null) {
+                try {
+                    addNewHouse(newSim);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                try {
+                    System.out.println("Masukkan lokasi untuk rumah sim baru!");
+                    System.out.printf("Posisi X Rumah: ");
+                    int posX = Integer.parseInt(scanner.nextLine());
+                    System.out.printf("Posisi Y Rumah: ");
+                    int posY = Integer.parseInt(scanner.nextLine());
+                    try {
+                        addNewHouse(newSim, posX, posY);
+                    } catch (Exception e) {
+                        throw e;
+                    }
+                } catch (Exception e) {
+                    throw e;
+                }
             }
             // Generate Inventory
             newSim.getInventory().addItem(new KasurSingle());
@@ -127,12 +144,12 @@ public class GameManager {
         sim.changeCurrentPos(new Point(1, 1));
     }
 
-    public void addNewHouse(Sim sim, int x, int y) {
+    public void addNewHouse(Sim sim, int x, int y) throws Exception {
         String kodeRumahBaru = "H" + (houseCount + 1);
         try {
             world.addHouse(x, y, kodeRumahBaru);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
         houseCount++;
         sim.setOwnedHouse(world.getHouse(kodeRumahBaru));
@@ -363,19 +380,52 @@ public class GameManager {
 
     public void updateEachSim(String actionName) {
         for (Sim s : simList) {
-            if (s == activeSim) {
+            if (s != activeSim) {
+                s.setNotSleepYet(s.getNotSleepYet() + 1);
+                if (s.getHaveEat()) {
+                    s.setNotPeeYet(s.getNotPeeYet() + 1);
+                }
+
+                // Update kalo lebih waktu
+                if (s.getNotSleepYet() >= 600) {
+                    s.changeKesehatan(-5);
+                    s.changeMood(-5);
+                    s.setNotSleepYet(s.getNotSleepYet() - 600);
+                }
+                if (s.getHaveEat()) {
+                    if (s.getNotPeeYet() >= 240) {
+                        s.changeKesehatan(-5);
+                        s.changeMood(-5);
+                        s.setNotPeeYet(s.getNotPeeYet() - 240);
+                    }
+                }
+            } else {
                 switch (actionName) {
                     case ("sleeping"):
                         s.setNotSleepYet(0);
+                        if (s.getHaveEat()) {
+                            s.setNotPeeYet(s.getNotPeeYet() + 1);
+                        }
                         break;
                     case ("pee"):
-                        s.setNotPeeYet(0);
+                        if (s.getHaveEat()) {
+                            s.setNotPeeYet(0);
+                        }
+                        s.setHaveEat(false);
+                        s.setNotSleepYet(s.getNotSleepYet() + 1);
                         break;
-                    case ("makan"):
+                    case ("eating"):
                         s.setHaveEat(true);
+                        s.setNotSleepYet(s.getNotSleepYet() + 1);
                         break;
+                    default:
+                        s.setNotSleepYet(s.getNotSleepYet() + 1);
+                        if (s.getHaveEat()) {
+                            s.setNotPeeYet(s.getNotPeeYet() + 1);
+                        }
                 }
             }
+
         }
     }
 

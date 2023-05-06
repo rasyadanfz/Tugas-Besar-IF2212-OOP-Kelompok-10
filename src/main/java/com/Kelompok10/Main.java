@@ -116,18 +116,8 @@ public class Main {
         // Create New First Sim
         System.out.println("Masukkan nama lengkap sim baru: ");
         String newSimName = inputScanner.nextLine();
-        game.addSim(newSimName);
-
-        // Create Rumah
         try {
-            game.addNewHouse(game.getActiveSim(), 1, 1);
-            // Generate Ruangan Pertama pada Rumah, masukkan sim pada ruangan pertama pada
-            // posisi (1,1)
-            firstHouse = gameWorld.getHouse("H1");
-            game.getActiveSim().setOwnedHouse(firstHouse);
-            game.getActiveSim().changeCurrentHouse(firstHouse);
-            game.getActiveSim().changeCurrentRoom(firstHouse.getDaftarRuangan().get(0));
-            game.getActiveSim().changeCurrentPos(new Point(1, 1));
+            game.addSim(newSimName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -208,7 +198,12 @@ public class Main {
                     if (!game.getHaveCreatedNewSim()) {
                         System.out.print("Masukkan nama Sim baru : ");
                         input = inputScanner.nextLine();
-                        game.addSim(input);
+                        try {
+                            game.addSim(input);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            System.out.println("Gagal membuat sim baru!");
+                        }
                     } else {
                         System.out.println("Anda sudah membuat sim baru hari ini!");
                     }
