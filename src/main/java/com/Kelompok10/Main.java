@@ -2,6 +2,7 @@ package com.Kelompok10;
 
 import java.util.*;
 
+import com.Kelompok10.Exceptions.CantChangeJobException;
 import com.Kelompok10.Thing.*;
 
 public class Main {
@@ -196,6 +197,8 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                 } else if (input.equals("MOVE ROOM")) {
+                    System.out.println("Peta Rumah: ");
+                    game.getActiveSim().getCurrentHouse().printPetaRumah();
                     System.out.printf("Masukkan Kode Ruangan yang akan dituju: ");
                     input = inputScanner.nextLine();
                     game.getActiveSim().moveRoom(input);
@@ -212,14 +215,22 @@ public class Main {
                 } else if (input.equals("CHANGE SIM")) {
                     game.changeSim(input, inputScanner);
                 } else if (input.equals("LIST OBJECT")) {
-                    game.listObject();
+                    try {
+                        game.listObject();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 } else if (input.equals("GO TO OBJECT")) {
-                    game.listObject();
-                    System.out.println("Masukkan posisi x benda yang ingin dituju");
-                    int xTarget = Integer.parseInt(inputScanner.nextLine());
-                    System.out.println("Masukkan posisi y benda yang ingin dituju");
-                    int yTarget = Integer.parseInt(inputScanner.nextLine());
-                    game.getActiveSim().goToObject(xTarget, yTarget);
+                    try {
+                        game.listObject();
+                        System.out.println("Masukkan posisi x benda yang ingin dituju");
+                        int xTarget = Integer.parseInt(inputScanner.nextLine());
+                        System.out.println("Masukkan posisi y benda yang ingin dituju");
+                        int yTarget = Integer.parseInt(inputScanner.nextLine());
+                        game.getActiveSim().goToObject(xTarget, yTarget);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 } else if (input.equals("PASANG BARANG")) {
                     game.getActiveSim().getInventory().printItems();
                     System.out.println("Masukkan nama barang yang ingin dipasang");
@@ -233,12 +244,35 @@ public class Main {
                     try {
                         game.getActiveSim().installBarang(itemName, x, y);
                     } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
                     }
                 } else if (input.equals("BELI BARANG")) {
                     game.getActiveSim().buyFurniture();
                 } else if (input.equals("BELI INGREDIENTS")) {
                     game.getActiveSim().buyIngredient();
+                } else if (input.equals("JUAL BARANG")) {
+                    game.getActiveSim().getInventory().printFurnitures();
+                    System.out.printf("Masukkan nama barang yang ingin dijual: ");
+                    input = inputScanner.nextLine();
+                    game.getActiveSim().sellBarang(input);
+                } else if (input.equals("AMBIL BARANG")) {
+                    try {
+                        game.listObject();
+                        System.out.println("Masukkan posisi barang yang mau diambil");
+                        System.out.println("Masukkan posisi x barang yang akan diambil: ");
+                        int x = Integer.parseInt(inputScanner.nextLine());
+                        System.out.println("Masukkan posisi y barang yang akan diambil: ");
+                        int y = Integer.parseInt(inputScanner.nextLine());
+                        game.getActiveSim().ambilBarang(x, y);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (input.equals("GANTI PEKERJAAN")) {
+                    try {
+                        game.getActiveSim().changeJob();
+                    } catch (CantChangeJobException e) {
+                        System.out.println(e.getMessage());
+                    }
                 } else if (input.equals("ACTION")) {
                     game.getActiveSim().actions(false);
                 } else {
