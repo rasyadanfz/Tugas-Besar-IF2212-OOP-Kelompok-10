@@ -428,7 +428,7 @@ public class Sim {
     }
 
     public void visit(House destHouse) throws Exception {
-        if (destHouse == currentHouse) {
+        if (destHouse.equals(currentHouse)) {
             throw new Exception("Kamu sudah berada di rumah ini");
         } else {
             currentHouse = destHouse;
@@ -446,6 +446,7 @@ public class Sim {
         Action olahragaAction = new Action("olahraga", duration, null);
         this.addAction(olahragaAction);
         try {
+            System.out.print("Sisa durasi: ");
             int counter = 0;
             System.out.print("Sisa durasi: ");
             while (counter != duration) {
@@ -469,6 +470,7 @@ public class Sim {
                     System.out.print("\b\b\b");
                 }
             }
+            System.out.println();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -514,6 +516,7 @@ public class Sim {
                     System.out.print("\b\b\b");
                 }
             }
+            System.out.println();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -947,6 +950,7 @@ public class Sim {
                         int y2 = destHouse.getLokasi().getY();
                         double durasiPergi = Math
                                 .sqrt(Math.pow((x2 * 1.0) - (x1 * 1.0), 2) + Math.pow((y2 * 1.0) - (y1 * 1.0), 2));
+
                         visitTime += durasiPergi;
                         if (visitTime >= 30) {
                             visitTime -= 30;
@@ -1063,7 +1067,7 @@ public class Sim {
                     answer = actionScanner.nextLine();
                     if (answer.equals("Y")) {
                         // Do Action
-                        System.out.println("Durasi harus lebih dari 180 detik dan kelipatan 40");
+                        System.out.println("Durasi harus lebih dari 180 detik dan kelipatan 240");
                         System.out.println("Masukkan durasi (dalam detik):");
                         int duration = Integer.parseInt(actionScanner.nextLine());
                         if (duration >= 180) {
