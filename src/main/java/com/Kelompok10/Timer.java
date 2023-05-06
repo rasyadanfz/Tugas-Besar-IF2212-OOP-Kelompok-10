@@ -36,6 +36,17 @@ public class Timer {
 
     public synchronized void changeDay() {
         day++;
+        for (Sim s : GameManager.getGameManager().getSimList()) {
+            s.setJustChangedJob(false);
+        }
+    }
+
+    public synchronized int getMinutes() {
+        return (int) Math.floor((720 - time) / 60);
+    }
+
+    public synchronized int getSeconds() {
+        return ((720 - time) - (60 * getMinutes()));
     }
 
 }
