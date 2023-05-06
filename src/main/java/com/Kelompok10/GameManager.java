@@ -149,7 +149,7 @@ public class GameManager {
         System.out.println("\033[1;92mThis is the help information for the Sim-Plicity.\n\n");
 
         System.out.println("\033[1;34m1. GAME DESCRIPTION\n");
-        System.out.println("\033[1;34m2. HOW TO PLAY?\n");
+        System.out.println("\033[1;34m2. HOW TO PLAY\n");
         System.out.println("\033[1;34m3. COMMAND LIST\n");
 
         Scanner input = scanner;
