@@ -2,7 +2,7 @@ package com.Kelompok10;
 
 import java.util.*;
 
-import com.Kelompok10.Exceptions.CantChangeJobException;
+import com.Kelompok10.Exceptions.*;
 import com.Kelompok10.Thing.*;
 
 public class Main {
@@ -228,6 +228,8 @@ public class Main {
                         System.out.println("Masukkan posisi y benda yang ingin dituju");
                         int yTarget = Integer.parseInt(inputScanner.nextLine());
                         game.getActiveSim().goToObject(xTarget, yTarget);
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -250,14 +252,18 @@ public class Main {
                         isRotate = true;
                     }
 
-                    System.out.println("Masukkan posisi x untuk pemasangan barang: ");
-                    int x = Integer.parseInt(inputScanner.nextLine());
-                    System.out.println("Masukkan posisi y untuk pemasangan barang: ");
-                    int y = Integer.parseInt(inputScanner.nextLine());
                     try {
-                        game.getActiveSim().installBarang(itemName, x, y, isRotate);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println("Masukkan posisi x untuk pemasangan barang: ");
+                        int x = Integer.parseInt(inputScanner.nextLine());
+                        System.out.println("Masukkan posisi y untuk pemasangan barang: ");
+                        int y = Integer.parseInt(inputScanner.nextLine());
+                        try {
+                            game.getActiveSim().installBarang(itemName, x, y, isRotate);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     }
                 } else if (input.equals("BELI BARANG")) {
                     game.getActiveSim().buyFurniture();
@@ -277,6 +283,8 @@ public class Main {
                         System.out.println("Masukkan posisi y barang yang akan diambil: ");
                         int y = Integer.parseInt(inputScanner.nextLine());
                         game.getActiveSim().ambilBarang(x, y);
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }

@@ -165,7 +165,6 @@ public class GameManager {
         } else {
             System.out.println("Perintah tidak dikenali. Silakan masukkan ulang perintah yang valid.");
         }
-        System.out.print("\033[1;91mMasukkan perintah: ");
     }
 
     public void gameDescription() {
@@ -306,7 +305,6 @@ public class GameManager {
             System.exit(0);
         } else {
             System.out.println("Kembali ke menu utama...");
-            System.out.print("\033[1;91mMasukkan perintah: ");
         }
     }
 
