@@ -289,6 +289,7 @@ public class GameManager {
         System.out.println("\033[1;36m10. ADD SIM");
         System.out.println("\033[1;36m11. CHANGE SIM");
         System.out.println("\033[1;36m12. LIST OBJECT");
+        System.out.println("\033[1;36m12. GO TO OBJECT");
         System.out.println("\033[1;36m13. PASANG BARANG");
         System.out.println("\033[1;36m14. BELI BARANG");
         System.out.println("\033[1;36m15. BELI INGREDIENTS");

@@ -76,10 +76,8 @@ public class Room {
 
     public int getJumlah(String itemName) {
         if (jumlahItem.containsKey(itemName)) {
-            System.out.println("MASUKK CEK KEY");
             return (jumlahItem.get(itemName));
         } else {
-            System.out.println("MASUKK 0");
             return 0;
         }
     }
@@ -87,10 +85,8 @@ public class Room {
     public String getKodeJumlah(String itemName) {
         String jumlah;
         if (getJumlah(itemName) > 10) {
-            System.out.println("MASUKK45");
             jumlah = Integer.toString(getJumlah(itemName) + 1);
         } else {
-            System.out.println("MASUK 0101");
             jumlah = "0" + (getJumlah(itemName) + 1);
         }
         return jumlah;
@@ -168,7 +164,8 @@ public class Room {
     public void placeItem(Thing object, int x, int y, boolean rotate) throws Exception {
         String namaItem = object.getNama();
         String kodeItem = object.getKode();
-        int lebarItem; int panjangItem;
+        int lebarItem;
+        int panjangItem;
         if (rotate) {
             lebarItem = object.getPanjang();
             panjangItem = object.getLebar();
