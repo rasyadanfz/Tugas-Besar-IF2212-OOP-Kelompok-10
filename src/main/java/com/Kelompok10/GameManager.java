@@ -301,7 +301,6 @@ public class GameManager {
         } else {
             System.out.println("Kembali ke menu utama...");
         }
-        input.close();
     }
 
     public void changeSim(String input, Scanner inputScanner) {
@@ -325,7 +324,7 @@ public class GameManager {
 
     }
 
-    public void listObject() {
+    public void listObject() throws RoomIsEmptyException {
         getActiveSim().getCurrentRoom().printPlacedObject();
     }
 
@@ -358,16 +357,6 @@ public class GameManager {
 
         if (simList.isEmpty()) {
             activeSim = null;
-        }
-    }
-
-    // Helper Method
-    private String getFirstWord(String text) {
-        int index = text.indexOf(' ');
-        if (index > -1) {
-            return text.substring(0, index).trim();
-        } else {
-            return text;
         }
     }
 
