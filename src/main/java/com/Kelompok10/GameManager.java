@@ -301,7 +301,6 @@ public class GameManager {
             answer = input.next();
         }
 
-        answer.toUpperCase();
         if (answer.toUpperCase().equals("Y")) {
             System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
             System.exit(0);

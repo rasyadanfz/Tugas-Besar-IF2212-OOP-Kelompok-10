@@ -1116,7 +1116,11 @@ public class Sim {
                 case ("Kasur"):
                     System.out.println("Sim bisa melakukan Sleep. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         System.out.println("Durasi harus lebih dari 180 detik dan kelipatan 240");
                         System.out.println("Masukkan durasi (dalam detik):");
@@ -1132,7 +1136,11 @@ public class Sim {
                 case ("Cermin"):
                     System.out.println("Sim bisa melakukan Mirror. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         Cermin currentCermin = (Cermin) object;
                         currentCermin.bercermin(this);
                     }
@@ -1140,7 +1148,11 @@ public class Sim {
                 case ("Jam"):
                     System.out.println("Sim bisa melakukan See Time. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         Jam jam = (Jam) object;
                         jam.lihatWaktu(this);
@@ -1149,7 +1161,11 @@ public class Sim {
                 case ("Kompor"):
                     System.out.println("Sim bisa melakukan Cook. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         if (this.getInventory().printListIngredient()) {
                             Kompor kompor = (Kompor) object;
@@ -1164,7 +1180,11 @@ public class Sim {
                 case ("Lukisan"):
                     System.out.println("Sim bisa melakukan View. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         System.out.println("Durasi harus kelipatan 20");
                         System.out.println("Masukkan durasi (dalam detik):");
@@ -1176,7 +1196,11 @@ public class Sim {
                 case ("Meja"):
                     System.out.println("Sim bisa melakukan Eat. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         try {
                             this.getInventory().printListMakanan();
@@ -1193,7 +1217,11 @@ public class Sim {
                 case ("Shower"):
                     System.out.println("Sim bisa melakukan Shower. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         Shower shower = (Shower) object;
                         shower.mandi(this);
@@ -1202,7 +1230,11 @@ public class Sim {
                 case ("Toilet"):
                     System.out.println("Sim bisa melakukan Pee. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         System.out.println("Durasi harus lebih dari 10 detik dan kelipatan 10");
                         System.out.print("Masukkan durasi (dalam detik): ");
                         int durasiPee = Integer.parseInt(actionScanner.nextLine());
@@ -1217,7 +1249,11 @@ public class Sim {
                 case ("TV"):
                     System.out.println("Sim bisa melakukan Watch TV. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         System.out.println("Durasi harus kelipatan 30");
                         System.out.println("Masukkan durasi (dalam detik):");
@@ -1227,10 +1263,13 @@ public class Sim {
                     }
                     break;
                 case ("Wastafel"):
-                    System.out
-                            .println("Sim bisa melakukan Wash Hands. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
+                    System.out.println("Sim bisa melakukan Wash Hands. Apakah anda ingin melakukan aksi tersebut? (Y/N)");
                     answer = actionScanner.nextLine();
-                    if (answer.equals("Y")) {
+                    while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+                        System.out.printf("Input tidak valid! (Y/N) : ");
+                        answer = actionScanner.next();
+                    }
+                    if (answer.toUpperCase().equals("Y")) {
                         // Do Action
                         Wastafel wastafel = (Wastafel) object;
                         wastafel.cuciTangan(this);
