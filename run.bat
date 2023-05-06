@@ -1,0 +1,1 @@
+java -cp target/Simplicity-v1.0.jar com.Kelompok10.Main
