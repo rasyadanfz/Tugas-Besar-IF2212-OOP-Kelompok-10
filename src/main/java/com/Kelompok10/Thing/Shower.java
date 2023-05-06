@@ -1,7 +1,7 @@
-package src.main.java.com.Kelompok10.Thing;
+package com.Kelompok10.Thing;
 
-import src.main.java.com.Kelompok10.Action;
-import src.main.java.com.Kelompok10.Sim;
+import com.Kelompok10.Action;
+import com.Kelompok10.Sim;
 
 public class Shower extends ActiveItems {
     public Shower(String kodeItem) {

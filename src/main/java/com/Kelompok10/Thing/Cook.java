@@ -1,6 +1,6 @@
-package src.main.java.com.Kelompok10.Thing;
+package com.Kelompok10.Thing;
 
-import src.main.java.com.Kelompok10.*;
+import com.Kelompok10.*;
 
 public interface Cook {
    public void Cooking(Sim sim, String namaMakanan);

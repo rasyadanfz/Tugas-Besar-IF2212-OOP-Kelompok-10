@@ -1,7 +1,7 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
 import java.util.*;
-import src.main.java.com.Kelompok10.Thing.*;
+import com.Kelompok10.Thing.*;
 
 public class Room {
     private String namaRuangan;

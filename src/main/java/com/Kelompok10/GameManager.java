@@ -1,8 +1,9 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
 import java.util.*;
 
-import src.main.java.com.Kelompok10.Thing.*;
+import com.Kelompok10.Exceptions.*;
+import com.Kelompok10.Thing.*;
 
 public class GameManager {
     private World world;
@@ -335,7 +336,7 @@ public class GameManager {
         while (simIterator.hasNext()) {
             currentSim = simIterator.next();
             // Cek Kondisi SIm
-            if (currentSim.checkKondisiSimMati()) {
+            if (currentSim.getKekenyangan() == 0 || currentSim.getKesehatan() == 0 || currentSim.getMood() == 0) {
                 currentSim.setIsAlive(false);
             }
             if (!currentSim.getIsAlive()) {
@@ -357,6 +358,16 @@ public class GameManager {
 
         if (simList.isEmpty()) {
             activeSim = null;
+        }
+    }
+
+    // Helper Method
+    private String getFirstWord(String text) {
+        int index = text.indexOf(' ');
+        if (index > -1) {
+            return text.substring(0, index).trim();
+        } else {
+            return text;
         }
     }
 

@@ -1,7 +1,7 @@
-package src.main.java.com.Kelompok10.Thing;
+package com.Kelompok10.Thing;
 
-import src.main.java.com.Kelompok10.Sim;
-import src.main.java.com.Kelompok10.Timer;
+import com.Kelompok10.Sim;
+import com.Kelompok10.Timer;
 
 public class Jam extends Thing {
     private int sisaWaktuKirim;

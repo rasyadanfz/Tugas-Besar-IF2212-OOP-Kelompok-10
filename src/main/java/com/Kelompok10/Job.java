@@ -1,4 +1,4 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
 public class Job {
     private String namaPekerjaan;
@@ -33,24 +33,24 @@ public class Job {
         String namaPekerjaan = new String();
         int gaji = 0;
 
-        switch (i) {
-            case 0:
+        switch(i) {
+            case 0 :
                 namaPekerjaan = "Badut Sulap";
                 gaji = 15;
                 break;
-            case 1:
+            case 1 :
                 namaPekerjaan = "Koki";
                 gaji = 30;
                 break;
-            case 2:
+            case 2 :
                 namaPekerjaan = "Polisi";
                 gaji = 35;
                 break;
-            case 3:
+            case 3 :
                 namaPekerjaan = "Programmer";
                 gaji = 45;
                 break;
-            case 4:
+            case 4 :
                 namaPekerjaan = "Dokter";
                 gaji = 50;
                 break;
@@ -58,11 +58,11 @@ public class Job {
 
         pekerjaan.setNama(namaPekerjaan);
         pekerjaan.setGaji(gaji);
-
+    
     }
 
-    // TODO : Implementasi Work Sesuai Konsep Timer
-    public void work(Sim sim) {
+    //TODO : Implementasi Work Sesuai Konsep Timer
+    public void work(Sim sim){
 
     }
 }

@@ -1,4 +1,4 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
 import java.util.*;
 

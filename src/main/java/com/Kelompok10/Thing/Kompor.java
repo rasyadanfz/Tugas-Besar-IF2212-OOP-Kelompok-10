@@ -1,6 +1,6 @@
-package src.main.java.com.Kelompok10.Thing;
+package com.Kelompok10.Thing;
 
-import src.main.java.com.Kelompok10.*;
+import com.Kelompok10.*;
 
 public class Kompor extends ActiveItems implements Cook {
     public Kompor(String nama, String kodeItem, int panjang, int lebar, int harga) {
@@ -20,8 +20,7 @@ public class Kompor extends ActiveItems implements Cook {
         sim.getInventory().addItem(food);
         effect(sim, actionCook);
         sim.incNotSleepYet(duration);
-        if (sim.getHaveEat())
-            sim.incNotPeeYet(duration);
+        if (sim.getHaveEat()) sim.incNotPeeYet(duration);
         sim.getNegativeEffect();
     }
 

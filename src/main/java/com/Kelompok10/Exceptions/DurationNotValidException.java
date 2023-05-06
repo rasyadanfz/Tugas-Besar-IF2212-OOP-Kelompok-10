@@ -1,4 +1,4 @@
-package src.main.java.com.Kelompok10.Exceptions;
+package com.Kelompok10.Exceptions;
 
 public class DurationNotValidException extends Exception {
     public DurationNotValidException(int duration) {

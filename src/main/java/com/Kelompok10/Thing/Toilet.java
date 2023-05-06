@@ -1,10 +1,10 @@
-package src.main.java.com.Kelompok10.Thing;
+package com.Kelompok10.Thing;
 
-import src.main.java.com.Kelompok10.Action;
-import src.main.java.com.Kelompok10.Sim;
-import src.main.java.com.Kelompok10.Exceptions.DurationNotValidException;
-import src.main.java.com.Kelompok10.Exceptions.HouseIsGoneException;
-import src.main.java.com.Kelompok10.Exceptions.SimIsDeadException;
+import com.Kelompok10.Action;
+import com.Kelompok10.Sim;
+import com.Kelompok10.Exceptions.DurationNotValidException;
+import com.Kelompok10.Exceptions.HouseIsGoneException;
+import com.Kelompok10.Exceptions.SimIsDeadException;
 
 public class Toilet extends ActiveItems {
     public Toilet(String kodeItem) {

@@ -1,4 +1,4 @@
-package src.main.java.com.Kelompok10.Exceptions;
+package src.Exceptions;
 
 public class HouseIsGoneException extends Exception {
 

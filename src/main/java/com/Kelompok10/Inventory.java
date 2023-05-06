@@ -1,8 +1,8 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
 import java.util.*;
 
-import src.main.java.com.Kelompok10.Exceptions.ItemNotFoundException;
+import com.Kelompok10.Exceptions.ItemNotFoundException;
 
 public class Inventory<T extends Item> {
     private HashMap<String, Integer> daftarItem;

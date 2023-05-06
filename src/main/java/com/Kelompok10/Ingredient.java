@@ -1,8 +1,8 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
 import java.util.*;
 
-import src.main.java.com.Kelompok10.Thing.Jam;
+import com.Kelompok10.Thing.Jam;
 
 public class Ingredient extends Item implements Purchaseable, Eatable {
     private String nama;

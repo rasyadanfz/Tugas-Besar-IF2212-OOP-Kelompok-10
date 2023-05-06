@@ -1,6 +1,6 @@
-package src.main.java.com.Kelompok10;
+package com.Kelompok10;
 
-import src.main.java.com.Kelompok10.Thing.ActiveItems;
+import com.Kelompok10.Thing.ActiveItems;
 
 public class Action {
     ActiveItems actionObject;
