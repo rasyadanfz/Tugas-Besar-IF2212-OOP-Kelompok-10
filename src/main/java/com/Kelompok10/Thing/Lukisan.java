@@ -1,7 +1,7 @@
 package com.Kelompok10.Thing;
 
 import com.Kelompok10.Sim;
-import com.Kelompok10.Exceptions.DurationNotValidException;
+import com.Kelompok10.Exceptions.*;
 import com.Kelompok10.Action;
 
 public class Lukisan extends ActiveItems {
@@ -22,7 +22,14 @@ public class Lukisan extends ActiveItems {
                 Action actionLihatLukisan = new Action("lihatLukisan", duration, this);
                 sim.addAction(actionLihatLukisan);
                 sim.setStatus("active");
-                effect(sim, actionLihatLukisan);
+                try {
+                    effect(sim, actionLihatLukisan);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    sim.setStatus("idle");
+                    sim.setInActiveAction(false);
+                    sim.removeAction(actionLihatLukisan);
+                }
             } else {
                 throw new DurationNotValidException(20);
             }
@@ -32,13 +39,9 @@ public class Lukisan extends ActiveItems {
 
     }
 
-    public void effect(Sim sim, Action action) {
-        int duration = action.getOriginalDuration();
-        int x = duration / 20;
-        for (int i = 0; i < x; i++) {
-            sim.changeKesehatan(-10);
-            sim.changeMood(20);
-        }
+    public void effect(Sim sim, Action action) throws SimIsDeadException, HouseIsGoneException {
+        int counter = 0;
+        boolean keepRunning = true;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -52,11 +55,24 @@ public class Lukisan extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (sim.checkKondisiSimMati()) {
+                keepRunning = false;
+                throw new SimIsDeadException(
+                        "Sim " + sim.getNamaLengkap() + " mati karena sakit saat melihat lukisan :(");
+            } else if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+                counter++;
+                if (counter % 10 == 0) {
+                    sim.changeMood(10);
+                    sim.changeKekenyangan(-20);
+                }
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap()
+                                    + " melihat lukisan hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();

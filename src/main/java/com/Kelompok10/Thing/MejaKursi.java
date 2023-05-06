@@ -1,6 +1,7 @@
 package com.Kelompok10.Thing;
 
 import com.Kelompok10.*;
+import com.Kelompok10.Exceptions.HouseIsGoneException;
 
 public class MejaKursi extends ActiveItems {
     public MejaKursi(String kodeItem) {
@@ -16,12 +17,19 @@ public class MejaKursi extends ActiveItems {
         sim.addAction(actionMakan);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, actionMakan, food);
+        try {
+            effect(sim, actionMakan, food);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            sim.setStatus("idle");
+            sim.setInActiveAction(false);
+            sim.removeAction(actionMakan);
+        }
         sim.getInventory().removeItem(food.getNama());
     }
 
-    public <T extends Item & Eatable> void effect(Sim sim, Action action, T food) {
-
+    public <T extends Item & Eatable> void effect(Sim sim, Action action, T food) throws HouseIsGoneException {
+        boolean keepRunning = true;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -35,14 +43,22 @@ public class MejaKursi extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap() + " makan hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();
+        if (food instanceof Food) {
+            sim.changeKekenyangan(((Food) food).getKekenyangan());
+        } else if (food instanceof Ingredient) {
+            sim.changeKekenyangan(((Ingredient) food).getKekenyangan());
+        }
     }
 
 }

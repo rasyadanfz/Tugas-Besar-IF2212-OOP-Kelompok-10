@@ -2,6 +2,7 @@ package com.Kelompok10.Thing;
 
 import com.Kelompok10.Action;
 import com.Kelompok10.Sim;
+import com.Kelompok10.Exceptions.HouseIsGoneException;
 
 public class Wastafel extends ActiveItems {
     public Wastafel(String kodeItem) {
@@ -12,7 +13,8 @@ public class Wastafel extends ActiveItems {
         super("Wastafel", 1, 1, 40);
     }
 
-    public void effect(Sim sim, Action action) {
+    public void effect(Sim sim, Action action) throws HouseIsGoneException {
+        boolean keepRunning = true;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
             int printDuration = action.getDurationLeft() - 1;
@@ -26,11 +28,15 @@ public class Wastafel extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap()
+                                    + " cuci tangan hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();
@@ -42,6 +48,13 @@ public class Wastafel extends ActiveItems {
         sim.addAction(actionCuciTangan);
         sim.setStatus("active");
         sim.setInActiveAction(true);
-        effect(sim, actionCuciTangan);
+        try {
+            effect(sim, actionCuciTangan);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            sim.setStatus("idle");
+            sim.setInActiveAction(false);
+            sim.removeAction(actionCuciTangan);
+        }
     }
 }
