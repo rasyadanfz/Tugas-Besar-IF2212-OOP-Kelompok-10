@@ -12,7 +12,7 @@ public class MejaKursi extends ActiveItems {
         super("Meja Dan Kursi", 3, 3, 50);
     }
 
-    public <T extends Item & Eatable> void makan(Sim sim, T food) {
+    public <T extends Item> void makan(Sim sim, T food) {
         Action actionMakan = new Action("eating", 30, this);
         sim.addAction(actionMakan);
         sim.setStatus("active");
@@ -28,7 +28,7 @@ public class MejaKursi extends ActiveItems {
         sim.getInventory().removeItem(food.getNama());
     }
 
-    public <T extends Item & Eatable> void effect(Sim sim, Action action, T food) throws HouseIsGoneException {
+    public <T extends Item> void effect(Sim sim, Action action, T food) throws HouseIsGoneException {
         boolean keepRunning = true;
         System.out.print("Sisa durasi: ");
         while (action.getDurationLeft() > 0) {
