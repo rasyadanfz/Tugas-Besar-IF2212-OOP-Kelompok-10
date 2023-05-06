@@ -4,7 +4,7 @@ import com.Kelompok10.Action;
 import com.Kelompok10.Sim;
 import com.Kelompok10.Exceptions.*;
 
-public abstract class Kasur extends ActiveItems implements Sleep {
+public class Kasur extends ActiveItems implements Sleep {
     public Kasur(String nama, String kodeItem, int panjang, int lebar, int harga) {
         super(nama, kodeItem, panjang, lebar, harga);
     }
