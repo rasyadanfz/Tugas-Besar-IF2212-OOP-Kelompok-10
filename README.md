@@ -6,7 +6,7 @@
 * [Deskripsi Persoalan](#deskripsi-persoalan)
 * [Requirements](#requirements)
 * [Cara compile dan menjalankan program](#cara-compile-dan-menjalankan-program)
-* [Tutorial Bermain](#tutorial-bermain)
+* [Panduan Permainan](#panduan-permainan)
 * [Authors](#authors)
 
 ## **Deskripsi Persoalan**
@@ -15,7 +15,7 @@ Setelah berhasil melakukan upgrade terhadap robot game console yang dimilikinya,
 
 ## **Requirements**
 - [Java Development Kit](https://www.oracle.com/id/java/technologies/downloads/)
-- [Apache Maven Project (optional)](https://maven.apache.org/download.cgi)
+- [Apache Maven Project](https://maven.apache.org/download.cgi)
  
 ## **Cara compile dan menjalankan program**
 1. Clone repository ini terlebih dahulu
@@ -31,7 +31,9 @@ mvn clean package
 3. Buka folder dari program di File Explorer
 4. Jalankan run.bat dan program akan langsung terbuka di terminal
 
-## **Tutorial Bermain**
+## **Panduan Permainan**
+<img src="doc/welcomingpage.jpg">
+Berikut merupakan tampilan awal saat pemain ingin bermain. Lebih detail dari apa yang dapat dilakukan dalam permainan, pemain dapat menggunakan command "HELP" dan membaca panduan yang sudah berada di dalam program. Selamat bermain!
 
 ## **Authors** 
 > Kelompok 10 K01 Program Studi Sistem dan Teknologi Informasi tahun 2022/2023
