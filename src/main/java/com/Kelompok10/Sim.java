@@ -290,7 +290,8 @@ public class Sim {
 
     public void viewCurrentLocation() {
         System.out.println("Current Location : ");
-        System.out.println("Rumah : " + getCurrentHouse().getKodeRumah());
+        System.out.println("Rumah : " + getCurrentHouse().getKodeRumah() + " di Posisi "
+                + getCurrentHouse().getLokasi().toString());
         System.out.println("Ruangan : " + getCurrentRoom().getNamaRuangan());
         System.out.println("Posisi : " + getCurrentPos().toString());
         System.out.println("Peta Rumah: ");
@@ -490,14 +491,48 @@ public class Sim {
         inventory.printItems();
     }
 
-    public void visit(House destHouse) throws Exception {
-        if (destHouse.equals(currentHouse)) {
-            throw new Exception("Kamu sudah berada di rumah ini");
-        } else {
-            currentHouse = destHouse;
-            currentRoom = currentHouse.getRoom("R001");
-            currentPos = new Point(1, 1);
+    public void visit(House destHouse, int timeToTravel) throws Exception {
+        Action visitAction = new Action("visit", timeToTravel, null);
+        boolean keepRunning = true;
+        addAction(visitAction);
+        setStatus("active");
+        setInActiveAction(true);
+        System.out.print("Sisa durasi: ");
+        while (visitAction.getDurationLeft() > 0 && keepRunning) {
+            // menampilkan durasi
+            int printDuration = visitAction.getDurationLeft() - 1;
+            if (printDuration < 10) {
+                System.out.print("00" + printDuration);
+            } else if (printDuration < 100) {
+                System.out.print("0" + printDuration);
+            } else {
+                System.out.print(printDuration);
+            }
+            if (printDuration != 0) {
+                System.out.print("\b\b\b");
+            }
+            visitTime++;
+            if (visitTime == 30) {
+                changeMood(+10);
+                changeKekenyangan(-10);
+                visitTime = 0;
+            }
+            decreaseNonItemActionDuration(visitAction);
+            if (checkKondisiSimMati()) {
+                keepRunning = false;
+                throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati di perjalanan! :(");
+            }
         }
+        setStatus("idle");
+        setInActiveAction(false);
+        if (checkKondisiSimMati()) {
+            throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati di perjalanan! :(");
+        }
+        System.out.println();
+
+        currentHouse = destHouse;
+        currentRoom = currentHouse.getRoom("R001");
+        currentPos = new Point(1, 1);
     }
 
     public void setUang(int newValue) {
@@ -535,7 +570,6 @@ public class Sim {
                 timeCounter = 0;
 
             }
-
             if (checkKondisiSimMati()) {
                 keepRunning = false;
                 throw new SimIsDeadException("Sim " + getNamaLengkap() + " mati karena kelaparan saat olahraga! :(");
@@ -956,6 +990,19 @@ public class Sim {
         // Minimal kerja 12 menit
         // Cek apakah uang cukup untuk bayar biaya ganti kerja (1/2 pekerjaan baru)
         if (getTotalWorkTimeOnCurrentJob() >= 720) {
+            System.out.println("Daftar Pekerjaan: ");
+            System.out.println("- Badut Sulap dengan Gaji 15");
+            System.out.println("- Koki dengan Gaji 30");
+            System.out.println("- Polisi dengan Gaji 35");
+            System.out.println("- Programmer dengan Gaji 45");
+            System.out.println("- Dokter dengan Gaji 50");
+            String pilihan = InputScanner.getInputScanner().getScanner().nextLine();
+            if !((pilihan.equals("Badut Sulap")))
+            while(pilihan.equals(pekerjaan.getNamaPekerjaan())){
+                if (pilihan) {
+                    System.out.println("Sim sudah menjadi seorang " + pekerjaan.getNamaPekerjaan());
+                }
+            }
             Job newJob = Job.findRandomJob(pekerjaan);
             if (getUang() >= newJob.getGaji()) {
                 setUang(getUang() - newJob.getGaji());
@@ -1088,20 +1135,24 @@ public class Sim {
                             int y1 = this.getCurrentHouse().getLokasi().getY();
                             int x2 = destHouse.getLokasi().getX();
                             int y2 = destHouse.getLokasi().getY();
-                            double durasiPergi = Math
-                                    .sqrt(Math.pow((x2 * 1.0) - (x1 * 1.0), 2) + Math.pow((y2 * 1.0) - (y1 * 1.0), 2));
-
-                            visitTime += durasiPergi;
-                            if (visitTime >= 30) {
-                                visitTime -= 30;
-                                changeMood(10);
-                                changeKekenyangan(-10);
+                            if (destHouse.equals(ownedHouse)) {
+                                throw new Exception("Sim sudah berada di rumahnya sendiri!");
+                            } else if (destHouse.equals(currentHouse)) {
+                                throw new Exception("Sim sudah berada di rumah tersebut!");
+                            } else {
+                                double durasiPergi = Math
+                                        .sqrt(Math.pow((x2 * 1.0) - (x1 * 1.0), 2)
+                                                + Math.pow((y2 * 1.0) - (y1 * 1.0), 2));
+                                int durasiRounded = (int) Math.round(durasiPergi);
+                                System.out.println("Berkunjung ke rumah " + destHouse.getKodeRumah()
+                                        + "di " + destHouse.getLokasi().toString() + " dengan lama perjalanan : "
+                                        + durasiRounded);
+                                this.visit(destHouse, durasiRounded);
+                                notSleepYet += durasiPergi;
+                                if (haveEat)
+                                    notPeeYet += durasiPergi;
+                                getNegativeEffect();
                             }
-                            this.visit(destHouse);
-                            notSleepYet += durasiPergi;
-                            if (haveEat)
-                                notPeeYet += durasiPergi;
-                            getNegativeEffect();
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
