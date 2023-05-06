@@ -271,7 +271,7 @@ public class Main {
                         try {
                             game.getActiveSim().installBarang(itemName, x, y, isRotate);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            System.out.println(e);
                         }
                     } catch (NumberFormatException e) {
                         System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
