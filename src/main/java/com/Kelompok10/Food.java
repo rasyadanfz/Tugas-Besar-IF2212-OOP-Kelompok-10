@@ -9,28 +9,29 @@ public class Food extends Item implements Eatable {
 
     public Food(String nama) {
         this.nama = nama.toLowerCase();
+        bahanMakanan = new ArrayList<Ingredient>();
         if (nama.toLowerCase().equals("nasi ayam")) {
             kekenyangan = 16;
-            bahanMakanan.add(new Ingredient("nasi"));
-            bahanMakanan.add(new Ingredient("ayam"));
+            bahanMakanan.add(new Ingredient("Nasi"));
+            bahanMakanan.add(new Ingredient("Ayam"));
         } else if (nama.toLowerCase().equals("nasi kari")) {
             kekenyangan = 30;
-            bahanMakanan.add(new Ingredient("nasi"));
-            bahanMakanan.add(new Ingredient("kentang"));
-            bahanMakanan.add(new Ingredient("wortel"));
-            bahanMakanan.add(new Ingredient("sapi"));
+            bahanMakanan.add(new Ingredient("Nasi"));
+            bahanMakanan.add(new Ingredient("Kentang"));
+            bahanMakanan.add(new Ingredient("Wortel"));
+            bahanMakanan.add(new Ingredient("Sapi"));
         } else if (nama.toLowerCase().equals("susu kacang")) {
             kekenyangan = 5;
-            bahanMakanan.add(new Ingredient("susu"));
-            bahanMakanan.add(new Ingredient("kacang"));
+            bahanMakanan.add(new Ingredient("Susu"));
+            bahanMakanan.add(new Ingredient("Kacang"));
         } else if (nama.toLowerCase().equals("tumis sayur")) {
             kekenyangan = 5;
-            bahanMakanan.add(new Ingredient("wortel"));
-            bahanMakanan.add(new Ingredient("bayam"));
+            bahanMakanan.add(new Ingredient("Wortel"));
+            bahanMakanan.add(new Ingredient("Bayam"));
         } else if (nama.toLowerCase().equals("bistik")) {
             kekenyangan = 22;
-            bahanMakanan.add(new Ingredient("kentang"));
-            bahanMakanan.add(new Ingredient("sapi"));
+            bahanMakanan.add(new Ingredient("Kentang"));
+            bahanMakanan.add(new Ingredient("Sapi"));
         }
     }
 

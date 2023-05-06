@@ -339,6 +339,7 @@ public class GameManager {
         Iterator<Sim> simIterator = simList.iterator();
         Sim currentSim;
         ArrayList<Sim> simsToDelete = new ArrayList<Sim>();
+
         while (simIterator.hasNext()) {
             currentSim = simIterator.next();
             // Cek Kondisi SIm
@@ -366,6 +367,18 @@ public class GameManager {
             activeSim = null;
         }
     }
+
+    // public void updateEachSim(String actionName){
+    // for (Sim s: simList){
+    // if (s == activeSim){
+    // switch(actionName):
+    // case("sleeping"):
+    // s.setNotSleepYet(0);
+    // case("pee"):
+    // s.set
+    // }
+    // }
+    // }
 
     public class Cheat {
         private boolean isTimeSkipEnabled;
