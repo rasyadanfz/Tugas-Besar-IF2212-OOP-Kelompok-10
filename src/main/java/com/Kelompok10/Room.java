@@ -165,11 +165,17 @@ public class Room {
         roomPosition.setY(y);
     }
 
-    public void placeItem(Thing object, int x, int y) throws Exception {
+    public void placeItem(Thing object, int x, int y, boolean rotate) throws Exception {
         String namaItem = object.getNama();
         String kodeItem = object.getKode();
-        int panjangItem = object.getPanjang();
-        int lebarItem = object.getLebar();
+        int lebarItem; int panjangItem;
+        if (rotate) {
+            lebarItem = object.getPanjang();
+            panjangItem = object.getLebar();
+        } else {
+            panjangItem = object.getPanjang();
+            lebarItem = object.getLebar();
+        }
 
         if (x + panjangItem > 7 || y + lebarItem > 7) {
             throw new Exception("Tidak bisa meletakkan benda karena melebihi batas ruangan!");

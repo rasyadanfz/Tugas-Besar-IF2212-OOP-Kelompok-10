@@ -165,6 +165,7 @@ public class GameManager {
         } else {
             System.out.println("Perintah tidak dikenali. Silakan masukkan ulang perintah yang valid.");
         }
+        System.out.print("\033[1;91mMasukkan perintah: ");
     }
 
     public void gameDescription() {
@@ -292,14 +293,21 @@ public class GameManager {
 
     public void exit() {
         Scanner input = scanner;
-        System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
-        String answer = input.nextLine();
+        System.out.printf("Apakah anda yakin ingin keluar dari game? (Y/N) : ");
+        String answer = input.next();
 
-        if (answer.equals("Y")) {
+        while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+            System.out.printf("Input tidak valid! (Y/N) : ");
+            answer = input.next();
+        }
+
+        answer.toUpperCase();
+        if (answer.toUpperCase().equals("Y")) {
             System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
             System.exit(0);
         } else {
             System.out.println("Kembali ke menu utama...");
+            System.out.print("\033[1;91mMasukkan perintah: ");
         }
     }
 

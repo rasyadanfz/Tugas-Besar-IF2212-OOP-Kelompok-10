@@ -82,10 +82,4 @@ public class Thing extends Item implements Purchaseable {
                     .setRemainingDuration(waktuMulai + waktuPengiriman - Timer.getTimer().getTotalTime());
         }
     }
-
-    public void rotateItem() {
-        int temp = panjang;
-        panjang = lebar;
-        lebar = temp;
-    }
 }

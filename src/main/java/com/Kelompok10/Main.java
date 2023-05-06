@@ -237,12 +237,25 @@ public class Main {
                     String itemName = inputScanner.nextLine();
                     System.out.println("Peta ruangan saat ini: ");
                     game.getActiveSim().getCurrentRoom().printPetaRuangan(game.getActiveSim());
+
+                    System.out.println("Apakah kamu ingin melakukan rotate pada barang? (Y/N)");
+                    String rotate = inputScanner.nextLine();
+                    while (!rotate.toUpperCase().equals("Y") && !rotate.toUpperCase().equals("N")) {
+                        System.out.println("Masukkan Y atau N!");
+                        rotate = inputScanner.nextLine();
+                    }
+                    boolean isRotate = false;
+                    if (rotate.toUpperCase().equals("Y")) {
+                        System.out.println("Item berhasil di-rotate!");
+                        isRotate = true;
+                    }
+
                     System.out.println("Masukkan posisi x untuk pemasangan barang: ");
                     int x = Integer.parseInt(inputScanner.nextLine());
                     System.out.println("Masukkan posisi y untuk pemasangan barang: ");
                     int y = Integer.parseInt(inputScanner.nextLine());
                     try {
-                        game.getActiveSim().installBarang(itemName, x, y);
+                        game.getActiveSim().installBarang(itemName, x, y, isRotate);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

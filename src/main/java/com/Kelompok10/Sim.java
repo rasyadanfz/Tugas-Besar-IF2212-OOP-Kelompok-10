@@ -399,7 +399,7 @@ public class Sim {
         currentRoom = ruangan;
     }
 
-    public void installBarang(String namaBarang, int x, int y) throws ItemNotFoundException, Exception {
+    public void installBarang(String namaBarang, int x, int y, boolean rotate) throws ItemNotFoundException, Exception {
         Thing thing = (Thing) inventory.getItem(capitalizeEachWord(namaBarang));
         String itemName = getFirstWord(thing.getNama());
         String kode = "P000";
@@ -426,7 +426,7 @@ public class Sim {
         }
         thing.setKode(kode);
         try {
-            currentRoom.placeItem(thing, x, y);
+            currentRoom.placeItem(thing, x, y, rotate);
             inventory.removeItem(thing.getNama());
             inventory.getItemContainer().remove(thing);
         } catch (Exception e) {
