@@ -1,9 +1,9 @@
-package com.Kelompok10;
+package src.main.java.com.Kelompok10;
 
-import com.Kelompok10.Exceptions.DurationNotValidException;
-import com.Kelompok10.Exceptions.ItemNotFoundException;
-import com.Kelompok10.Exceptions.MoneyNotEnoughException;
-import com.Kelompok10.Thing.*;
+import src.main.java.com.Kelompok10.Exceptions.DurationNotValidException;
+import src.main.java.com.Kelompok10.Exceptions.ItemNotFoundException;
+import src.main.java.com.Kelompok10.Exceptions.MoneyNotEnoughException;
+import src.main.java.com.Kelompok10.Thing.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

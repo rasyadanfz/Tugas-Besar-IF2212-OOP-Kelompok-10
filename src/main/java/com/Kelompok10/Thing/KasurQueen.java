@@ -1,6 +1,6 @@
-package com.Kelompok10.Thing;
+package src.main.java.com.Kelompok10.Thing;
 
-import com.Kelompok10.*;
+import src.main.java.com.Kelompok10.*;
 
 public class KasurQueen extends Kasur {
     public KasurQueen(String kodeItem) {

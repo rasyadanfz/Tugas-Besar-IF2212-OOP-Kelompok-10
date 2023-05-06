@@ -1,6 +1,6 @@
-package com.Kelompok10.Thing;
+package src.main.java.com.Kelompok10.Thing;
 
-import com.Kelompok10.*;
+import src.main.java.com.Kelompok10.*;
 
 public class KomporListrik extends Kompor {
     public KomporListrik(String kodeItem) {

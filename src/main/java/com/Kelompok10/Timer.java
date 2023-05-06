@@ -1,4 +1,4 @@
-package com.Kelompok10;
+package src.main.java.com.Kelompok10;
 
 public class Timer {
     private int time;

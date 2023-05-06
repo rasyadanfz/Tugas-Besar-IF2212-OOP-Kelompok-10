@@ -1,6 +1,6 @@
-package com.Kelompok10.Thing;
+package src.main.java.com.Kelompok10.Thing;
 
-import com.Kelompok10.Sim;
+import src.main.java.com.Kelompok10.Sim;
 
 public interface Sleep {
     public void Sleeping(Sim sim, int duration);

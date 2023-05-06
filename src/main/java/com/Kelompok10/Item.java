@@ -1,4 +1,4 @@
-package com.Kelompok10;
+package src.main.java.com.Kelompok10;
 
 public abstract class Item {
     public String nama;

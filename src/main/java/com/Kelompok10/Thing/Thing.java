@@ -1,9 +1,9 @@
-package com.Kelompok10.Thing;
+package src.main.java.com.Kelompok10.Thing;
 
 import java.util.*;
 
-import com.Kelompok10.*;
-import com.Kelompok10.Timer;
+import src.main.java.com.Kelompok10.*;
+import src.main.java.com.Kelompok10.Timer;
 
 public abstract class Thing extends Item implements Purchaseable {
     private String nama;

@@ -1,8 +1,8 @@
-package com.Kelompok10.Thing;
+package src.main.java.com.Kelompok10.Thing;
 
-import com.Kelompok10.Sim;
-import com.Kelompok10.Exceptions.DurationNotValidException;
-import com.Kelompok10.Action;
+import src.main.java.com.Kelompok10.Sim;
+import src.main.java.com.Kelompok10.Exceptions.DurationNotValidException;
+import src.main.java.com.Kelompok10.Action;
 
 public class Lukisan extends ActiveItems {
     public Lukisan(String kodeItem) {

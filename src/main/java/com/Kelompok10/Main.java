@@ -1,8 +1,8 @@
-package com.Kelompok10;
+package src.main.java.com.Kelompok10;
 
 import java.util.*;
 
-import com.Kelompok10.Thing.*;
+import src.main.java.com.Kelompok10.Thing.*;
 
 public class Main {
     private final static String osName = System.getProperty("os.name"); // Gausah Masukin Diagram
