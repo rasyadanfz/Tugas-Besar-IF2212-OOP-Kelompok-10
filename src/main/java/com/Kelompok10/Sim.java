@@ -901,6 +901,8 @@ public class Sim {
             System.out.println("Sim tidak dapat melakukan upgrade rumah karena uang tidak cukup");
         } else if (!getCurrentHouse().getKodeRumah().equals(getOwnedHouse().getKodeRumah())) {
             System.out.println("Sim tidak bisa mengupgrade rumah Sim lain!");
+        } else if (getSisaWaktuUpgrade() != 0) {
+            System.out.println("Tidak dapat melakukan upgrade rumah karena terdapat upgrade yang masih berlangsung");
         } else {
             final Room oldRoom = getCurrentRoom();
             String roomNumber;
@@ -960,6 +962,7 @@ public class Sim {
                     }
                 };
                 t.start();
+                System.out.printf("Rumah berhasil diupgrade dengan menambahkan arah ke %s\n", arah);
             }
         }
     }
