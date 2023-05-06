@@ -208,7 +208,18 @@ public class Main {
                     if (!game.getHaveCreatedNewSim()) {
                         System.out.print("Masukkan nama Sim baru : ");
                         input = inputScanner.nextLine();
-                        game.addSim(input);
+                        boolean avail = false;
+                        for (int i = 0; i < game.getSimList().size(); i++) {
+                            if (game.getSimList().get(i).getNamaLengkap().toLowerCase().equals(input.toLowerCase())) {
+                                System.out.print("Nama Sim sudah ada! ");
+                                avail = true;
+                            }
+                        }
+                        if (!avail) {
+                            game.addSim(input);
+                        } else {
+                            System.out.println("Gagal membuat Sim baru!");
+                        }
                     } else {
                         System.out.println("Anda sudah membuat sim baru hari ini!");
                     }

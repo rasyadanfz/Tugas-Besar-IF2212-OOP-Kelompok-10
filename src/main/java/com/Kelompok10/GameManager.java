@@ -104,8 +104,6 @@ public class GameManager {
                 haveCreatedNewSim = true;
             }
             System.out.printf("Sim %s berhasil dibuat!\n", simName);
-        } else {
-            System.out.println("Anda sudah membuat sim baru hari ini!");
         }
     }
 
