@@ -117,14 +117,6 @@ public class Main {
         String newSimName = inputScanner.nextLine();
         game.addSim(newSimName);
 
-        game.getActiveSim().getInventory().addItem(new KasurSingle());
-        game.getActiveSim().getInventory().addItem(new KasurSingle());
-        game.getActiveSim().getInventory().addItem(new Toilet());
-        game.getActiveSim().getInventory().addItem(new KomporGas());
-        game.getActiveSim().getInventory().addItem(new MejaKursi());
-        game.getActiveSim().getInventory().addItem(new Jam());
-        game.getActiveSim().getInventory().addItem(new Cermin());
-
         // Create Rumah
         try {
             game.addNewHouse(game.getActiveSim(), 1, 1);
@@ -229,6 +221,7 @@ public class Main {
                     int yTarget = Integer.parseInt(inputScanner.nextLine());
                     game.getActiveSim().goToObject(xTarget, yTarget);
                 } else if (input.equals("PASANG BARANG")) {
+                    game.getActiveSim().getInventory().printItems();
                     System.out.println("Masukkan nama barang yang ingin dipasang");
                     String itemName = inputScanner.nextLine();
                     System.out.println("Peta ruangan saat ini: ");
@@ -244,6 +237,8 @@ public class Main {
                     }
                 } else if (input.equals("BELI BARANG")) {
                     game.getActiveSim().buyFurniture();
+                } else if (input.equals("BELI INGREDIENTS")) {
+                    game.getActiveSim().buyIngredient();
                 } else if (input.equals("ACTION")) {
                     game.getActiveSim().actions(false);
                 } else {

@@ -1,8 +1,6 @@
 package src;
 
 import java.util.*;
-
-import src.Exceptions.*;
 import src.Thing.*;
 
 public class GameManager {
@@ -156,13 +154,13 @@ public class GameManager {
         System.out.print("Masukkan pilihan yang ingin ditampilkan: ");
         String command = input.nextLine();
         command = command.toUpperCase();
-        if (command.equals("GAME DESCRIPTION")){
+        if (command.equals("GAME DESCRIPTION")) {
             gameDescription();
-        } else if (command.equals("HOW TO PLAY")){
+        } else if (command.equals("HOW TO PLAY")) {
             howToPlay();
-        } else if (command.equals("COMMAND LIST")){
+        } else if (command.equals("COMMAND LIST")) {
             commandList();
-        } else{
+        } else {
             System.out.println("Perintah tidak dikenali. Silakan masukkan ulang perintah yang valid.");
         }
     }
@@ -336,7 +334,7 @@ public class GameManager {
         while (simIterator.hasNext()) {
             currentSim = simIterator.next();
             // Cek Kondisi SIm
-            if (currentSim.getKekenyangan() == 0 || currentSim.getKesehatan() == 0 || currentSim.getMood() == 0) {
+            if (currentSim.checkKondisiSimMati()) {
                 currentSim.setIsAlive(false);
             }
             if (!currentSim.getIsAlive()) {
@@ -358,16 +356,6 @@ public class GameManager {
 
         if (simList.isEmpty()) {
             activeSim = null;
-        }
-    }
-
-    // Helper Method
-    private String getFirstWord(String text) {
-        int index = text.indexOf(' ');
-        if (index > -1) {
-            return text.substring(0, index).trim();
-        } else {
-            return text;
         }
     }
 

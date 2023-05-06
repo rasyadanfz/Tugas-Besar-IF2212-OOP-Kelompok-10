@@ -3,6 +3,8 @@ package src.Thing;
 import src.Action;
 import src.Sim;
 import src.Exceptions.DurationNotValidException;
+import src.Exceptions.HouseIsGoneException;
+import src.Exceptions.SimIsDeadException;
 
 public class Toilet extends ActiveItems {
     public Toilet(String kodeItem) {
@@ -20,7 +22,14 @@ public class Toilet extends ActiveItems {
                 sim.addAction(actionBuangAir);
                 sim.setStatus("active");
                 sim.setInActiveAction(true);
-                effect(sim, actionBuangAir);
+                try {
+                    effect(sim, actionBuangAir);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    sim.setStatus("idle");
+                    sim.setInActiveAction(false);
+                    sim.removeAction(actionBuangAir);
+                }
             } else {
                 throw new DurationNotValidException(10);
             }
@@ -29,11 +38,11 @@ public class Toilet extends ActiveItems {
         }
     }
 
-    public void effect(Sim sim, Action action) {
+    public void effect(Sim sim, Action action) throws HouseIsGoneException, SimIsDeadException {
         int counter = 0;
-        boolean applyEffect = true;
+        boolean keepRunning = true;
         System.out.print("Sisa durasi: ");
-        while (action.getDurationLeft() > 0) {
+        while (action.getDurationLeft() > 0 && keepRunning) {
             int printDuration = action.getDurationLeft() - 1;
             if (printDuration < 10) {
                 System.out.print("00" + printDuration);
@@ -45,17 +54,23 @@ public class Toilet extends ActiveItems {
             if (printDuration != 0) {
                 System.out.print("\b\b\b");
             }
-            try {
+            if (sim.checkKondisiSimMati()) {
+                keepRunning = false;
+                throw new SimIsDeadException(
+                        "Sim " + sim.getNamaLengkap() + " mati karena kelaparan saat buang air :(");
+            } else if (action.getActionObject() != null) {
                 sim.decreaseActionDuration(action);
                 counter++;
                 if (counter % 10 == 0) {
                     sim.changeMood(10);
                     sim.changeKekenyangan(-20);
                 }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                applyEffect = false;
-                break;
+            } else {
+                if (sim.getCurrentHouse() == null) {
+                    keepRunning = false;
+                    throw new HouseIsGoneException(
+                            "Rumah tempat sim " + sim.getNamaLengkap() + " buang air hilang karena pemiliknya mati :(");
+                }
             }
         }
         System.out.println();

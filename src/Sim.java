@@ -122,19 +122,19 @@ public class Sim {
         return inActiveAction;
     }
 
-    public Delivery getItemDelivery() {
+    public synchronized Delivery getItemDelivery() {
         return delivery;
     }
 
-    public void setItemDelivery(Delivery delivery) {
+    public synchronized void setItemDelivery(Delivery delivery) {
         this.delivery = delivery;
     }
 
-    public int getSisaWaktuUpgrade() {
+    public synchronized int getSisaWaktuUpgrade() {
         return sisaWaktuUpgradeRumah;
     }
 
-    public void setSisaWaktuUpgrade(int newValue) {
+    public synchronized void setSisaWaktuUpgrade(int newValue) {
         sisaWaktuUpgradeRumah = newValue;
     }
 
@@ -150,9 +150,16 @@ public class Sim {
         return haveEat;
     }
 
-    public void decreaseActionDuration(Action a) throws Exception {
-        if (a.getActionObject() != null
-                || (a.getActionName().equals("olahraga") || a.getActionName().equals("kerja"))) {
+    public boolean checkKondisiSimMati() {
+        if (getKekenyangan() == 0 || getKesehatan() == 0 || getMood() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void decreaseActionDuration(Action a) {
+        if (a.getActionObject() != null) {
             a.decreaseDuration();
             world.getTimer().increaseTime();
             try {
@@ -171,9 +178,8 @@ public class Sim {
                 // a.getActionObject().effect(this, a.getOriginalDuration());
                 actionList.remove(a);
                 setInActiveAction(false);
+                setStatus("idle");
             }
-        } else {
-            throw new Exception("Aksi terhenti!");
         }
     }
 
@@ -183,6 +189,10 @@ public class Sim {
         } else {
             System.out.println("Sim sedang melakukan aksi lain!");
         }
+    }
+
+    public void removeAction(Action a) {
+        actionList.remove(a);
     }
 
     public void showSimInfo() {
@@ -510,146 +520,88 @@ public class Sim {
     }
 
     public void buyFurniture() {
-        System.out.println("Pilih furnitur yang ingin dibeli:");
-        System.out.println("1. Toilet");
-        System.out.printf("    - Harga: 50\n    - Dimensi: 1x1\n");
-        System.out.println("2. Kasur Single");
-        System.out.printf("    - Harga: 50\n    - Dimensi: 4x1\n");
-        System.out.println("3. Kasur Queen Size");
-        System.out.printf("    - Harga: 100\n    - Dimensi: 4x2\n");
-        System.out.println("4. Kasur King Size");
-        System.out.printf("    - Harga: 150\n    - Dimensi: 5x2\n");
-        System.out.println("5. Kompor Gas");
-        System.out.printf("    - Harga: 100\n    - Dimensi: 2x1\n");
-        System.out.println("6. Kompor Listrik");
-        System.out.printf("    - Harga: 200\n    - Dimensi: 1x1\n");
-        System.out.println("7. Meja dan Kursi");
-        System.out.printf("    - Harga: 50\n    - Dimensi: 3x3\n");
-        System.out.println("8. Jam");
-        System.out.printf("    - Harga: 10\n    - Dimensi: 1x1\n");
-        System.out.println("9. Lukisan");
-        System.out.printf("    - Harga: 100\n    - Dimensi: 1x1\n");
-        System.out.println("10. Wastafel");
-        System.out.printf("    - Harga: 40\n    - Dimensi: 1x1\n");
-        System.out.println("11. Shower");
-        System.out.printf("    - Harga: 50\n    - Dimensi: 1x1\n");
-        System.out.println("12. Cermin");
-        System.out.printf("    - Harga: 50\n    - Dimensi: 2x1\n");
-        System.out.println("13. TV");
-        System.out.printf("    - Harga: 200\n    - Dimensi: 2x1\n");
-        System.out.printf("Pilihan (Masukkan nama barang sesuai daftar): ");
-        String choice = InputScanner.getInputScanner().getScanner().nextLine();
-        Thing toBuy = null;
-        switch (choice.toUpperCase()) {
-            case ("TOILET"):
-                toBuy = new Toilet();
-                break;
-            case ("KASUR SINGLE"):
-                toBuy = new KasurSingle();
-                break;
-            case ("KASUR QUEEN SIZE"):
-                toBuy = new KasurQueen();
-                break;
-            case ("KASUR KING SIZE"):
-                toBuy = new KasurKing();
-                break;
-            case ("KOMPOR GAS"):
-                toBuy = new KomporGas();
-                break;
-            case ("KOMPOR LISTRIK"):
-                toBuy = new KomporListrik();
-                break;
-            case ("MEJA DAN KURSI"):
-                toBuy = new MejaKursi();
-                break;
-            case ("JAM"):
-                toBuy = new Jam();
-                break;
-            case ("LUKISAN"):
-                toBuy = new Lukisan();
-                break;
-            case ("WASTAFEL"):
-                toBuy = new Wastafel();
-                break;
-            case ("SHOWER"):
-                toBuy = new Shower();
-                break;
-            case ("CERMIN"):
-                toBuy = new Cermin();
-                break;
-            case ("TV"):
-                toBuy = new TV();
-                break;
-            default:
-                System.out.println("Furnitur " + choice + " tidak ada!");
-        }
-        if (!Objects.isNull(toBuy)) {
-            final Thing item = toBuy;
-            Thread newThread = new Thread() {
-                public void run() {
-                    if (getUang() >= item.getHarga()) {
-                        setUang(getUang() - item.getHarga());
-                        item.buyItem();
-                        getInventory().addItem(item);
-                    } else {
-                        System.out.println(new MoneyNotEnoughException().getMessage());
-                    }
-                }
-
-            };
-            newThread.start();
-        }
-
-    }
-
-    public void buyIngredient() {
-        System.out.println("Daftar bahan makanan yang bisa dibeli: ");
-        System.out.println("1. Nasi");
-        System.out.println("2. Kentang");
-        System.out.println("3. Ayam");
-        System.out.println("4. Sapi");
-        System.out.println("5. Wortel");
-        System.out.println("6. Bayam");
-        System.out.println("7. Kacang");
-        System.out.println("8. Susu");
-        System.out.printf("Pilihan: ");
-        String choice = InputScanner.getInputScanner().getScanner().nextLine();
-        Ingredient toBuy = null;
-        switch (choice.toLowerCase()) {
-            case ("nasi"):
-                toBuy = new Ingredient("nasi");
-                break;
-            case ("kentang"):
-                toBuy = new Ingredient("kentang");
-                break;
-            case ("ayam"):
-                toBuy = new Ingredient("ayam");
-                break;
-            case ("sapi"):
-                toBuy = new Ingredient("sapi");
-                break;
-            case ("wortel"):
-                toBuy = new Ingredient("wortel");
-                break;
-            case ("bayam"):
-                toBuy = new Ingredient("bayam");
-                break;
-            case ("kacang"):
-                toBuy = new Ingredient("kacang");
-                break;
-            case ("susu"):
-                toBuy = new Ingredient("susu");
-                break;
-        }
-        if (toBuy == null) {
-            System.out.println("Bahan makanan " + choice + "tidak ada");
+        if (getItemDelivery().getRemainingDuration() != 0) {
+            System.out.println("Pengiriman barang/bahan makanan sebelumnya masih berlangsung!");
         } else {
+            System.out.println("Pilih furnitur yang ingin dibeli:");
+            System.out.println("1. Toilet");
+            System.out.printf("    - Harga: 50\n    - Dimensi: 1x1\n");
+            System.out.println("2. Kasur Single");
+            System.out.printf("    - Harga: 50\n    - Dimensi: 4x1\n");
+            System.out.println("3. Kasur Queen Size");
+            System.out.printf("    - Harga: 100\n    - Dimensi: 4x2\n");
+            System.out.println("4. Kasur King Size");
+            System.out.printf("    - Harga: 150\n    - Dimensi: 5x2\n");
+            System.out.println("5. Kompor Gas");
+            System.out.printf("    - Harga: 100\n    - Dimensi: 2x1\n");
+            System.out.println("6. Kompor Listrik");
+            System.out.printf("    - Harga: 200\n    - Dimensi: 1x1\n");
+            System.out.println("7. Meja dan Kursi");
+            System.out.printf("    - Harga: 50\n    - Dimensi: 3x3\n");
+            System.out.println("8. Jam");
+            System.out.printf("    - Harga: 10\n    - Dimensi: 1x1\n");
+            System.out.println("9. Lukisan");
+            System.out.printf("    - Harga: 100\n    - Dimensi: 1x1\n");
+            System.out.println("10. Wastafel");
+            System.out.printf("    - Harga: 40\n    - Dimensi: 1x1\n");
+            System.out.println("11. Shower");
+            System.out.printf("    - Harga: 50\n    - Dimensi: 1x1\n");
+            System.out.println("12. Cermin");
+            System.out.printf("    - Harga: 50\n    - Dimensi: 2x1\n");
+            System.out.println("13. TV");
+            System.out.printf("    - Harga: 200\n    - Dimensi: 2x1\n");
+            System.out.printf("Pilihan (Masukkan nama barang sesuai daftar): ");
+            String choice = InputScanner.getInputScanner().getScanner().nextLine();
+            Thing toBuy = null;
+            switch (choice.toUpperCase()) {
+                case ("TOILET"):
+                    toBuy = new Toilet();
+                    break;
+                case ("KASUR SINGLE"):
+                    toBuy = new KasurSingle();
+                    break;
+                case ("KASUR QUEEN SIZE"):
+                    toBuy = new KasurQueen();
+                    break;
+                case ("KASUR KING SIZE"):
+                    toBuy = new KasurKing();
+                    break;
+                case ("KOMPOR GAS"):
+                    toBuy = new KomporGas();
+                    break;
+                case ("KOMPOR LISTRIK"):
+                    toBuy = new KomporListrik();
+                    break;
+                case ("MEJA DAN KURSI"):
+                    toBuy = new MejaKursi();
+                    break;
+                case ("JAM"):
+                    toBuy = new Jam();
+                    break;
+                case ("LUKISAN"):
+                    toBuy = new Lukisan();
+                    break;
+                case ("WASTAFEL"):
+                    toBuy = new Wastafel();
+                    break;
+                case ("SHOWER"):
+                    toBuy = new Shower();
+                    break;
+                case ("CERMIN"):
+                    toBuy = new Cermin();
+                    break;
+                case ("TV"):
+                    toBuy = new TV();
+                    break;
+                default:
+                    System.out.println("Furnitur " + choice + " tidak ada!");
+            }
             if (!Objects.isNull(toBuy)) {
-                final Ingredient item = toBuy;
+                final Thing item = toBuy;
                 Thread newThread = new Thread() {
                     public void run() {
-                        if (getUang() >= item.getPrice()) {
-                            setUang(getUang() - item.getPrice());
+                        if (getUang() >= item.getHarga()) {
+                            setUang(getUang() - item.getHarga());
                             item.buyItem();
                             getInventory().addItem(item);
                         } else {
@@ -659,6 +611,72 @@ public class Sim {
 
                 };
                 newThread.start();
+            }
+        }
+
+    }
+
+    public void buyIngredient() {
+        if (getItemDelivery().getRemainingDuration() != 0) {
+            System.out.println("Pengiriman barang/bahan makanan sebelumnya masih berlangsung!");
+        } else {
+            System.out.println("Daftar bahan makanan yang bisa dibeli: ");
+            System.out.println("1. Nasi");
+            System.out.println("2. Kentang");
+            System.out.println("3. Ayam");
+            System.out.println("4. Sapi");
+            System.out.println("5. Wortel");
+            System.out.println("6. Bayam");
+            System.out.println("7. Kacang");
+            System.out.println("8. Susu");
+            System.out.printf("Pilihan: ");
+            String choice = InputScanner.getInputScanner().getScanner().nextLine();
+            Ingredient toBuy = null;
+            switch (choice.toLowerCase()) {
+                case ("nasi"):
+                    toBuy = new Ingredient("nasi");
+                    break;
+                case ("kentang"):
+                    toBuy = new Ingredient("kentang");
+                    break;
+                case ("ayam"):
+                    toBuy = new Ingredient("ayam");
+                    break;
+                case ("sapi"):
+                    toBuy = new Ingredient("sapi");
+                    break;
+                case ("wortel"):
+                    toBuy = new Ingredient("wortel");
+                    break;
+                case ("bayam"):
+                    toBuy = new Ingredient("bayam");
+                    break;
+                case ("kacang"):
+                    toBuy = new Ingredient("kacang");
+                    break;
+                case ("susu"):
+                    toBuy = new Ingredient("susu");
+                    break;
+            }
+            if (toBuy == null) {
+                System.out.println("Bahan makanan " + choice + "tidak ada");
+            } else {
+                if (!Objects.isNull(toBuy)) {
+                    final Ingredient item = toBuy;
+                    Thread newThread = new Thread() {
+                        public void run() {
+                            if (getUang() >= item.getPrice()) {
+                                setUang(getUang() - item.getPrice());
+                                item.buyItem();
+                                getInventory().addItem(item);
+                            } else {
+                                System.out.println(new MoneyNotEnoughException().getMessage());
+                            }
+                        }
+
+                    };
+                    newThread.start();
+                }
             }
         }
     }
@@ -981,7 +999,7 @@ public class Sim {
                     } else if (input.equals("Cook") && (firstWord.equals("Kompor"))) {
                         this.getInventory().printListIngredient();
                         Kompor kompor = (Kompor) objectNearSim;
-                        if (kompor.checkBahanMasak(this.getInventory())) {
+                        if (kompor.checkBahanMasak(getInventory())) {
                             System.out.println("Masukkan nama makanan yang ingin dimasak: ");
                             String namaMakanan = actionScanner.nextLine();
                             kompor.Cooking(this, namaMakanan);
@@ -1163,6 +1181,8 @@ public class Sim {
                         wastafel.cuciTangan(this);
                     }
                     break;
+                case (""):
+                    System.out.println();
             }
         }
     }

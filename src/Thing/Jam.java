@@ -1,6 +1,5 @@
 package src.Thing;
 
-import src.Main;
 import src.Sim;
 import src.Timer;
 

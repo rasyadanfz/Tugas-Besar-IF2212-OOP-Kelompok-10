@@ -11,7 +11,7 @@ public class MejaKursi extends ActiveItems {
         super("Meja Dan Kursi", 3, 3, 50);
     }
 
-    public void makan(Sim sim, Food food) {
+    public <T extends Eatable> void makan(Sim sim, T food) {
         Action actionMakan = new Action("eating", 30, this);
         sim.addAction(actionMakan);
         sim.setStatus("active");
