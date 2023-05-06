@@ -5,7 +5,7 @@ import java.util.*;
 import com.Kelompok10.*;
 import com.Kelompok10.Timer;
 
-public abstract class Thing extends Item implements Purchaseable {
+public class Thing extends Item implements Purchaseable {
     private String nama;
     private String kode;
     private int panjang;
@@ -81,11 +81,5 @@ public abstract class Thing extends Item implements Purchaseable {
                     .getItemDelivery()
                     .setRemainingDuration(waktuMulai + waktuPengiriman - Timer.getTimer().getTotalTime());
         }
-    }
-
-    public void rotateItem() {
-        int temp = panjang;
-        panjang = lebar;
-        lebar = temp;
     }
 }

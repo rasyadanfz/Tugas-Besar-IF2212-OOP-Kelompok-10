@@ -277,7 +277,7 @@ public class GameManager {
         System.out.println("\033[1;96m█▄▄ █▄█ █░▀░█ █░▀░█ █▀█ █░▀█ █▄▀   █▄▄ █ ▄█ ░█░\n");
 
         System.out.println("\033[1;36mBerikut adalah daftar command yang dapat digunakan : \n");
-        System.out.println("\033[1;36m1. START GAME");
+        System.out.println("\033[1;36m1. START");
         System.out.println("\033[1;36m2. HELP");
         System.out.println("\033[1;36m3. EXIT");
         System.out.println("\033[1;36m4. VIEW SIM INFO");
@@ -289,8 +289,13 @@ public class GameManager {
         System.out.println("\033[1;36m10. ADD SIM");
         System.out.println("\033[1;36m11. CHANGE SIM");
         System.out.println("\033[1;36m12. LIST OBJECT");
-        System.out.println("\033[1;36m13. GO TO OBJECT");
-        System.out.println("\033[1;36m14. ACTION\n");
+        System.out.println("\033[1;36m13. PASANG BARANG");
+        System.out.println("\033[1;36m14. BELI BARANG");
+        System.out.println("\033[1;36m15. BELI INGREDIENTS");
+        System.out.println("\033[1;36m16. JUAL BARANG");
+        System.out.println("\033[1;36m17. AMBIL BARANG");
+        System.out.println("\033[1;36m18. GANTI PEKERJAAN");
+        System.out.println("\033[1;36m19. ACTION\n");
 
         System.out.println("\033[1;96m==============================================================");
     }
@@ -309,10 +314,15 @@ public class GameManager {
 
     public void exit() {
         Scanner input = scanner;
-        System.out.println("Apakah anda yakin ingin keluar dari game? (Y/N)");
-        String answer = input.nextLine();
+        System.out.printf("Apakah anda yakin ingin keluar dari game? (Y/N) : ");
+        String answer = input.next();
 
-        if (answer.equals("Y")) {
+        while (!answer.toUpperCase().equals("Y") && !answer.toUpperCase().equals("N")) {
+            System.out.printf("Input tidak valid! (Y/N) : ");
+            answer = input.next();
+        }
+
+        if (answer.toUpperCase().equals("Y")) {
             System.out.println("Terima kasih telah bermain! \n Sampai jumpa lagi!");
             System.exit(0);
         } else {

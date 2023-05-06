@@ -2,7 +2,7 @@ package com.Kelompok10;
 
 import java.util.*;
 
-import com.Kelompok10.Exceptions.CantChangeJobException;
+import com.Kelompok10.Exceptions.*;
 import com.Kelompok10.Thing.*;
 
 public class Main {
@@ -60,7 +60,7 @@ public class Main {
                 "\033[1;92m================================================================================================\n\n");
 
         System.out.println("\033[1;93mWelcome to Sim-Plicity!\n\n");
-        System.out.println("\033[1;94m1. START GAME");
+        System.out.println("\033[1;94m1. START");
         System.out.println("\033[1;94m2. HELP");
         System.out.println("\033[1;94m3. EXIT\n\n");
 
@@ -198,11 +198,22 @@ public class Main {
                     if (!game.getHaveCreatedNewSim()) {
                         System.out.print("Masukkan nama Sim baru : ");
                         input = inputScanner.nextLine();
-                        try {
-                            game.addSim(input);
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                            System.out.println("Gagal membuat sim baru!");
+                        boolean avail = false;
+                        for (int i = 0; i < game.getSimList().size(); i++) {
+                            if (game.getSimList().get(i).getNamaLengkap().toLowerCase().equals(input.toLowerCase())) {
+                                System.out.print("Nama Sim sudah ada! ");
+                                avail = true;
+                            }
+                        }
+                        if (!avail) {
+                            try {
+                                game.addSim(input);
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Gagal membuat sim baru!");
+                            }
+                        } else {
+                            System.out.println("Gagal membuat Sim baru!");
                         }
                     } else {
                         System.out.println("Anda sudah membuat sim baru hari ini!");
@@ -223,6 +234,8 @@ public class Main {
                         System.out.println("Masukkan posisi y benda yang ingin dituju");
                         int yTarget = Integer.parseInt(inputScanner.nextLine());
                         game.getActiveSim().goToObject(xTarget, yTarget);
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -232,14 +245,31 @@ public class Main {
                     String itemName = inputScanner.nextLine();
                     System.out.println("Peta ruangan saat ini: ");
                     game.getActiveSim().getCurrentRoom().printPetaRuangan(game.getActiveSim());
-                    System.out.println("Masukkan posisi x untuk pemasangan barang: ");
-                    int x = Integer.parseInt(inputScanner.nextLine());
-                    System.out.println("Masukkan posisi y untuk pemasangan barang: ");
-                    int y = Integer.parseInt(inputScanner.nextLine());
+
+                    System.out.println("Apakah kamu ingin melakukan rotate pada barang? (Y/N)");
+                    String rotate = inputScanner.nextLine();
+                    while (!rotate.toUpperCase().equals("Y") && !rotate.toUpperCase().equals("N")) {
+                        System.out.println("Masukkan Y atau N!");
+                        rotate = inputScanner.nextLine();
+                    }
+                    boolean isRotate = false;
+                    if (rotate.toUpperCase().equals("Y")) {
+                        System.out.println("Item berhasil di-rotate!");
+                        isRotate = true;
+                    }
+
                     try {
-                        game.getActiveSim().installBarang(itemName, x, y);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println("Masukkan posisi x untuk pemasangan barang: ");
+                        int x = Integer.parseInt(inputScanner.nextLine());
+                        System.out.println("Masukkan posisi y untuk pemasangan barang: ");
+                        int y = Integer.parseInt(inputScanner.nextLine());
+                        try {
+                            game.getActiveSim().installBarang(itemName, x, y, isRotate);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     }
                 } else if (input.equals("BELI BARANG")) {
                     game.getActiveSim().buyFurniture();
@@ -259,6 +289,8 @@ public class Main {
                         System.out.println("Masukkan posisi y barang yang akan diambil: ");
                         int y = Integer.parseInt(inputScanner.nextLine());
                         game.getActiveSim().ambilBarang(x, y);
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getClass().getSimpleName() + ": Durasi harus berupa angka!");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
